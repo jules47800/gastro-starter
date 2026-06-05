@@ -375,7 +375,11 @@ add_action('gastro_starter_daily_reminder_event', 'gastro_starter_send_reminder_
 function gastro_starter_update_reservations_table() {
     global $wpdb;
     $table_name = $wpdb->prefix . 'reservations';
-    
+
+    if ($wpdb->get_var("SHOW TABLES LIKE '$table_name'") !== $table_name) {
+        return;
+    }
+
     // Rendre les colonnes email et téléphone nullable pour correspondre à la réalité des réservations rapides
     $wpdb->query("ALTER TABLE $table_name MODIFY COLUMN customer_email VARCHAR(100) NULL");
     $wpdb->query("ALTER TABLE $table_name MODIFY COLUMN customer_phone VARCHAR(20) NULL");

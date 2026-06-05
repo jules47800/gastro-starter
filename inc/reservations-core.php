@@ -105,7 +105,7 @@ function gastro_starter_create_tables() {
     
     error_log('Tables créées ou mises à jour : reservations, rate_limits, customer_stats, email_logs');
 }
-register_activation_hook(get_template_directory() . '/functions.php', 'gastro_starter_create_tables');
+add_action('init', 'gastro_starter_maybe_recreate_tables', 1);
 
 /**
  * Ajouter les routes pour les annulations

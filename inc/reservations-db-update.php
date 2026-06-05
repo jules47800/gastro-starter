@@ -10,7 +10,11 @@ if (!defined('ABSPATH')) {
 function gastro_starter_update_reservations_table_for_pooling() {
     global $wpdb;
     $table_name = $wpdb->prefix . 'reservations';
-    
+
+    if ($wpdb->get_var("SHOW TABLES LIKE '$table_name'") !== $table_name) {
+        return;
+    }
+
     // Vérifier si les colonnes existent déjà
     $columns = $wpdb->get_results("SHOW COLUMNS FROM $table_name");
     $existing_columns = array_map(function($col) {
