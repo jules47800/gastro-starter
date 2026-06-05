@@ -2,7 +2,7 @@
 /**
  * Métaboxes pour les témoignages - Interface modernisée
  *
- * @package Le Margo
+ * @package Gastro_Starter
  */
 
 // Sécurité
@@ -13,11 +13,11 @@ if (!defined('ABSPATH')) {
 /**
  * Ajoute les métaboxes pour les témoignages
  */
-function le_margo_add_testimonial_metaboxes() {
+function gastro_starter_add_testimonial_metaboxes() {
     add_meta_box(
         'testimonial_details',
-        __('Détails du témoignage', 'le-margo'),
-        'le_margo_testimonial_details_callback',
+        __('Détails du témoignage', 'gastro-starter'),
+        'gastro_starter_testimonial_details_callback',
         'testimonial',
         'normal',
         'high'
@@ -25,21 +25,21 @@ function le_margo_add_testimonial_metaboxes() {
     
     add_meta_box(
         'testimonial_source_info',
-        __('Informations de la source', 'le-margo'),
-        'le_margo_testimonial_source_callback',
+        __('Informations de la source', 'gastro-starter'),
+        'gastro_starter_testimonial_source_callback',
         'testimonial',
         'side',
         'default'
     );
 }
-add_action('add_meta_boxes', 'le_margo_add_testimonial_metaboxes');
+add_action('add_meta_boxes', 'gastro_starter_add_testimonial_metaboxes');
 
 /**
  * Callback pour afficher le contenu principal de la métabox
  */
-function le_margo_testimonial_details_callback($post) {
+function gastro_starter_testimonial_details_callback($post) {
     // Ajout du nonce pour la sécurité
-    wp_nonce_field('le_margo_testimonial_save', 'testimonial_nonce');
+    wp_nonce_field('gastro_starter_testimonial_save', 'testimonial_nonce');
 
     // Récupération des valeurs existantes
     $rating = get_post_meta($post->ID, 'rating', true);
@@ -52,69 +52,69 @@ function le_margo_testimonial_details_callback($post) {
     $helpful_count = get_post_meta($post->ID, 'helpful_count', true);
     ?>
 
-    <div class="le-margo-testimonial-admin">
+    <div class="gastro-starter-testimonial-admin">
         <div class="testimonial-section testimonial-rating-section">
-            <h3><?php _e('Évaluation', 'le-margo'); ?></h3>
+            <h3><?php _e('Évaluation', 'gastro-starter'); ?></h3>
             <div class="rating-container">
-                <label class="field-label"><?php _e('Note (étoiles)', 'le-margo'); ?></label>
+                <label class="field-label"><?php _e('Note (étoiles)', 'gastro-starter'); ?></label>
                 <div class="rating-selector" id="rating-stars">
                     <?php for ($i = 5; $i >= 1; $i--) : ?>
                         <input type="radio" id="star<?php echo $i; ?>" name="rating" value="<?php echo $i; ?>" <?php checked($rating, $i); ?> />
                         <label for="star<?php echo $i; ?>" title="<?php echo $i; ?> étoiles" class="star-label">★</label>
                     <?php endfor; ?>
                 </div>
-                <span class="rating-text"><?php echo $rating ? sprintf(__('%d/5 étoiles', 'le-margo'), $rating) : __('Aucune note', 'le-margo'); ?></span>
+                <span class="rating-text"><?php echo $rating ? sprintf(__('%d/5 étoiles', 'gastro-starter'), $rating) : __('Aucune note', 'gastro-starter'); ?></span>
             </div>
         </div>
 
         <div class="testimonial-section testimonial-author-section">
-            <h3><?php _e('Informations de l\'auteur', 'le-margo'); ?></h3>
+            <h3><?php _e('Informations de l\'auteur', 'gastro-starter'); ?></h3>
             <div class="form-grid">
                 <div class="form-field">
-                    <label for="author_name" class="field-label"><?php _e('Nom de l\'auteur', 'le-margo'); ?></label>
+                    <label for="author_name" class="field-label"><?php _e('Nom de l\'auteur', 'gastro-starter'); ?></label>
                     <input type="text" id="author_name" name="author_name" value="<?php echo esc_attr($author); ?>" class="widefat" placeholder="Ex: Marie D." />
                 </div>
                 
                 <div class="form-field">
-                    <label for="author_location" class="field-label"><?php _e('Localisation de l\'auteur', 'le-margo'); ?></label>
+                    <label for="author_location" class="field-label"><?php _e('Localisation de l\'auteur', 'gastro-starter'); ?></label>
                     <input type="text" id="author_location" name="author_location" value="<?php echo esc_attr($author_location); ?>" class="widefat" placeholder="Ex: Paris, France" />
                 </div>
             </div>
         </div>
 
         <div class="testimonial-section testimonial-dates-section">
-            <h3><?php _e('Dates', 'le-margo'); ?></h3>
+            <h3><?php _e('Dates', 'gastro-starter'); ?></h3>
             <div class="form-grid">
                 <div class="form-field">
-                    <label for="visit_date" class="field-label"><?php _e('Date de visite', 'le-margo'); ?></label>
+                    <label for="visit_date" class="field-label"><?php _e('Date de visite', 'gastro-starter'); ?></label>
                     <input type="date" id="visit_date" name="visit_date" value="<?php echo esc_attr($visit_date); ?>" class="widefat" />
-                    <span class="field-help"><?php _e('Date à laquelle le client a visité le restaurant', 'le-margo'); ?></span>
+                    <span class="field-help"><?php _e('Date à laquelle le client a visité le restaurant', 'gastro-starter'); ?></span>
                 </div>
                 
                 <div class="form-field">
-                    <label for="review_date" class="field-label"><?php _e('Date de l\'avis', 'le-margo'); ?></label>
+                    <label for="review_date" class="field-label"><?php _e('Date de l\'avis', 'gastro-starter'); ?></label>
                     <input type="date" id="review_date" name="review_date" value="<?php echo esc_attr($review_date); ?>" class="widefat" />
-                    <span class="field-help"><?php _e('Date à laquelle l\'avis a été publié', 'le-margo'); ?></span>
+                    <span class="field-help"><?php _e('Date à laquelle l\'avis a été publié', 'gastro-starter'); ?></span>
                 </div>
             </div>
         </div>
 
         <div class="testimonial-section testimonial-source-section">
-            <h3><?php _e('Source et plateforme', 'le-margo'); ?></h3>
+            <h3><?php _e('Source et plateforme', 'gastro-starter'); ?></h3>
             <div class="form-field">
-                <label for="testimonial_source" class="field-label"><?php _e('Plateforme d\'avis', 'le-margo'); ?></label>
+                <label for="testimonial_source" class="field-label"><?php _e('Plateforme d\'avis', 'gastro-starter'); ?></label>
                 <select id="testimonial_source" name="testimonial_source" class="widefat source-selector">
-                    <option value=""><?php _e('Sélectionnez une plateforme', 'le-margo'); ?></option>
-                    <option value="google" <?php selected($source, 'google'); ?> data-logo="google.png"><?php _e('Google Reviews', 'le-margo'); ?></option>
-                    <option value="tripadvisor" <?php selected($source, 'tripadvisor'); ?> data-logo="tripadvisor.png"><?php _e('TripAdvisor', 'le-margo'); ?></option>
-                    <option value="booking" <?php selected($source, 'booking'); ?> data-logo="booking.png"><?php _e('Booking.com', 'le-margo'); ?></option>
-                    <option value="yelp" <?php selected($source, 'yelp'); ?> data-logo="yelp.png"><?php _e('Yelp', 'le-margo'); ?></option>
-                    <option value="facebook" <?php selected($source, 'facebook'); ?> data-logo="facebook.png"><?php _e('Facebook', 'le-margo'); ?></option>
-                    <option value="foursquare" <?php selected($source, 'foursquare'); ?> data-logo="foursquare.png"><?php _e('Foursquare', 'le-margo'); ?></option>
-                    <option value="opentable" <?php selected($source, 'opentable'); ?> data-logo="opentable.png"><?php _e('OpenTable', 'le-margo'); ?></option>
-                    <option value="lafourchette" <?php selected($source, 'lafourchette'); ?> data-logo="lafourchette.png"><?php _e('LaFourchette', 'le-margo'); ?></option>
-                    <option value="direct" <?php selected($source, 'direct'); ?>><?php _e('Direct / Livre d\'or', 'le-margo'); ?></option>
-                    <option value="autre" <?php selected($source, 'autre'); ?>><?php _e('Autre', 'le-margo'); ?></option>
+                    <option value=""><?php _e('Sélectionnez une plateforme', 'gastro-starter'); ?></option>
+                    <option value="google" <?php selected($source, 'google'); ?> data-logo="google.png"><?php _e('Google Reviews', 'gastro-starter'); ?></option>
+                    <option value="tripadvisor" <?php selected($source, 'tripadvisor'); ?> data-logo="tripadvisor.png"><?php _e('TripAdvisor', 'gastro-starter'); ?></option>
+                    <option value="booking" <?php selected($source, 'booking'); ?> data-logo="booking.png"><?php _e('Booking.com', 'gastro-starter'); ?></option>
+                    <option value="yelp" <?php selected($source, 'yelp'); ?> data-logo="yelp.png"><?php _e('Yelp', 'gastro-starter'); ?></option>
+                    <option value="facebook" <?php selected($source, 'facebook'); ?> data-logo="facebook.png"><?php _e('Facebook', 'gastro-starter'); ?></option>
+                    <option value="foursquare" <?php selected($source, 'foursquare'); ?> data-logo="foursquare.png"><?php _e('Foursquare', 'gastro-starter'); ?></option>
+                    <option value="opentable" <?php selected($source, 'opentable'); ?> data-logo="opentable.png"><?php _e('OpenTable', 'gastro-starter'); ?></option>
+                    <option value="lafourchette" <?php selected($source, 'lafourchette'); ?> data-logo="lafourchette.png"><?php _e('LaFourchette', 'gastro-starter'); ?></option>
+                    <option value="direct" <?php selected($source, 'direct'); ?>><?php _e('Direct / Livre d\'or', 'gastro-starter'); ?></option>
+                    <option value="autre" <?php selected($source, 'autre'); ?>><?php _e('Autre', 'gastro-starter'); ?></option>
                 </select>
                 <div id="source-preview" class="source-preview">
                     <?php if ($source && $source !== 'direct' && $source !== 'autre') : ?>
@@ -125,28 +125,28 @@ function le_margo_testimonial_details_callback($post) {
         </div>
 
         <div class="testimonial-section testimonial-meta-section">
-            <h3><?php _e('Informations supplémentaires', 'le-margo'); ?></h3>
+            <h3><?php _e('Informations supplémentaires', 'gastro-starter'); ?></h3>
             <div class="form-grid">
                 <div class="form-field">
                     <label class="checkbox-container">
                         <input type="checkbox" name="verified_review" value="1" <?php checked($verified, '1'); ?>>
                         <span class="checkmark"></span>
-                        <?php _e('Avis vérifié', 'le-margo'); ?>
+                        <?php _e('Avis vérifié', 'gastro-starter'); ?>
                     </label>
-                    <span class="field-help"><?php _e('Cochez si l\'avis provient d\'un client vérifié', 'le-margo'); ?></span>
+                    <span class="field-help"><?php _e('Cochez si l\'avis provient d\'un client vérifié', 'gastro-starter'); ?></span>
                 </div>
                 
                 <div class="form-field">
-                    <label for="helpful_count" class="field-label"><?php _e('Nombre de "utile"', 'le-margo'); ?></label>
+                    <label for="helpful_count" class="field-label"><?php _e('Nombre de "utile"', 'gastro-starter'); ?></label>
                     <input type="number" id="helpful_count" name="helpful_count" value="<?php echo esc_attr($helpful_count); ?>" class="small-text" min="0" placeholder="0" />
-                    <span class="field-help"><?php _e('Nombre de personnes qui ont trouvé cet avis utile', 'le-margo'); ?></span>
+                    <span class="field-help"><?php _e('Nombre de personnes qui ont trouvé cet avis utile', 'gastro-starter'); ?></span>
                 </div>
             </div>
         </div>
     </div>
 
     <style>
-    .le-margo-testimonial-admin {
+    .gastro-starter-testimonial-admin {
         background: #fff;
         border-radius: 8px;
         padding: 0;
@@ -333,8 +333,8 @@ function le_margo_testimonial_details_callback($post) {
         function updateRatingText() {
             const selectedRating = $('.rating-selector input:checked').val();
             const ratingText = selectedRating ? 
-                '<?php echo esc_js(__('%d/5 étoiles', 'le-margo')); ?>'.replace('%d', selectedRating) : 
-                '<?php echo esc_js(__('Aucune note', 'le-margo')); ?>';
+                '<?php echo esc_js(__('%d/5 étoiles', 'gastro-starter')); ?>'.replace('%d', selectedRating) : 
+                '<?php echo esc_js(__('Aucune note', 'gastro-starter')); ?>';
             $('.rating-text').text(ratingText);
         }
 
@@ -370,18 +370,18 @@ function le_margo_testimonial_details_callback($post) {
             const source = $('#testimonial_source').val();
             
             if (!rating) {
-                alert('<?php echo esc_js(__('Veuillez sélectionner une note.', 'le-margo')); ?>');
+                alert('<?php echo esc_js(__('Veuillez sélectionner une note.', 'gastro-starter')); ?>');
                 return false;
             }
             
             if (!author.trim()) {
-                alert('<?php echo esc_js(__('Veuillez saisir le nom de l\'auteur.', 'le-margo')); ?>');
+                alert('<?php echo esc_js(__('Veuillez saisir le nom de l\'auteur.', 'gastro-starter')); ?>');
                 $('#author_name').focus();
                 return false;
             }
             
             if (!source) {
-                alert('<?php echo esc_js(__('Veuillez sélectionner une plateforme.', 'le-margo')); ?>');
+                alert('<?php echo esc_js(__('Veuillez sélectionner une plateforme.', 'gastro-starter')); ?>');
                 $('#testimonial_source').focus();
                 return false;
             }
@@ -394,36 +394,36 @@ function le_margo_testimonial_details_callback($post) {
 /**
  * Callback pour la métabox des informations de source
  */
-function le_margo_testimonial_source_callback($post) {
+function gastro_starter_testimonial_source_callback($post) {
     $source_url = get_post_meta($post->ID, 'source_url', true);
     $review_id = get_post_meta($post->ID, 'review_id', true);
     $language = get_post_meta($post->ID, 'review_language', true);
     $featured = get_post_meta($post->ID, 'featured_review', true);
     ?>
     
-    <div class="le-margo-source-info">
+    <div class="gastro-starter-source-info">
         <div class="form-field">
-            <label for="source_url" class="field-label"><?php _e('Lien vers l\'avis original', 'le-margo'); ?></label>
+            <label for="source_url" class="field-label"><?php _e('Lien vers l\'avis original', 'gastro-starter'); ?></label>
             <input type="url" id="source_url" name="source_url" value="<?php echo esc_attr($source_url); ?>" class="widefat" placeholder="https://..." />
-            <span class="field-help"><?php _e('URL de l\'avis sur la plateforme d\'origine', 'le-margo'); ?></span>
+            <span class="field-help"><?php _e('URL de l\'avis sur la plateforme d\'origine', 'gastro-starter'); ?></span>
         </div>
         
         <div class="form-field">
-            <label for="review_id" class="field-label"><?php _e('ID de l\'avis', 'le-margo'); ?></label>
+            <label for="review_id" class="field-label"><?php _e('ID de l\'avis', 'gastro-starter'); ?></label>
             <input type="text" id="review_id" name="review_id" value="<?php echo esc_attr($review_id); ?>" class="widefat" placeholder="Ex: rev_123456" />
-            <span class="field-help"><?php _e('Identifiant unique de l\'avis sur la plateforme', 'le-margo'); ?></span>
+            <span class="field-help"><?php _e('Identifiant unique de l\'avis sur la plateforme', 'gastro-starter'); ?></span>
         </div>
         
         <div class="form-field">
-            <label for="review_language" class="field-label"><?php _e('Langue de l\'avis', 'le-margo'); ?></label>
+            <label for="review_language" class="field-label"><?php _e('Langue de l\'avis', 'gastro-starter'); ?></label>
             <select id="review_language" name="review_language" class="widefat">
-                <option value="fr" <?php selected($language, 'fr'); ?>><?php _e('Français', 'le-margo'); ?></option>
-                <option value="en" <?php selected($language, 'en'); ?>><?php _e('Anglais', 'le-margo'); ?></option>
-                <option value="es" <?php selected($language, 'es'); ?>><?php _e('Espagnol', 'le-margo'); ?></option>
-                <option value="de" <?php selected($language, 'de'); ?>><?php _e('Allemand', 'le-margo'); ?></option>
-                <option value="it" <?php selected($language, 'it'); ?>><?php _e('Italien', 'le-margo'); ?></option>
-                <option value="nl" <?php selected($language, 'nl'); ?>><?php _e('Néerlandais', 'le-margo'); ?></option>
-                <option value="pt" <?php selected($language, 'pt'); ?>><?php _e('Portugais', 'le-margo'); ?></option>
+                <option value="fr" <?php selected($language, 'fr'); ?>><?php _e('Français', 'gastro-starter'); ?></option>
+                <option value="en" <?php selected($language, 'en'); ?>><?php _e('Anglais', 'gastro-starter'); ?></option>
+                <option value="es" <?php selected($language, 'es'); ?>><?php _e('Espagnol', 'gastro-starter'); ?></option>
+                <option value="de" <?php selected($language, 'de'); ?>><?php _e('Allemand', 'gastro-starter'); ?></option>
+                <option value="it" <?php selected($language, 'it'); ?>><?php _e('Italien', 'gastro-starter'); ?></option>
+                <option value="nl" <?php selected($language, 'nl'); ?>><?php _e('Néerlandais', 'gastro-starter'); ?></option>
+                <option value="pt" <?php selected($language, 'pt'); ?>><?php _e('Portugais', 'gastro-starter'); ?></option>
             </select>
         </div>
         
@@ -431,23 +431,23 @@ function le_margo_testimonial_source_callback($post) {
             <label class="checkbox-container">
                 <input type="checkbox" name="featured_review" value="1" <?php checked($featured, '1'); ?>>
                 <span class="checkmark"></span>
-                <?php _e('Avis en vedette', 'le-margo'); ?>
+                <?php _e('Avis en vedette', 'gastro-starter'); ?>
             </label>
-            <span class="field-help"><?php _e('Mettre en avant cet avis', 'le-margo'); ?></span>
+            <span class="field-help"><?php _e('Mettre en avant cet avis', 'gastro-starter'); ?></span>
         </div>
         
         <div class="source-info-actions">
             <?php if ($source_url) : ?>
                 <a href="<?php echo esc_url($source_url); ?>" target="_blank" class="button button-secondary">
                     <span class="dashicons dashicons-external"></span>
-                    <?php _e('Voir l\'avis original', 'le-margo'); ?>
+                    <?php _e('Voir l\'avis original', 'gastro-starter'); ?>
                 </a>
             <?php endif; ?>
         </div>
     </div>
 
     <style>
-    .le-margo-source-info .form-field {
+    .gastro-starter-source-info .form-field {
         margin-bottom: 15px;
     }
     
@@ -469,9 +469,9 @@ function le_margo_testimonial_source_callback($post) {
 /**
  * Sauvegarde des métadonnées
  */
-function le_margo_save_testimonial_meta($post_id) {
+function gastro_starter_save_testimonial_meta($post_id) {
     // Vérifications de sécurité
-    if (!isset($_POST['testimonial_nonce']) || !wp_verify_nonce($_POST['testimonial_nonce'], 'le_margo_testimonial_save')) {
+    if (!isset($_POST['testimonial_nonce']) || !wp_verify_nonce($_POST['testimonial_nonce'], 'gastro_starter_testimonial_save')) {
         return;
     }
     
@@ -513,4 +513,4 @@ function le_margo_save_testimonial_meta($post_id) {
         update_post_meta($post_id, $checkbox, $value);
     }
 }
-add_action('save_post_testimonial', 'le_margo_save_testimonial_meta'); 
+add_action('save_post_testimonial', 'gastro_starter_save_testimonial_meta'); 

@@ -1,6 +1,6 @@
 <?php
 /**
- * Le Margo - Fonctions pour les types de publication personnalisés et taxonomies
+ * Mon Restaurant - Fonctions pour les types de publication personnalisés et taxonomies
  */
 
 if (!defined('ABSPATH')) {
@@ -10,21 +10,21 @@ if (!defined('ABSPATH')) {
 /**
  * Types de publication personnalisés
  */
-function le_margo_custom_post_types() {    
+function gastro_starter_custom_post_types() {    
     // Type de publication pour les témoignages
     register_post_type(
         'testimonial',
         array(
             'labels' => array(
-                'name'               => __('Témoignages', 'le-margo'),
-                'singular_name'      => __('Témoignage', 'le-margo'),
-                'menu_name'          => __('Témoignages', 'le-margo'),
-                'add_new'            => __('Ajouter un témoignage', 'le-margo'),
-                'add_new_item'       => __('Ajouter un nouveau témoignage', 'le-margo'),
-                'edit_item'          => __('Modifier le témoignage', 'le-margo'),
-                'new_item'           => __('Nouveau témoignage', 'le-margo'),
-                'view_item'          => __('Voir le témoignage', 'le-margo'),
-                'search_items'       => __('Rechercher des témoignages', 'le-margo'),
+                'name'               => __('Témoignages', 'gastro-starter'),
+                'singular_name'      => __('Témoignage', 'gastro-starter'),
+                'menu_name'          => __('Témoignages', 'gastro-starter'),
+                'add_new'            => __('Ajouter un témoignage', 'gastro-starter'),
+                'add_new_item'       => __('Ajouter un nouveau témoignage', 'gastro-starter'),
+                'edit_item'          => __('Modifier le témoignage', 'gastro-starter'),
+                'new_item'           => __('Nouveau témoignage', 'gastro-starter'),
+                'view_item'          => __('Voir le témoignage', 'gastro-starter'),
+                'search_items'       => __('Rechercher des témoignages', 'gastro-starter'),
             ),
             'public'      => true,
             'has_archive' => true,
@@ -39,15 +39,15 @@ function le_margo_custom_post_types() {
         'daily_menu',
         array(
             'labels' => array(
-                'name'               => __('Menus', 'le-margo'),
-                'singular_name'      => __('Menu', 'le-margo'),
-                'menu_name'          => __('Menus', 'le-margo'),
-                'add_new'            => __('Ajouter un menu', 'le-margo'),
-                'add_new_item'       => __('Ajouter un nouveau menu', 'le-margo'),
-                'edit_item'          => __('Modifier le menu', 'le-margo'),
-                'new_item'           => __('Nouveau menu', 'le-margo'),
-                'view_item'          => __('Voir le menu', 'le-margo'),
-                'search_items'       => __('Rechercher des menus', 'le-margo'),
+                'name'               => __('Menus', 'gastro-starter'),
+                'singular_name'      => __('Menu', 'gastro-starter'),
+                'menu_name'          => __('Menus', 'gastro-starter'),
+                'add_new'            => __('Ajouter un menu', 'gastro-starter'),
+                'add_new_item'       => __('Ajouter un nouveau menu', 'gastro-starter'),
+                'edit_item'          => __('Modifier le menu', 'gastro-starter'),
+                'new_item'           => __('Nouveau menu', 'gastro-starter'),
+                'view_item'          => __('Voir le menu', 'gastro-starter'),
+                'search_items'       => __('Rechercher des menus', 'gastro-starter'),
             ),
             'public'       => true,
             'has_archive'  => true,
@@ -57,13 +57,38 @@ function le_margo_custom_post_types() {
             'show_in_menu' => true,
         )
     );
+    
+    // Type de publication pour les événements (Agenda)
+    register_post_type(
+        'event',
+        array(
+            'labels' => array(
+                'name'               => __('Agenda', 'gastro-starter'),
+                'singular_name'      => __('Événement', 'gastro-starter'),
+                'menu_name'          => __('Agenda', 'gastro-starter'),
+                'add_new'            => __('Ajouter un événement', 'gastro-starter'),
+                'add_new_item'       => __('Ajouter un nouvel événement', 'gastro-starter'),
+                'edit_item'          => __('Modifier l\'événement', 'gastro-starter'),
+                'new_item'           => __('Nouvel événement', 'gastro-starter'),
+                'view_item'          => __('Voir l\'événement', 'gastro-starter'),
+                'search_items'       => __('Rechercher des événements', 'gastro-starter'),
+                'all_items'          => __('Tous les événements', 'gastro-starter'),
+            ),
+            'public'      => true,
+            'has_archive' => true,
+            'supports'    => array('title', 'editor', 'thumbnail', 'custom-fields'),
+            'menu_icon'   => 'dashicons-calendar-alt',
+            'rewrite'     => array('slug' => 'agenda'),
+            'show_in_rest' => true, // Pour l'éditeur de blocs si nécessaire
+        )
+    );
 }
-add_action('init', 'le_margo_custom_post_types');
+add_action('init', 'gastro_starter_custom_post_types');
 
 /**
  * Taxonomies personnalisées
  */
-function le_margo_custom_taxonomies() {
+function gastro_starter_custom_taxonomies() {
     // Aucune taxonomie nécessaire
 }
-add_action('init', 'le_margo_custom_taxonomies'); 
+add_action('init', 'gastro_starter_custom_taxonomies'); 

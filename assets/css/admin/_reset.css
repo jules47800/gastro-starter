@@ -1,0 +1,90 @@
+.gastro-starter-admin-shell #wpbody-content {
+    background: var(--lm-page-gradient);
+    background-attachment: fixed;
+    min-height: 100vh;
+    position: relative;
+
+    &::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: var(--lm-page-gradient-accent);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    & > .wrap {
+      position: relative;
+      z-index: 1;
+      max-width: 1440px;
+      padding: var(--lm-space-6);
+    }
+  }
+
+  .gastro-starter-admin-shell {
+    & .postbox {
+      background: var(--lm-glass-bg);
+      backdrop-filter: var(--lm-glass-blur);
+      -webkit-backdrop-filter: var(--lm-glass-blur);
+      border: 1px solid var(--lm-glass-border);
+      border-radius: var(--lm-radius-lg);
+      box-shadow: var(--lm-shadow-md);
+    }
+
+    & .postbox .hndle {
+      border-bottom: 1px solid rgba(181, 166, 146, 0.12);
+      padding: var(--lm-space-4) var(--lm-space-5);
+      font-family: var(--lm-font-sans);
+      font-weight: 600;
+      font-size: var(--lm-text-sm);
+      letter-spacing: var(--lm-tracking-wide);
+      text-transform: uppercase;
+      color: var(--lm-color-text-muted);
+    }
+
+    & .postbox .inside {
+      padding: var(--lm-space-5);
+    }
+
+    & .notice {
+      background: var(--lm-glass-bg-elevated);
+      backdrop-filter: var(--lm-glass-blur-light);
+      -webkit-backdrop-filter: var(--lm-glass-blur-light);
+      border: 1px solid var(--lm-glass-border);
+      border-radius: var(--lm-radius-md);
+      border-left: 3px solid var(--lm-color-taupe);
+      padding: var(--lm-space-4) var(--lm-space-5);
+      box-shadow: var(--lm-shadow-sm);
+      font-family: var(--lm-font-sans);
+    }
+
+    & .notice-success {
+      border-left-color: var(--lm-color-success);
+    }
+
+    & .notice-warning {
+      border-left-color: var(--lm-color-warning);
+    }
+
+    & .notice-error {
+      border-left-color: var(--lm-color-danger);
+    }
+
+    & .notice-info {
+      border-left-color: var(--lm-color-info);
+    }
+
+    & .form-table {
+      & th {
+        font-family: var(--lm-font-sans);
+        font-size: var(--lm-text-sm);
+        font-weight: 500;
+        color: var(--lm-color-text);
+        padding: var(--lm-space-4) var(--lm-space-3);
+      }
+
+      & td {
+        padding: var(--lm-space-4) var(--lm-space-3);
+      }
+    }
+}

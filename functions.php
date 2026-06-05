@@ -1,16 +1,27 @@
 <?php
 /**
- * Le Margo - Fonctions et définitions du thème
+ * Gastro Starter - Fonctions et définitions du thème
  */
 
-if (!defined('_LE_MARGO_VERSION')) {
+// Vider le cache OPcode si disponible
+if (function_exists('opcache_reset')) {
+    opcache_reset();
+}
+
+// Démarrer un buffer de sortie très tôt pour capturer tout octet parasite
+if (!defined('GASTRO_STARTER_OB_STARTED')) {
+    ob_start();
+    define('GASTRO_STARTER_OB_STARTED', true);
+}
+
+if (!defined('_GASTRO_STARTER_VERSION')) {
     // Remplacer le numéro de version à chaque mise à jour
-    define('_LE_MARGO_VERSION', '1.0.0');
+    define('_GASTRO_STARTER_VERSION', '1.0.0');
 }
 
 // Définir la constante sans underscore pour la compatibilité
-if (!defined('LE_MARGO_VERSION')) {
-    define('LE_MARGO_VERSION', _LE_MARGO_VERSION);
+if (!defined('GASTRO_STARTER_VERSION')) {
+    define('GASTRO_STARTER_VERSION', _GASTRO_STARTER_VERSION);
 }
 
 /**
@@ -18,20 +29,33 @@ if (!defined('LE_MARGO_VERSION')) {
  * ----------------------------------------------------------------
  */
 require_once get_template_directory() . '/inc/core-setup.php';
-    require_once get_template_directory() . '/inc/customizer.php';
+require_once get_template_directory() . '/inc/customizer.php';
 require_once get_template_directory() . '/inc/widgets.php';
 require_once get_template_directory() . '/inc/enqueue.php';
 require_once get_template_directory() . '/inc/post-types.php';
+require_once get_template_directory() . '/inc/seo-meta.php';
+require_once get_template_directory() . '/inc/seo-auto-config.php';
+require_once get_template_directory() . '/inc/redirect-old-pages.php';
+require_once get_template_directory() . '/inc/seo-sitemaps.php';
+require_once get_template_directory() . '/inc/seo-head-extras.php';
 
 /**
  * Inclure les fichiers nécessaires
  */
+require_once get_template_directory() . '/inc/migration.php';
 require_once get_template_directory() . '/inc/template-functions.php';
 require_once get_template_directory() . '/inc/template-tags.php';
-require_once get_template_directory() . '/inc/class-le-margo-utils.php';
-require_once get_template_directory() . '/inc/class-le-margo-email-manager.php';
-require_once get_template_directory() . '/inc/class-le-margo-reservation-manager.php';
+require_once get_template_directory() . '/inc/class-gastro-starter-utils.php';
+require_once get_template_directory() . '/inc/class-gastro-starter-email-logger.php'; // Système de logging des emails
+require_once get_template_directory() . '/inc/email-logs-admin.php';
+require_once get_template_directory() . '/inc/class-gastro-starter-email-manager.php';
+// Charger le gestionnaire de réservations
+require_once get_template_directory() . '/inc/class-gastro-starter-reservation-manager.php';
+
+// Charger le gestionnaire de pooling de capacité
+require_once get_template_directory() . '/inc/class-capacity-pooling-manager.php';
 require_once get_template_directory() . '/inc/reservations-admin.php';
+require_once get_template_directory() . '/inc/capacity-admin.php';
 require_once get_template_directory() . '/inc/dashboard-widgets.php';
 require_once get_template_directory() . '/inc/reservations-notifications.php';
 require_once get_template_directory() . '/inc/customer-stats.php';
@@ -39,109 +63,260 @@ require_once get_template_directory() . '/inc/dashboard-customer-widget.php';
 require_once get_template_directory() . '/inc/customer-admin-page.php';
 require_once get_template_directory() . '/inc/advanced-stats-page.php';
 require_once get_template_directory() . '/inc/schema-markup.php';
-require_once get_template_directory() . '/inc/seo-meta.php';
+require_once get_template_directory() . '/inc/calendar-integration.php';
 require_once get_template_directory() . '/inc/menu-admin.php';
 require_once get_template_directory() . '/inc/testimonial-metaboxes.php';
+require_once get_template_directory() . '/inc/event-metaboxes.php';
+require_once get_template_directory() . '/inc/brevo-settings.php';
+require_once get_template_directory() . '/inc/class-gastro-starter-brevo-sender.php';
+require_once get_template_directory() . '/inc/brevo-ajax-handlers.php';
+require_once get_template_directory() . '/inc/brevo-contact-sync.php';
 require_once get_template_directory() . '/inc/reservations-core.php';
+// require_once get_template_directory() . '/inc/reservations-db-update.php'; // DÉSACTIVÉ TEMPORAIREMENT
+require_once get_template_directory() . '/inc/vouchers-core.php';
+require_once get_template_directory() . '/inc/vouchers-admin.php';
+require_once get_template_directory() . '/inc/vouchers-handler.php';
+require_once get_template_directory() . '/inc/voucher-pdf.php';
+require_once get_template_directory() . '/inc/stripe-checkout.php';
+require_once get_template_directory() . '/inc/email-tracking.php';
+require_once get_template_directory() . '/inc/mailing-admin.php';
+require_once get_template_directory() . '/inc/opening-hours-admin.php';
+require_once get_template_directory() . '/inc/translation-setup.php';
+require_once get_template_directory() . '/inc/prize-wheel-core.php';
+require_once get_template_directory() . '/inc/prize-wheel-admin.php';
 
 /**
  * Enregistrement et traitement des réservations
  */
 
-// Enregistrer les scripts et styles pour la page de réservation
-function le_margo_reservation_scripts() {
+function gastro_starter_reservation_scripts() {
     // Ne charger les scripts que sur la page de réservation
     if (is_page('reserver')) {
         // Flatpickr pour le sélecteur de date
         wp_enqueue_style('flatpickr', 'https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css', array(), '4.6.9');
         wp_enqueue_script('flatpickr', 'https://cdn.jsdelivr.net/npm/flatpickr', array(), '4.6.9', true);
-        wp_enqueue_script('flatpickr-fr', 'https://npmcdn.com/flatpickr/dist/l10n/fr.js', array('flatpickr'), '4.6.9', true);
-
-        // Nos styles et scripts personnalisés
-        wp_enqueue_style('le-margo-reservation', get_template_directory_uri() . '/assets/css/reservation.css', array(), '1.0.0');
-        wp_enqueue_script('le-margo-reservation', get_template_directory_uri() . '/assets/js/reservation.js', array('jquery'), '1.0.1', true);
         
-        // Les paramètres sont maintenant chargés dans le_margo_enqueue_assets pour éviter les doublons.
+        // Nos styles et scripts personnalisés
+        wp_enqueue_style('gastro-starter-reservation', get_template_directory_uri() . '/assets/css/reservation.css', array(), '1.0.1');
+        wp_enqueue_script('gastro-starter-reservation', get_template_directory_uri() . '/assets/js/reservation.js', array('jquery', 'flatpickr'), '1.0.2', true);
+
+        // Déterminer la locale actuelle (ex: 'fr', 'en')
+        $current_locale_full = gastro_starter_get_current_language(); // ex: fr_FR
+        $locale_short = substr($current_locale_full, 0, 2); // ex: fr
+
+        // Charger le fichier de langue de Flatpickr dynamiquement
+        if ($locale_short !== 'en') { // 'en' est par défaut, pas besoin de le charger
+            wp_enqueue_script('flatpickr-l10n', "https://npmcdn.com/flatpickr/dist/l10n/{$locale_short}.js", array('flatpickr'), '4.6.9', true);
+        }
+
+        // Préparer les traductions pour le JavaScript
+        $i18n_strings = array(
+            'selectDate' => __('Veuillez sélectionner une date', 'gastro-starter'),
+            'restaurantClosed' => __('Le restaurant est fermé à cette date', 'gastro-starter'),
+            'checkingAvailability' => __('Vérification des disponibilités...', 'gastro-starter'),
+            'selectTime' => __('Sélectionnez un horaire', 'gastro-starter'),
+            'seats' => __('places', 'gastro-starter'),
+            'available' => __('dispo.', 'gastro-starter'),
+            'full' => __('Complet', 'gastro-starter'),
+            'noOnlineBookingForGroup' => __('Désolé, nous ne prenons pas de réservations en ligne pour les groupes de plus de %d personnes.', 'gastro-starter'),
+            'callUs' => __('N\'hésitez pas à nous appeler directement au %s pour réserver votre table. Nous ferons tout notre possible pour vous accueillir !', 'gastro-starter'),
+            'invalidPhone' => __('Numéro de téléphone invalide', 'gastro-starter'),
+            'invalidEmail' => __('Adresse email invalide', 'gastro-starter'),
+            'invalidName' => __('Le nom doit contenir au moins 2 caractères', 'gastro-starter'),
+            'currentLocale' => $locale_short,
+        );
+
+        wp_localize_script('gastro-starter-reservation', 'reservation_i18n', $i18n_strings);
     }
 }
-add_action('wp_enqueue_scripts', 'le_margo_reservation_scripts');
+add_action('wp_enqueue_scripts', 'gastro_starter_reservation_scripts');
 
 /**
  * Traiter le formulaire de réservation
  */
-function le_margo_send_reservation() {
+function gastro_starter_send_reservation() {
     // 1. Vérifications de sécurité
     if (!isset($_POST['reservation_nonce']) || !wp_verify_nonce($_POST['reservation_nonce'], 'send_reservation_nonce')) {
-        le_margo_redirect_with_error('security_error', 'La vérification de sécurité a échoué.');
+        gastro_starter_redirect_with_error('security_error', 'La vérification de sécurité a échoué.');
         return;
     }
 
     // Piège à spams Honeypot
     if (!empty($_POST['reservation_hp'])) {
-        le_margo_redirect_with_error('spam_error', 'Erreur anti-spam.');
+        gastro_starter_redirect_with_error('spam_error', 'Erreur anti-spam.');
         return;
     }
 
-    $reservation_manager = le_margo_get_reservation_manager();
+    // Rate limiting
+    $ip = Gastro_Starter_Security::get_client_ip();
+    $rate_limiter = Gastro_Starter_Rate_Limiter::get_instance();
+    if (!$rate_limiter->check_rate_limit($ip)) {
+        gastro_starter_redirect_with_error('rate_limit', 'Trop de tentatives. Veuillez réessayer dans une heure.');
+        return;
+    }
+
+    // Validation stricte des données
+    if (!isset($_POST['customer_phone']) || !Gastro_Starter_Security::validate_phone_number($_POST['customer_phone'])) {
+        gastro_starter_redirect_with_error('invalid_phone', 'Le numéro de téléphone est invalide.');
+        return;
+    }
+
+    if (!isset($_POST['customer_email']) || !Gastro_Starter_Security::validate_email($_POST['customer_email'])) {
+        gastro_starter_redirect_with_error('invalid_email', 'L\'adresse email est invalide.');
+        return;
+    }
+
+    $reservation_manager = gastro_starter_get_reservation_manager();
     
     // Déterminer la source de la requête (admin ou public)
-    // Le formulaire admin inclut un champ 'status', le public non.
     $source = isset($_POST['status']) ? 'admin' : 'public';
     
     // 2. Assainissement et validation des données
     $required_fields = ['customer_name', 'customer_phone', 'customer_email', 'people', 'date', 'time'];
     $data = array_intersect_key($_POST, array_flip($required_fields));
     
+    // Ajouter les champs optionnels
+    $data['notes'] = isset($_POST['notes']) ? sanitize_textarea_field($_POST['notes']) : '';
+    
+    // Validation supplémentaire des données
+    if (empty($data['customer_name']) || strlen($data['customer_name']) < 2) {
+        gastro_starter_redirect_with_error('invalid_name', 'Le nom est trop court.');
+        return;
+    }
+
+    // Nettoyer et formater le numéro de téléphone
+    $data['customer_phone'] = Gastro_Starter_Security::sanitize_phone($data['customer_phone']);
+    
     // Fiabiliser le format de la date
     $date_obj = DateTime::createFromFormat('d/m/Y', $data['date']);
     if (!$date_obj) {
-        le_margo_redirect_with_error('date_format_error', 'Le format de la date est incorrect. Veuillez utiliser JJ/MM/AAAA.');
+        gastro_starter_redirect_with_error('date_format_error', 'Le format de la date est incorrect. Veuillez utiliser JJ/MM/AAAA.');
         return;
     }
     
-    // Correction et standardisation des clés pour correspondre au reste du système
+    // Vérifier que la date n'est pas dans le passé
+    $today = new DateTime('today');
+    if ($date_obj < $today) {
+        gastro_starter_redirect_with_error('past_date', 'La date de réservation ne peut pas être dans le passé.');
+        return;
+    }
+    
+    // Correction et standardisation des clés
     $data['reservation_date'] = $date_obj->format('Y-m-d');
     $data['reservation_time'] = $data['time'];
     unset($data['date'], $data['time']);
 
-    $data['consent_data_processing'] = isset($_POST['consent_data_processing']) ? 1 : 0;
-    $data['consent_data_storage'] = isset($_POST['consent_data_storage']) ? 1 : 0;
+    // Gestion des consentements RGPD
+    $data['consent_data_processing'] = isset($_POST['consent_data_processing']) && $_POST['consent_data_processing'] == '1' ? 1 : 0;
+    $data['accept_reminder'] = isset($_POST['accept_reminder']) && $_POST['accept_reminder'] == '1' ? 1 : 0;
+    $data['newsletter'] = isset($_POST['newsletter']) && $_POST['newsletter'] == '1' ? 1 : 0;
+    
+    // Le consentement au traitement est obligatoire
+    if ($data['consent_data_processing'] !== 1) {
+        gastro_starter_redirect_with_error('consent_required', 'Vous devez accepter notre politique de confidentialité pour réserver.');
+        return;
+    }
+
+    // Le statut est défini ici
     $data['status'] = ($source === 'admin' && isset($_POST['status'])) ? sanitize_text_field($_POST['status']) : 'pending';
 
-    // 3. Vérification de la disponibilité (maintenant avec la source)
-    $is_available = $reservation_manager->check_availability($data['reservation_date'], $data['reservation_time'], $data['people'], $source);
+    // 3. Vérification de la disponibilité (avec support du pooling)
+    $people = intval($data['people']);
+    $pooling_enabled = get_option('gastro_starter_pooling_enabled', true);
+    $use_pooling = false;
+    $pool_result = null;
+    
+    // D'abord vérifier la disponibilité standard
+    $is_available = $reservation_manager->check_availability($data['reservation_date'], $data['reservation_time'], $people, $source);
+    
+    // Si non disponible en standard ET que le pooling est activé, essayer avec le pooling
+    if (!$is_available && $pooling_enabled) {
+        $pooling_manager = new Gastro_Starter_Capacity_Pooling_Manager();
+        $pool_result = $pooling_manager->find_available_capacity_pool($data['reservation_date'], $people);
+        
+        if ($pool_result['can_accommodate']) {
+            $is_available = true;
+            $use_pooling = $pool_result['pooling_required'];
+            
+            // Utiliser le créneau choisi par l'utilisateur s'il fait partie des slots disponibles
+            $requested_time = $data['reservation_time'];
+            $is_valid_slot = false;
+            
+            foreach ($pool_result['slots_used'] as $slot) {
+                if ($slot['time'] === $requested_time) {
+                    $is_valid_slot = true;
+                    break;
+                }
+            }
+            
+            // Si le créneau choisi n'est pas valide, utiliser le primary_slot
+            if (!$is_valid_slot) {
+                $data['reservation_time'] = $pool_result['primary_slot'];
+                error_log("Pooling: Créneau demandé {$requested_time} non valide, utilisation de {$pool_result['primary_slot']}");
+            }
+        }
+    }
     
     if (!$is_available) {
-        // Log de l'échec pour le débogage
-        error_log("Tentative de réservation échouée pour le {$data['reservation_date']} à {$data['reservation_time']} pour {$data['people']} personnes. Source: {$source}. Créneau non disponible ou règle non respectée.");
-
-        le_margo_redirect_with_error(
+        error_log("Tentative de réservation échouée pour le {$data['reservation_date']} à {$data['reservation_time']} pour {$people} personnes. Source: {$source}. Créneau non disponible ou règle non respectée.");
+        gastro_starter_redirect_with_error(
             'availability_error',
-            'Désolé, ce créneau n\'est plus disponible ou ne respecte pas nos conditions de réservation (ex: réservation moins de 2h à l\'avance). Veuillez choisir une autre date ou heure.'
+            'Désolé, ce créneau n\'est plus disponible ou ne respecte pas nos conditions de réservation. Veuillez choisir une autre date ou heure.'
         );
         return;
     }
     
-    // 4. Création de la réservation
-    $reservation_id = $reservation_manager->create_reservation($data);
+    // 4. Création de la réservation (avec ou sans pooling)
+    if ($use_pooling && $pool_result) {
+        // Créer une réservation poolée avec la bonne signature
+        $pooling_manager = new Gastro_Starter_Capacity_Pooling_Manager();
+        
+        $customer_data = [
+            'name' => $data['customer_name'],
+            'phone' => $data['customer_phone'],
+            'email' => $data['customer_email'],
+            'notes' => $data['notes']
+        ];
+        
+        $result = $pooling_manager->create_pooled_reservation(
+            $data['reservation_date'],
+            $people,
+            $customer_data,
+            $data['reservation_time'], // Utiliser le créneau choisi
+            'pending' // Status pour formulaire public
+        );
+        
+        if ($result && $result['success']) {
+            $reservation_id = $result['reservation_id'];
+            error_log("Réservation POOLÉE créée avec l'ID: $reservation_id (utilise " . count($result['slots_used']) . " créneaux)");
+        } else {
+            $reservation_id = false;
+            error_log("ERREUR Pooling: " . ($result['message'] ?? 'Erreur inconnue'));
+        }
+    } else {
+        // Créer une réservation normale
+        $reservation_id = $reservation_manager->create_reservation($data);
+        
+        if ($reservation_id) {
+            error_log("Réservation STANDARD créée avec l'ID: $reservation_id");
+        }
+    }
+    
     if (!$reservation_id) {
         error_log('ERREUR: Échec de la création de la réservation');
         global $wpdb;
         error_log('Erreur BDD: ' . $wpdb->last_error);
-        Le_Margo_Error_Handler::handle_error(
-            __('Erreur lors de l\'enregistrement de la réservation. Veuillez réessayer.', 'le-margo'),
+        Gastro_Starter_Error_Handler::handle_error(
+            __('Erreur lors de l\'enregistrement de la réservation. Veuillez réessayer.', 'gastro-starter'),
             wp_get_referer()
         );
+        return;
     }
     
-    error_log("Réservation créée avec l'ID: $reservation_id");
-
     // 5. Mettre à jour les statistiques du client
-    if (function_exists('le_margo_update_customer_visits')) {
-        le_margo_update_customer_visits($data['customer_email'], $reservation_id);
+    if (function_exists('gastro_starter_update_customer_visits')) {
+        gastro_starter_update_customer_visits($data['customer_email'], $reservation_id);
         error_log("Statistiques mises à jour pour le client {$data['customer_email']} et la réservation ID: $reservation_id");
-    } else {
-        error_log("ERREUR: La fonction le_margo_update_customer_visits() est introuvable. Les statistiques ne sont pas mises à jour.");
     }
 
     // Envoi des emails avec gestion d'erreur améliorée
@@ -152,16 +327,19 @@ function le_margo_send_reservation() {
         
         if (!$email_sent) {
             error_log('ATTENTION: Échec de l\'envoi des emails de confirmation');
-            // Ne pas faire échouer la réservation si l'email échoue
-            // La réservation est créée, on informe juste l'utilisateur
         }
     } catch (Exception $e) {
         error_log('EXCEPTION lors de l\'envoi des emails: ' . $e->getMessage());
         error_log('Stack trace: ' . $e->getTraceAsString());
-        // Ne pas faire échouer la réservation
     }
     error_log('=== FIN ENVOI EMAILS ===');
 
+    // Stocker l'ID de la réservation en session pour la page de remerciement
+    if (!session_id()) {
+        session_start();
+    }
+    $_SESSION['gastro_starter_last_reservation_id'] = $reservation_id;
+    
     // Nettoyage et redirection
     ob_end_clean();
     $is_ajax = (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest');
@@ -169,32 +347,32 @@ function le_margo_send_reservation() {
     error_log("Redirection vers page de confirmation (AJAX: " . ($is_ajax ? 'OUI' : 'NON') . ")");
     error_log('=== FIN TRAITEMENT DE RÉSERVATION ===');
     
-    Le_Margo_Redirect_Handler::redirect(home_url('/merci'), $is_ajax);
+    Gastro_Starter_Redirect_Handler::redirect(home_url('/merci'), $is_ajax);
 }
 
 // Ajouter les hooks pour le traitement des réservations
-add_action('admin_post_nopriv_send_reservation', 'le_margo_send_reservation');
-add_action('admin_post_send_reservation', 'le_margo_send_reservation');
+add_action('admin_post_nopriv_send_reservation', 'gastro_starter_send_reservation');
+add_action('admin_post_send_reservation', 'gastro_starter_send_reservation');
 
 /**
  * Planifier l'envoi quotidien des emails de rappel
  */
-function le_margo_schedule_reminder_emails() {
-    if (!wp_next_scheduled('le_margo_daily_reminder_event')) {
-        wp_schedule_event(strtotime('today 18:00:00'), 'daily', 'le_margo_daily_reminder_event');
+function gastro_starter_schedule_reminder_emails() {
+    if (!wp_next_scheduled('gastro_starter_daily_reminder_event')) {
+        wp_schedule_event(strtotime('today 18:00:00'), 'daily', 'gastro_starter_daily_reminder_event');
     }
 }
-add_action('wp', 'le_margo_schedule_reminder_emails');
+add_action('wp', 'gastro_starter_schedule_reminder_emails');
 
 /**
  * Hook pour l'événement de rappel quotidien
  */
-add_action('le_margo_daily_reminder_event', 'le_margo_send_reminder_emails');
+add_action('gastro_starter_daily_reminder_event', 'gastro_starter_send_reminder_emails');
 
 /**
  * Mettre à jour la structure de la table des réservations
  */
-function le_margo_update_reservations_table() {
+function gastro_starter_update_reservations_table() {
     global $wpdb;
     $table_name = $wpdb->prefix . 'reservations';
     
@@ -222,33 +400,36 @@ function le_margo_update_reservations_table() {
         $wpdb->query("ALTER TABLE $table_name DROP COLUMN gdpr_consent");
     }
 }
-add_action('init', 'le_margo_update_reservations_table');
+add_action('init', 'gastro_starter_update_reservations_table');
 
 
 /**
- * Fonction utilitaire pour afficher les horaires d'ouverture dynamiques
+ * Fonction utilitaire pour afficher les horaires d'ouverture personnalisés
  */
-function le_margo_display_opening_hours($echo = true) {
-    $jours = array(
-        'monday'    => __('Lundi', 'le-margo'),
-        'tuesday'   => __('Mardi', 'le-margo'),
-        'wednesday' => __('Mercredi', 'le-margo'),
-        'thursday'  => __('Jeudi', 'le-margo'),
-        'friday'    => __('Vendredi', 'le-margo'),
-        'saturday'  => __('Samedi', 'le-margo'),
-        'sunday'    => __('Dimanche', 'le-margo'),
-    );
-    $horaires = get_option('le_margo_opening_hours');
-    $out = '<ul class="horaires-restaurant">';
-    foreach ($jours as $key => $label) {
-        $val = isset($horaires[$key]) ? $horaires[$key] : '';
-        $out .= '<li><strong>' . $label . ' :</strong> ' . ($val ? esc_html($val) : '<span style="color:#aaa">Fermé</span>') . '</li>';
+function gastro_starter_display_opening_hours($echo = true) {
+    $days = [
+        'monday'    => __('Lundi', 'gastro-starter'),
+        'tuesday'   => __('Mardi', 'gastro-starter'),
+        'wednesday' => __('Mercredi', 'gastro-starter'),
+        'thursday'  => __('Jeudi', 'gastro-starter'),
+        'friday'    => __('Vendredi', 'gastro-starter'),
+        'saturday'  => __('Samedi', 'gastro-starter'),
+        'sunday'    => __('Dimanche', 'gastro-starter'),
+    ];
+    
+    $opening_hours = get_option('gastro_starter_opening_hours', []);
+    
+    $output = '<ul class="horaires-restaurant">';
+    foreach ($days as $day_key => $day_label) {
+        $hours_text = !empty($opening_hours[$day_key]) ? esc_html($opening_hours[$day_key]) : '<span class="closed-text">' . __('Fermé', 'gastro-starter') . '</span>';
+        $output .= '<li><strong>' . esc_html($day_label) . ' :</strong> ' . $hours_text . '</li>';
     }
-    $out .= '</ul>';
+    $output .= '</ul>';
+
     if ($echo) {
-        echo $out;
+        echo $output;
     } else {
-        return $out;
+        return $output;
     }
 }
 
@@ -259,7 +440,7 @@ function le_margo_display_opening_hours($echo = true) {
 /**
  * Récupérer les témoignages en vedette
  */
-function le_margo_get_featured_testimonials($limit = 6) {
+function gastro_starter_get_featured_testimonials($limit = 6) {
     $args = array(
         'post_type' => 'testimonial',
         'posts_per_page' => $limit,
@@ -281,9 +462,9 @@ function le_margo_get_featured_testimonials($limit = 6) {
 /**
  * Récupérer tous les témoignages avec priorisation des vedettes
  */
-function le_margo_get_testimonials_prioritized($limit = 8) {
+function gastro_starter_get_testimonials_prioritized($limit = 8) {
     // D'abord les témoignages en vedette
-    $featured_query = le_margo_get_featured_testimonials(4);
+    $featured_query = gastro_starter_get_featured_testimonials(4);
     $featured_ids = array();
     
     if ($featured_query->have_posts()) {
@@ -334,7 +515,7 @@ function le_margo_get_testimonials_prioritized($limit = 8) {
 /**
  * Obtenir le nom d'affichage d'une source de témoignage
  */
-function le_margo_get_testimonial_source_name($source) {
+function gastro_starter_get_testimonial_source_name($source) {
     $sources = array(
         'google' => 'Google Reviews',
         'tripadvisor' => 'TripAdvisor',
@@ -354,7 +535,7 @@ function le_margo_get_testimonial_source_name($source) {
 /**
  * Vérifier si un témoignage a tous les champs requis
  */
-function le_margo_is_testimonial_complete($post_id) {
+function gastro_starter_is_testimonial_complete($post_id) {
     $required_fields = array('rating', 'author_name', 'testimonial_source');
     
     foreach ($required_fields as $field) {
@@ -376,26 +557,26 @@ function le_margo_is_testimonial_complete($post_id) {
 /**
  * Ajouter une colonne pour le statut complet dans l'admin
  */
-function le_margo_testimonial_admin_columns($columns) {
+function gastro_starter_testimonial_admin_columns($columns) {
     $new_columns = array();
     $new_columns['cb'] = $columns['cb'];
     $new_columns['title'] = $columns['title'];
-    $new_columns['rating'] = __('Note', 'le-margo');
-    $new_columns['source'] = __('Source', 'le-margo');
-    $new_columns['author'] = __('Auteur', 'le-margo');
-    $new_columns['featured'] = __('Vedette', 'le-margo');
-    $new_columns['verified'] = __('Vérifié', 'le-margo');
-    $new_columns['complete'] = __('Complet', 'le-margo');
+    $new_columns['rating'] = __('Note', 'gastro-starter');
+    $new_columns['source'] = __('Source', 'gastro-starter');
+    $new_columns['author'] = __('Auteur', 'gastro-starter');
+    $new_columns['featured'] = __('Vedette', 'gastro-starter');
+    $new_columns['verified'] = __('Vérifié', 'gastro-starter');
+    $new_columns['complete'] = __('Complet', 'gastro-starter');
     $new_columns['date'] = $columns['date'];
     
     return $new_columns;
 }
-add_filter('manage_testimonial_posts_columns', 'le_margo_testimonial_admin_columns');
+add_filter('manage_testimonial_posts_columns', 'gastro_starter_testimonial_admin_columns');
 
 /**
  * Remplir les colonnes personnalisées
  */
-function le_margo_testimonial_admin_column_content($column, $post_id) {
+function gastro_starter_testimonial_admin_column_content($column, $post_id) {
     switch ($column) {
         case 'rating':
             $rating = get_post_meta($post_id, 'rating', true);
@@ -410,7 +591,7 @@ function le_margo_testimonial_admin_column_content($column, $post_id) {
         case 'source':
             $source = get_post_meta($post_id, 'testimonial_source', true);
             if ($source) {
-                echo esc_html(le_margo_get_testimonial_source_name($source));
+                echo esc_html(gastro_starter_get_testimonial_source_name($source));
             } else {
                 echo '<span style="color: #999;">—</span>';
             }
@@ -449,7 +630,7 @@ function le_margo_testimonial_admin_column_content($column, $post_id) {
             break;
             
         case 'complete':
-            if (le_margo_is_testimonial_complete($post_id)) {
+            if (gastro_starter_is_testimonial_complete($post_id)) {
                 echo '<span style="color: #155724;">✓ Complet</span>';
             } else {
                 echo '<span style="color: #dc3232;">⚠ Incomplet</span>';
@@ -457,12 +638,12 @@ function le_margo_testimonial_admin_column_content($column, $post_id) {
             break;
     }
 }
-add_action('manage_testimonial_posts_custom_column', 'le_margo_testimonial_admin_column_content', 10, 2);
+add_action('manage_testimonial_posts_custom_column', 'gastro_starter_testimonial_admin_column_content', 10, 2);
 
 /**
  * Rendre les colonnes triables
  */
-function le_margo_testimonial_sortable_columns($columns) {
+function gastro_starter_testimonial_sortable_columns($columns) {
     $columns['rating'] = 'rating';
     $columns['source'] = 'testimonial_source';
     $columns['author'] = 'author_name';
@@ -471,12 +652,12 @@ function le_margo_testimonial_sortable_columns($columns) {
     
     return $columns;
 }
-add_filter('manage_edit-testimonial_sortable_columns', 'le_margo_testimonial_sortable_columns');
+add_filter('manage_edit-testimonial_sortable_columns', 'gastro_starter_testimonial_sortable_columns');
 
 /**
  * Gérer le tri des colonnes personnalisées
  */
-function le_margo_testimonial_orderby($query) {
+function gastro_starter_testimonial_orderby($query) {
     if (!is_admin() || !$query->is_main_query()) {
         return;
     }
@@ -500,12 +681,12 @@ function le_margo_testimonial_orderby($query) {
         $query->set('orderby', 'meta_value');
     }
 }
-add_action('pre_get_posts', 'le_margo_testimonial_orderby');
+add_action('pre_get_posts', 'gastro_starter_testimonial_orderby');
 
 /**
  * Ajouter des filtres dans l'admin des témoignages
  */
-function le_margo_testimonial_admin_filters() {
+function gastro_starter_testimonial_admin_filters() {
     global $typenow;
     
     if ($typenow == 'testimonial') {
@@ -526,7 +707,7 @@ function le_margo_testimonial_admin_filters() {
         $current_source = isset($_GET['testimonial_source']) ? $_GET['testimonial_source'] : '';
         
         echo '<select name="testimonial_source">';
-        echo '<option value="">' . __('Toutes les sources', 'le-margo') . '</option>';
+        echo '<option value="">' . __('Toutes les sources', 'gastro-starter') . '</option>';
         foreach ($sources as $value => $label) {
             echo '<option value="' . $value . '"' . selected($current_source, $value, false) . '>' . $label . '</option>';
         }
@@ -535,18 +716,18 @@ function le_margo_testimonial_admin_filters() {
         // Filtre par témoignages en vedette
         $current_featured = isset($_GET['featured_review']) ? $_GET['featured_review'] : '';
         echo '<select name="featured_review">';
-        echo '<option value="">' . __('Tous les témoignages', 'le-margo') . '</option>';
-        echo '<option value="1"' . selected($current_featured, '1', false) . '>' . __('En vedette uniquement', 'le-margo') . '</option>';
-        echo '<option value="0"' . selected($current_featured, '0', false) . '>' . __('Pas en vedette', 'le-margo') . '</option>';
+        echo '<option value="">' . __('Tous les témoignages', 'gastro-starter') . '</option>';
+        echo '<option value="1"' . selected($current_featured, '1', false) . '>' . __('En vedette uniquement', 'gastro-starter') . '</option>';
+        echo '<option value="0"' . selected($current_featured, '0', false) . '>' . __('Pas en vedette', 'gastro-starter') . '</option>';
         echo '</select>';
     }
 }
-add_action('restrict_manage_posts', 'le_margo_testimonial_admin_filters');
+add_action('restrict_manage_posts', 'gastro_starter_testimonial_admin_filters');
 
 /**
  * Appliquer les filtres personnalisés
  */
-function le_margo_testimonial_parse_query($query) {
+function gastro_starter_testimonial_parse_query($query) {
     global $pagenow;
     
     if ($pagenow == 'edit.php' && isset($_GET['post_type']) && $_GET['post_type'] == 'testimonial') {
@@ -573,378 +754,31 @@ function le_margo_testimonial_parse_query($query) {
         }
     }
 }
-add_filter('parse_query', 'le_margo_testimonial_parse_query');
+add_filter('parse_query', 'gastro_starter_testimonial_parse_query');
 
 /**
  * ===============================================
- * OPTIMISATION SEO AVANCÉE POUR LE MARGO
+ * OPTIMISATION SEO AVANCÉE POUR GASTRO STARTER
  * ===============================================
  */
 
-// 1. Schema.org Markup pour Restaurant
-function le_margo_add_schema_markup() {
-    if (is_front_page() || is_page('a-propos') || is_page('reserver')) {
-        $schema = array(
-            '@context' => 'https://schema.org',
-            '@type' => 'Restaurant',
-            'name' => 'Le Margo',
-            'description' => 'Restaurant gastronomique à Eymet, cuisine locale et vins naturels. Produits frais bio du Périgord dans une ambiance intimiste.',
-            'url' => home_url(),
-            'logo' => get_template_directory_uri() . '/assets/images/le-margo-logo.png',
-            'image' => array(
-                get_template_directory_uri() . '/assets/images/restaurant-exterieur-eymet.jpg',
-                get_template_directory_uri() . '/assets/images/plat-signature-lemargo.webp',
-                get_template_directory_uri() . '/assets/images/restaurant-interieur-ambiance.jpg'
-            ),
-            'telephone' => '+33602556315',
-            'email' => 'sasdamaeymet@gmail.com',
-            'priceRange' => '€€',
-            'currenciesAccepted' => 'EUR',
-            'paymentAccepted' => 'Cash, Credit Card',
-            'address' => array(
-                '@type' => 'PostalAddress',
-                'streetAddress' => '6 avenue du 6 juin 1944',
-                'addressLocality' => 'Eymet',
-                'addressRegion' => 'Dordogne',
-                'postalCode' => '24500',
-                'addressCountry' => 'FR'
-            ),
-            'geo' => array(
-                '@type' => 'GeoCoordinates',
-                'latitude' => '44.66685638628374',
-                'longitude' => '0.3969304765728053'
-            ),
-            'openingHours' => array(
-                'Mo-We off',
-                'Th 09:00-15:00,19:00-23:00',
-                'Fr 19:00-23:00',
-                'Sa 19:00-23:00',
-                'Su off'
-            ),
-            'servesCuisine' => array(
-                'French',
-                'Contemporary',
-                'Local',
-                'Organic',
-                'Seasonal'
-            ),
-            'hasMenu' => array(
-                '@type' => 'Menu',
-                'name' => 'Menu du jour',
-                'description' => 'Menu saisonnier avec produits locaux bio'
-            ),
-            'aggregateRating' => array(
-                '@type' => 'AggregateRating',
-                'ratingValue' => '4.8',
-                'reviewCount' => '47',
-                'bestRating' => '5'
-            ),
-            'founder' => array(
-                array(
-                    '@type' => 'Person',
-                    'name' => 'Antoine Bursens'
-                ),
-                array(
-                    '@type' => 'Person',
-                    'name' => 'Floriane Valladon'
-                )
-            ),
-            'specialities' => array(
-                'Cuisine créative',
-                'Produits locaux',
-                'Vins naturels',
-                'Cuisine bio',
-                'Terroir du Périgord'
-            ),
-            'amenityFeature' => array(
-                array(
-                    '@type' => 'LocationFeatureSpecification',
-                    'name' => 'Wifi',
-                    'value' => true
-                ),
-                array(
-                    '@type' => 'LocationFeatureSpecification',
-                    'name' => 'Terrasse',
-                    'value' => true
-                ),
-                array(
-                    '@type' => 'LocationFeatureSpecification',
-                    'name' => 'Parking',
-                    'value' => true
-                )
-            ),
-            'sameAs' => array(
-                'https://instagram.com/lemargoeymet',
-                'https://www.facebook.com/lemargoeymet'
-            )
-        );
-        
-        echo '<script type="application/ld+json">' . json_encode($schema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) . '</script>';
-    }
-}
-add_action('wp_head', 'le_margo_add_schema_markup');
-
-// 2. Breadcrumbs SEO
-function le_margo_breadcrumbs() {
-    $schema = array(
-        '@context' => 'https://schema.org',
-        '@type' => 'BreadcrumbList',
-        'itemListElement' => array()
-    );
-    
-    $position = 1;
-    
-    // Home
-    $schema['itemListElement'][] = array(
-        '@type' => 'ListItem',
-        'position' => $position++,
-        'name' => 'Accueil',
-        'item' => home_url()
-    );
-    
-    if (is_page()) {
-        $schema['itemListElement'][] = array(
-            '@type' => 'ListItem',
-            'position' => $position,
-            'name' => get_the_title(),
-            'item' => get_permalink()
-        );
-    }
-    
-    echo '<script type="application/ld+json">' . json_encode($schema) . '</script>';
-}
-add_action('wp_head', 'le_margo_breadcrumbs');
-
-// 3. Méta-descriptions optimisées
-function le_margo_seo_meta_description() {
-    $description = '';
-    
-    if (is_front_page()) {
-        $description = 'Restaurant Le Margo à Eymet (Dordogne) - Cuisine locale créative, vins naturels, produits bio du Périgord. Réservation 06 02 55 63 15. Meilleur restaurant Eymet 2024.';
-    } elseif (is_page('a-propos')) {
-        $description = 'Découvrez l\'histoire du restaurant Le Margo à Eymet : Antoine Bursens et Floriane Valladon, cuisine créative avec produits locaux bio du Périgord. Restaurant gastronomique Dordogne.';
-    } elseif (is_page('galerie')) {
-        $description = 'Photos du restaurant Le Margo Eymet : plats gastronomiques, vins naturels, ambiance restaurant. Découvrez notre cuisine créative locale en images.';
-    } elseif (is_page('eymet')) {
-        $description = 'Découvrez Eymet, bastide médiévale de Dordogne (1270). Le Margo vous guide dans cette perle du Périgord : château, place centrale, rivière Dropt, marché traditionnel.';
-    } elseif (is_page('reserver')) {
-        $description = 'Réservez votre table au restaurant Le Margo Eymet. Restaurant gastronomique Dordogne, cuisine locale bio, vins naturels. Réservation en ligne ou 06 02 55 63 15.';
-    }
-    
-    if (!empty($description)) {
-        echo '<meta name="description" content="' . esc_attr($description) . '">';
-    }
-}
-add_action('wp_head', 'le_margo_seo_meta_description', 1);
-
-// 4. Open Graph et Twitter Cards
-function le_margo_social_meta_tags() {
-    $title = '';
-    $description = '';
-    $image = get_template_directory_uri() . '/assets/images/restaurant-exterieur-eymet.jpg';
-    
-    if (is_front_page()) {
-        $title = 'Le Margo - Restaurant Gastronomique Eymet Dordogne | Cuisine Locale & Vins Naturels';
-        $description = 'Restaurant Le Margo à Eymet : cuisine créative avec produits locaux bio, vins naturels, ambiance intimiste. Réservez au 06 02 55 63 15.';
-    } elseif (is_page()) {
-        $title = get_the_title() . ' - Le Margo Restaurant Eymet';
-        $description = get_the_excerpt() ?: 'Restaurant Le Margo Eymet - Cuisine locale créative et vins naturels';
-    }
-    
-    // Open Graph
-    echo '<meta property="og:title" content="' . esc_attr($title) . '">';
-    echo '<meta property="og:description" content="' . esc_attr($description) . '">';
-    echo '<meta property="og:image" content="' . esc_url($image) . '">';
-    echo '<meta property="og:url" content="' . esc_url(get_permalink()) . '">';
-    echo '<meta property="og:type" content="website">';
-    echo '<meta property="og:site_name" content="Le Margo">';
-    echo '<meta property="og:locale" content="fr_FR">';
-    
-    // Twitter Card
-    echo '<meta name="twitter:card" content="summary_large_image">';
-    echo '<meta name="twitter:title" content="' . esc_attr($title) . '">';
-    echo '<meta name="twitter:description" content="' . esc_attr($description) . '">';
-    echo '<meta name="twitter:image" content="' . esc_url($image) . '">';
-    echo '<meta name="twitter:site" content="@lemargoeymet">';
-}
-add_action('wp_head', 'le_margo_social_meta_tags', 2);
-
-// 5. Génération de sitemap XML personnalisé
-function le_margo_generate_sitemap() {
-    if (isset($_GET['sitemap']) && $_GET['sitemap'] === 'lemargo') {
-        header('Content-Type: application/xml; charset=utf-8');
-        
-        $sitemap = '<?xml version="1.0" encoding="UTF-8"?>';
-        $sitemap .= '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
-        
-        // Pages principales
-        $pages = array(
-            '' => array('priority' => '1.0', 'changefreq' => 'weekly'),
-            'a-propos' => array('priority' => '0.8', 'changefreq' => 'monthly'),
-            'galerie' => array('priority' => '0.7', 'changefreq' => 'monthly'),
-            'eymet' => array('priority' => '0.9', 'changefreq' => 'monthly'),
-            'reserver' => array('priority' => '0.9', 'changefreq' => 'daily')
-        );
-        
-        foreach ($pages as $slug => $config) {
-            $url = home_url($slug ? '/' . $slug : '');
-            $sitemap .= '<url>';
-            $sitemap .= '<loc>' . $url . '</loc>';
-            $sitemap .= '<lastmod>' . date('Y-m-d') . '</lastmod>';
-            $sitemap .= '<changefreq>' . $config['changefreq'] . '</changefreq>';
-            $sitemap .= '<priority>' . $config['priority'] . '</priority>';
-            $sitemap .= '</url>';
-        }
-        
-        $sitemap .= '</urlset>';
-        echo $sitemap;
-        exit;
-    }
-}
-add_action('init', 'le_margo_generate_sitemap');
-
-// 6. Mots-clés locaux pour le SEO
-function le_margo_add_local_keywords() {
-    $keywords = array(
-        'restaurant Eymet',
-        'restaurant Dordogne',
-        'restaurant Périgord',
-        'gastronomie Eymet',
-        'cuisine locale Dordogne',
-        'vins naturels Eymet',
-        'restaurant bio Périgord',
-        'Le Margo',
-        'bastide médiévale restaurant',
-        'Antoine Bursens',
-        'Floriane Valladon',
-        'produits locaux Dordogne',
-        'meilleur restaurant Eymet',
-        'restaurant gastronomique 24500'
-    );
-    
-    echo '<meta name="keywords" content="' . implode(', ', $keywords) . '">';
-}
-add_action('wp_head', 'le_margo_add_local_keywords', 3);
-
-// 7. Optimisation des images pour le SEO
-function le_margo_optimize_images() {
-    // Ajouter des attributs alt automatiques pour les images sans alt
-    add_filter('the_content', function($content) {
-        $content = preg_replace_callback('/<img[^>]+>/i', function($matches) {
-            $img = $matches[0];
-            if (strpos($img, 'alt=') === false) {
-                $img = str_replace('<img', '<img alt="Restaurant Le Margo Eymet - Cuisine locale"', $img);
-            }
-            return $img;
-        }, $content);
-        return $content;
-    });
-}
-add_action('init', 'le_margo_optimize_images');
-
-// 8. Données structurées pour les événements
-function le_margo_events_schema() {
-    if (is_page('eymet') || is_front_page()) {
-        $events = array(
-            array(
-                '@type' => 'Event',
-                'name' => 'Marché traditionnel d\'Eymet',
-                'description' => 'Marché hebdomadaire avec produits locaux sur la place centrale d\'Eymet',
-                'location' => array(
-                    '@type' => 'Place',
-                    'name' => 'Place Centrale Eymet',
-                    'address' => 'Place Centrale, 24500 Eymet, France'
-                ),
-                'startDate' => 'every Thursday 08:00',
-                'organizer' => array(
-                    '@type' => 'Organization',
-                    'name' => 'Ville d\'Eymet'
-                )
-            ),
-            array(
-                '@type' => 'Event',
-                'name' => 'Wine Tasting avec Emma Jenkins',
-                'description' => 'Dégustation de vins naturels tous les mardis soirs au restaurant Le Margo',
-                'location' => array(
-                    '@type' => 'Restaurant',
-                    'name' => 'Le Margo',
-                    'address' => '6 avenue du 6 juin 1944, 24500 Eymet, France'
-                ),
-                'startDate' => 'every Tuesday 19:00',
-                'organizer' => array(
-                    '@type' => 'Organization',
-                    'name' => 'Le Margo'
-                )
-            )
-        );
-        
-        foreach ($events as $event) {
-            echo '<script type="application/ld+json">' . json_encode($event) . '</script>';
-        }
-    }
-}
-add_action('wp_head', 'le_margo_events_schema');
-
-// 9. Optimisation pour Google My Business
-function le_margo_business_schema() {
-    $business = array(
-        '@context' => 'https://schema.org',
-        '@type' => 'LocalBusiness',
-        'name' => 'Le Margo',
-        'image' => get_template_directory_uri() . '/assets/images/restaurant-exterieur-eymet.jpg',
-        'telephone' => '+33602556315',
-        'email' => 'sasdamaeymet@gmail.com',
-        'address' => array(
-            '@type' => 'PostalAddress',
-            'streetAddress' => '6 avenue du 6 juin 1944',
-            'addressLocality' => 'Eymet',
-            'addressRegion' => 'Nouvelle-Aquitaine',
-            'postalCode' => '24500',
-            'addressCountry' => 'France'
-        ),
-        'geo' => array(
-            '@type' => 'GeoCoordinates',
-            'latitude' => 44.66685638628374,
-            'longitude' => 0.3969304765728053
-        ),
-        'url' => home_url(),
-        'priceRange' => '€€',
-        'openingHours' => 'Th-Sa',
-        'smokingAllowed' => false,
-        'wheelchairAccessible' => true
-    );
-    
-    echo '<script type="application/ld+json">' . json_encode($business) . '</script>';
-}
-add_action('wp_head', 'le_margo_business_schema');
-
-// 10. Optimisation pour Core Web Vitals
-function le_margo_performance_optimization() {
-    // Précharger les ressources critiques
-    echo '<link rel="preload" href="' . get_template_directory_uri() . '/assets/css/main.css" as="style">';
-    echo '<link rel="preload" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" as="style">';
-    
-    // DNS prefetch pour les domaines externes
-    echo '<link rel="dns-prefetch" href="//fonts.googleapis.com">';
-    echo '<link rel="dns-prefetch" href="//www.google.com">';
-    echo '<link rel="dns-prefetch" href="//instagram.com">';
-}
-add_action('wp_head', 'le_margo_performance_optimization', 1);
+// Toutes les fonctions SEO statiques ont été supprimées - remplacées par le système dynamique seo-auto-config.php
+// Seules les meta données configurées depuis l'admin des pages sont maintenant utilisées
 
 // Ajout de la page d'options pour le mode maintenance
-function le_margo_maintenance_admin_menu() {
+function gastro_starter_maintenance_admin_menu() {
     add_options_page(
         'Réglages du Mode Maintenance',
         'Maintenance',
         'manage_options',
-        'le-margo-maintenance',
-        'le_margo_maintenance_page_html'
+        'gastro-starter-maintenance',
+        'gastro_starter_maintenance_page_html'
     );
 }
-add_action('admin_menu', 'le_margo_maintenance_admin_menu');
+add_action('admin_menu', 'gastro_starter_maintenance_admin_menu');
 
 // Contenu de la page d'options
-function le_margo_maintenance_page_html() {
+function gastro_starter_maintenance_page_html() {
     if (!current_user_can('manage_options')) {
         return;
     }
@@ -953,8 +787,8 @@ function le_margo_maintenance_page_html() {
         <h1><?php echo esc_html(get_admin_page_title()); ?></h1>
         <form action="options.php" method="post">
             <?php
-            settings_fields('le_margo_maintenance_options');
-            do_settings_sections('le-margo-maintenance');
+            settings_fields('gastro_starter_maintenance_options');
+            do_settings_sections('gastro-starter-maintenance');
             submit_button('Enregistrer les modifications');
             ?>
         </form>
@@ -963,46 +797,46 @@ function le_margo_maintenance_page_html() {
 }
 
 // Enregistrement des réglages
-function le_margo_maintenance_settings_init() {
-    register_setting('le_margo_maintenance_options', 'le_margo_maintenance_mode_status');
+function gastro_starter_maintenance_settings_init() {
+    register_setting('gastro_starter_maintenance_options', 'gastro_starter_maintenance_mode_status');
 
     add_settings_section(
-        'le_margo_maintenance_section',
+        'gastro_starter_maintenance_section',
         'Activer le mode maintenance',
-        'le_margo_maintenance_section_callback',
-        'le-margo-maintenance'
+        'gastro_starter_maintenance_section_callback',
+        'gastro-starter-maintenance'
     );
 
     add_settings_field(
-        'le_margo_maintenance_mode_field',
+        'gastro_starter_maintenance_mode_field',
         'Mode maintenance',
-        'le_margo_maintenance_mode_field_cb',
-        'le-margo-maintenance',
-        'le_margo_maintenance_section'
+        'gastro_starter_maintenance_mode_field_cb',
+        'gastro-starter-maintenance',
+        'gastro_starter_maintenance_section'
     );
 }
-add_action('admin_init', 'le_margo_maintenance_settings_init');
+add_action('admin_init', 'gastro_starter_maintenance_settings_init');
 
 // Callback pour la section
-function le_margo_maintenance_section_callback() {
+function gastro_starter_maintenance_section_callback() {
     echo '<p>Cochez la case ci-dessous pour activer le mode maintenance. Seuls les administrateurs pourront voir le site.</p>';
 }
 
 // Callback pour le champ
-function le_margo_maintenance_mode_field_cb() {
-    $option = get_option('le_margo_maintenance_mode_status');
+function gastro_starter_maintenance_mode_field_cb() {
+    $option = get_option('gastro_starter_maintenance_mode_status');
     ?>
-    <label for="le_margo_maintenance_mode_status">
-        <input type="checkbox" name="le_margo_maintenance_mode_status" id="le_margo_maintenance_mode_status" value="1" <?php checked(1, $option, true); ?>>
+    <label for="gastro_starter_maintenance_mode_status">
+        <input type="checkbox" name="gastro_starter_maintenance_mode_status" id="gastro_starter_maintenance_mode_status" value="1" <?php checked(1, $option, true); ?>>
         Activer
     </label>
     <?php
 }
 
 // Fonction pour activer la page de maintenance
-function le_margo_maintenance_mode() {
+function gastro_starter_maintenance_mode() {
     // Vérifier si le mode maintenance est activé dans les options
-    $maintenance_enabled = get_option('le_margo_maintenance_mode_status');
+    $maintenance_enabled = get_option('gastro_starter_maintenance_mode_status');
 
     // Si le mode est activé et que l'utilisateur n'est pas admin, afficher la page de maintenance
     if ($maintenance_enabled && !current_user_can('administrator')) {
@@ -1014,18 +848,79 @@ function le_margo_maintenance_mode() {
         }
     }
 }
-add_action('template_redirect', 'le_margo_maintenance_mode');
+add_action('template_redirect', 'gastro_starter_maintenance_mode');
 
 // Enqueue des scripts et styles
-function le_margo_scripts() {
-    wp_enqueue_style('le-margo-style', get_stylesheet_uri(), array(), '2.2.0');
+function gastro_starter_scripts() {
+    wp_enqueue_style('gastro-starter-style', get_stylesheet_uri(), array(), '2.2.0');
     
     // Script pour l'effet de zoom qui suit le curseur
-    wp_enqueue_script('le-margo-gallery-zoom', get_template_directory_uri() . '/assets/js/gallery-zoom.js', array(), '1.0.0', true);
+    wp_enqueue_script('gastro-starter-gallery-zoom', get_template_directory_uri() . '/assets/js/gallery-zoom.js', array(), '1.0.0', true);
     
-    // Les paramètres de réservation sont maintenant chargés dans la fonction le_margo_enqueue_assets
+    // Les paramètres de réservation sont maintenant chargés dans la fonction gastro_starter_enqueue_assets
+
+    // ── Page événement unique ──────────────────────────────────
+    if (is_singular('event')) {
+        wp_enqueue_style(
+            'gastro-starter-single-event',
+            get_template_directory_uri() . '/assets/css/single-event.css',
+            [],
+            '1.0.0'
+        );
+        wp_enqueue_script(
+            'gastro-starter-single-event',
+            get_template_directory_uri() . '/assets/js/single-event.js',
+            [],
+            '1.0.0',
+            true
+        );
+    }
 }
-add_action('wp_enqueue_scripts', 'le_margo_scripts');
+add_action('wp_enqueue_scripts', 'gastro_starter_scripts');
+
+/**
+ * Balises Open Graph pour les pages événement unique
+ */
+function gastro_starter_event_open_graph() {
+    if (!is_singular('event')) return;
+
+    $post_id = get_the_ID();
+
+    $title       = get_the_title();
+    $subtitle    = get_post_meta($post_id, 'email_subtitle', true) ?: 'Soirée Spéciale';
+    $accroche    = get_post_meta($post_id, 'email_accroche', true) ?: get_the_excerpt();
+    $event_date  = get_post_meta($post_id, 'event_date',  true);
+    $event_price = get_post_meta($post_id, 'event_price', true);
+
+    $description = trim(strip_tags($accroche));
+    if ($event_date) {
+        $description .= ' — ' . date_i18n('j F Y', strtotime($event_date));
+    }
+    if ($event_price) {
+        $description .= ' · ' . $event_price;
+    }
+
+    // Image OG : priorité email_image_id > featured image
+    $og_image = '';
+    $hero_img_id = get_post_meta($post_id, 'email_image_id', true);
+    if ($hero_img_id) {
+        $og_image = wp_get_attachment_image_url($hero_img_id, 'large');
+    }
+    if (!$og_image && has_post_thumbnail()) {
+        $og_image = get_the_post_thumbnail_url($post_id, 'large');
+    }
+
+    echo '<meta property="og:type"        content="article" />' . "\n";
+    echo '<meta property="og:title"       content="' . esc_attr($subtitle . ' — ' . $title) . '" />' . "\n";
+    echo '<meta property="og:description" content="' . esc_attr(wp_trim_words($description, 30)) . '" />' . "\n";
+    echo '<meta property="og:url"         content="' . esc_url(get_permalink()) . '" />' . "\n";
+    echo '<meta property="og:site_name"   content="' . esc_attr(get_bloginfo('name')) . '" />' . "\n";
+    if ($og_image) {
+        echo '<meta property="og:image" content="' . esc_url($og_image) . '" />' . "\n";
+    }
+    echo '<meta name="description"        content="' . esc_attr(wp_trim_words($description, 30)) . '" />' . "\n";
+}
+add_action('wp_head', 'gastro_starter_event_open_graph', 5);
 
 /*
  * Section pour la gestion de la page d'accueil dynamique
@@ -1033,46 +928,46 @@ add_action('wp_enqueue_scripts', 'le_margo_scripts');
  */
 
 // 1. Création de la page d'administration
-function le_margo_homepage_settings_menu() {
+function gastro_starter_homepage_settings_menu() {
     add_theme_page(
         'Réglages de la page d\'accueil', // Titre de la page
         'Page d\'accueil',               // Titre du menu
         'manage_options',                 // Capacité requise
-        'le-margo-homepage-settings',     // Slug du menu
-        'le_margo_homepage_settings_page_html' // Fonction de callback pour le contenu
+        'gastro-starter-homepage-settings',     // Slug du menu
+        'gastro_starter_homepage_settings_page_html' // Fonction de callback pour le contenu
     );
 }
-add_action('admin_menu', 'le_margo_homepage_settings_menu');
+add_action('admin_menu', 'gastro_starter_homepage_settings_menu');
 
 // 2. Contenu HTML de la page d'administration
-function le_margo_homepage_settings_page_html() {
+function gastro_starter_homepage_settings_page_html() {
     // Vérifier les permissions
     if (!current_user_can('manage_options')) {
         return;
     }
 
     // Gérer la sauvegarde des données
-    if (isset($_POST['le_margo_gallery_nonce']) && wp_verify_nonce($_POST['le_margo_gallery_nonce'], 'le_margo_gallery_save')) {
+    if (isset($_POST['gastro_starter_gallery_nonce']) && wp_verify_nonce($_POST['gastro_starter_gallery_nonce'], 'gastro_starter_gallery_save')) {
         if (isset($_POST['gallery_images'])) {
             $gallery_data = json_decode(stripslashes($_POST['gallery_images']), true);
-            update_option('le_margo_homepage_gallery', $gallery_data);
+            update_option('gastro_starter_homepage_gallery', $gallery_data);
         } else {
             // Si aucune image n'est envoyée, on supprime l'option
-            delete_option('le_margo_homepage_gallery');
+            delete_option('gastro_starter_homepage_gallery');
         }
         echo '<div class="notice notice-success is-dismissible"><p>Galerie mise à jour !</p></div>';
     }
 
     // Récupérer les données existantes
-    $gallery_data = get_option('le_margo_homepage_gallery', []);
+    $gallery_data = get_option('gastro_starter_homepage_gallery', []);
     ?>
-    <div class="wrap le-margo-gallery-admin">
+    <div class="wrap gastro-starter-gallery-admin">
         <h1><?php echo esc_html(get_admin_page_title()); ?></h1>
         <p>Gérez ici les images de la galerie de votre page d'accueil. Ajoutez, supprimez, réorganisez et définissez la forme de chaque image.</p>
         
-        <form id="le-margo-gallery-form" method="post" action="">
+        <form id="gastro-starter-gallery-form" method="post" action="">
             <input type="hidden" name="gallery_images" id="gallery_images_data" value="<?php echo esc_attr(json_encode($gallery_data)); ?>">
-            <?php wp_nonce_field('le_margo_gallery_save', 'le_margo_gallery_nonce'); ?>
+            <?php wp_nonce_field('gastro_starter_gallery_save', 'gastro_starter_gallery_nonce'); ?>
 
             <div id="gallery-preview-container">
                 <?php foreach ($gallery_data as $image) : ?>
@@ -1100,8 +995,8 @@ function le_margo_homepage_settings_page_html() {
 }
 
 // 3. Enqueue des scripts et styles pour la page d'admin
-function le_margo_homepage_admin_assets($hook) {
-    if ($hook != 'appearance_page_le-margo-homepage-settings') {
+function gastro_starter_homepage_admin_assets($hook) {
+    if ($hook != 'appearance_page_gastro-starter-homepage-settings') {
         return;
     }
 
@@ -1109,41 +1004,41 @@ function le_margo_homepage_admin_assets($hook) {
     wp_enqueue_media(); // Important pour le gestionnaire de médias
     wp_enqueue_script('jquery-ui-sortable');
     wp_enqueue_script(
-        'le-margo-homepage-admin-js',
+        'gastro-starter-homepage-admin-js',
         get_template_directory_uri() . '/assets/js/homepage-admin.js',
         ['jquery', 'jquery-ui-sortable'],
-        _LE_MARGO_VERSION,
+        _GASTRO_STARTER_VERSION,
         true
     );
 
     // Styles
     wp_enqueue_style(
-        'le-margo-homepage-admin-css',
+        'gastro-starter-homepage-admin-css',
         get_template_directory_uri() . '/assets/css/homepage-admin.css',
         [],
-        _LE_MARGO_VERSION
+        _GASTRO_STARTER_VERSION
     );
 }
-add_action('admin_enqueue_scripts', 'le_margo_homepage_admin_assets');
+add_action('admin_enqueue_scripts', 'gastro_starter_homepage_admin_assets');
 
 // 4. Autoriser le téléversement des images WebP
-function le_margo_add_webp_support($mimes) {
+function gastro_starter_add_webp_support($mimes) {
     $mimes['webp'] = 'image/webp';
     return $mimes;
 }
-add_filter('upload_mimes', 'le_margo_add_webp_support');
+add_filter('upload_mimes', 'gastro_starter_add_webp_support');
 
 // 5. Augmenter la compression des images pour de meilleures performances
-function le_margo_image_compression_quality($quality) {
+function gastro_starter_image_compression_quality($quality) {
     return 75; // 75% de qualité. La valeur par défaut est 82.
 }
-add_filter('jpeg_quality', 'le_margo_image_compression_quality');
+add_filter('jpeg_quality', 'gastro_starter_image_compression_quality');
 
 /**
  * @param string $error_code Code d'erreur
  * @param string $log_message Message d'erreur à logger
  */
-function le_margo_redirect_with_error($error_code, $log_message) {
+function gastro_starter_redirect_with_error($error_code, $log_message) {
     // Log de l'erreur pour le débogage
     error_log("Erreur de réservation ($error_code): $log_message");
 
@@ -1159,3 +1054,33 @@ function le_margo_redirect_with_error($error_code, $log_message) {
     wp_safe_redirect($redirect_url);
     exit;
 }
+
+/**
+ * Ajouter les headers de sécurité
+ * TEMPORAIREMENT DÉSACTIVÉ POUR TESTER GA4
+ */
+function gastro_starter_security_headers() {
+    // Fonction désactivée temporairement pour debug GA4
+    return;
+    
+    if (!is_admin()) {
+        // Protection contre le clickjacking
+        header('X-Frame-Options: SAMEORIGIN');
+        
+        // Protection XSS
+        header('X-XSS-Protection: 1; mode=block');
+        
+        // Protection contre le MIME-type sniffing
+        header('X-Content-Type-Options: nosniff');
+        
+        // Politique de sécurité du contenu - TRÈS PERMISSIVE pour GA4
+        header("Content-Security-Policy: default-src 'self' 'unsafe-inline' 'unsafe-eval' data: https:; connect-src 'self' https: wss: data: blob:; img-src 'self' data: https: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; style-src 'self' 'unsafe-inline' https:;");
+        
+        // Référer Policy
+        header('Referrer-Policy: strict-origin-when-cross-origin');
+        
+        // Permissions Policy
+        header('Permissions-Policy: geolocation=(), microphone=(), camera=()');
+    }
+}
+add_action('send_headers', 'gastro_starter_security_headers');

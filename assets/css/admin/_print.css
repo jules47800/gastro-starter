@@ -1,0 +1,57 @@
+@media print {
+  .gastro-starter-admin-shell {
+    & #wpbody-content {
+      background: #fff;
+
+      &::before {
+        display: none;
+      }
+    }
+
+    & .gastro-starter-glass-card,
+    & .gastro-starter-admin-card,
+    & .stat-box,
+    & .kpi-box,
+    & .mailing-card,
+    & .gastro-starter-quick-upload,
+    & .filter-bar,
+    & .filter-form,
+    & .gastro-starter-bulk-actions {
+      background: #fff;
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+      box-shadow: none;
+      border: 1px solid #ddd;
+    }
+
+    & .reservations-table tbody tr {
+      background: #fff;
+      backdrop-filter: none;
+
+      &:hover {
+        transform: none;
+        box-shadow: none;
+      }
+
+      &.today-reservation {
+        background: #f0fff4;
+      }
+    }
+
+    & .action-buttons,
+    & .filter-actions,
+    & .gastro-starter-modal,
+    & .gastro-starter-panel,
+    & .gastro-starter-panel-overlay,
+    & .customer-panel,
+    & .customer-panel-overlay,
+    & #quick-reservation {
+      display: none;
+    }
+
+    & .status-badge {
+      border: 1px solid currentColor;
+      background: transparent;
+    }
+  }
+}

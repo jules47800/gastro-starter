@@ -1,0 +1,185 @@
+/* Prize Wheel CSS */
+:root {
+    --primary-color: #d35400; /* Orange/Rust typical for restaurants */
+    --secondary-color: #2c3e50;
+    --bg-color: #fdfbf7;
+    --text-color: #333;
+    --white: #ffffff;
+}
+
+body.prize-wheel-page {
+    margin: 0;
+    padding: 0;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+}
+
+.wheel-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    max-width: 500px;
+    margin: 0 auto;
+    width: 100%;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+.wheel-header {
+    margin-bottom: 30px;
+}
+
+.wheel-logo {
+    max-height: 80px;
+    width: auto;
+}
+
+.wheel-step {
+    display: none;
+    width: 100%;
+    animation: fadeIn 0.5s ease;
+}
+
+.wheel-step.active {
+    display: block !important;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+h2 {
+    font-size: 1.8rem;
+    margin-bottom: 15px;
+    color: var(--secondary-color);
+}
+
+p {
+    margin-bottom: 25px;
+    line-height: 1.5;
+    color: #555;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+input[type="email"] {
+    width: 100%;
+    padding: 15px;
+    border: 2px solid #ddd;
+    border-radius: 50px;
+    font-size: 1.1rem;
+    text-align: center;
+    box-sizing: border-box;
+    transition: border-color 0.3s;
+}
+
+input[type="email"]:focus {
+    border-color: var(--primary-color);
+    outline: none;
+}
+
+.btn-action {
+    background-color: var(--primary-color);
+    color: var(--white);
+    border: none;
+    padding: 15px 30px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    border-radius: 50px;
+    cursor: pointer;
+    width: 100%;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    text-decoration: none;
+    display: inline-block;
+    box-sizing: border-box;
+}
+
+.btn-action:active {
+    transform: scale(0.98);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.btn-google {
+    background-color: #4285F4;
+}
+
+.small-text {
+    font-size: 0.85rem;
+    color: #888;
+    margin-top: 15px;
+}
+
+/* Wheel Specifics */
+.canvas-wrapper {
+    position: relative;
+    margin: 0 auto 30px;
+    width: 300px; /* Mobile optimized default */
+    height: 300px;
+}
+
+#canvas {
+    width: 100%;
+    height: 100%;
+}
+
+.pointer-arrow {
+    position: absolute;
+    top: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0; 
+    height: 0; 
+    border-left: 20px solid transparent;
+    border-right: 20px solid transparent;
+    border-top: 40px solid var(--secondary-color);
+    z-index: 10;
+    filter: drop-shadow(0 2px 2px rgba(0,0,0,0.3));
+}
+
+#spin-btn {
+    background: linear-gradient(45deg, #f1c40f, #f39c12);
+    color: #fff;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+}
+
+/* Result */
+#result-message {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+}
+
+/* Messages */
+.wheel-message {
+    margin-top: 20px;
+    padding: 10px;
+    border-radius: 8px;
+    display: none;
+}
+.wheel-message.error {
+    background-color: #ffebee;
+    color: #c62828;
+    display: block;
+}
+
+/* Responsive adjustments */
+@media (max-width: 360px) {
+    .canvas-wrapper {
+        width: 260px;
+        height: 260px;
+    }
+    h2 { font-size: 1.5rem; }
+}

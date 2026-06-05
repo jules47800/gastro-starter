@@ -1,7 +1,7 @@
 <?php
 /**
  * Header moderne - Design épuré inspiré de Chéri Bibi
- * @package Le Margo
+ * @package Gastro_Starter
  */
 ?>
 <!DOCTYPE html>
@@ -16,17 +16,37 @@
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
 	<!-- Balises meta essentielles -->
-	<meta name="author" content="Le Margo">
-	
-	<!-- Open Graph -->
-	<meta property="og:type" content="website">
-	<meta property="og:url" content="<?php echo home_url(); ?>">
-	<meta property="og:site_name" content="<?php bloginfo('name'); ?>">
+	<meta name="author" content="<?php echo esc_attr(get_bloginfo('name')); ?>">
 
 	<!-- Favicon -->
 	<link rel="icon" type="image/x-icon" href="<?php echo get_template_directory_uri(); ?>/assets/images/favicon.ico">
 
+	<?php
+	$fb_pixel_id = get_theme_mod('gastro_starter_facebook_pixel_id', '');
+	if ($fb_pixel_id) : ?>
+	<!-- Meta Pixel Code -->
+	<script>
+	!function(f,b,e,v,n,t,s)
+	{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+	n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+	if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+	n.queue=[];t=b.createElement(e);t.async=!0;
+	t.src=v;s=b.getElementsByTagName(e)[0];
+	s.parentNode.insertBefore(t,s)}(window, document,'script',
+	'https://connect.facebook.net/en_US/fbevents.js');
+	fbq('init', '<?php echo esc_js($fb_pixel_id); ?>');
+	fbq('track', 'PageView');
+	</script>
+	<noscript><img height="1" width="1" style="display:none"
+	src="https://www.facebook.com/tr?id=<?php echo esc_attr($fb_pixel_id); ?>&ev=PageView&noscript=1"
+	/></noscript>
+	<!-- End Meta Pixel Code -->
+	<?php endif; ?>
+
+
+
 	<?php wp_head(); ?>
+	
 	
 	<style>
 		/* Header ultra-minimaliste */
@@ -132,6 +152,65 @@
 			background: rgba(255, 255, 255, 0.98);
 			box-shadow: 0 1px 20px rgba(0, 0, 0, 0.05);
 		}
+        .language-switcher {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-right: var(--spacing-lg);
+        }
+        .language-switcher a {
+            color: var(--color-text-light);
+            text-decoration: none;
+        }
+        .language-switcher .current-lang {
+            font-weight: var(--font-weight-bold);
+            color: var(--color-text);
+        }
+        .language-switcher .lang-separator {
+            display: none;
+        }
+
+        .flag-icon {
+            width: 24px;
+            height: 16px;
+            display: inline-block;
+            vertical-align: middle;
+            transition: var(--transition);
+            border-radius: 2px;
+            box-shadow: 0 0 2px rgba(0,0,0,0.15);
+        }
+
+        .language-switcher a .flag-icon {
+            filter: grayscale(1);
+            opacity: 0.6;
+        }
+
+        .language-switcher a:hover .flag-icon {
+            filter: grayscale(0);
+            opacity: 1;
+        }
+
+        .current-lang .flag-icon {
+            filter: grayscale(0);
+        }
+
+        .header-right-group {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-lg);
+        }
+
+        @media (max-width: 768px) {
+            .header-right-group {
+                gap: var(--spacing-md);
+            }
+            .main-navigation {
+                display: none;
+            }
+            .language-switcher {
+                margin-right: 32px;
+            }
+        }
 	</style>
 </head>
 
@@ -156,19 +235,27 @@
 					?>
 				</div>
 
-				<nav class="main-navigation" role="navigation">
-					<ul id="primary-menu">
-						<li><a href="<?php echo home_url('/reserver/'); ?>">Réservation</a></li>
-						<li><a href="https://instagram.com/lemargoeymet" target="_blank">Instagram</a></li>
-						<li><a href="mailto:contact@lemargo.fr">Mail</a></li>
-					</ul>
-				</nav>
+                <div class="header-right-group">
+                    <?php if (function_exists('the_language_switcher')) {
+                        the_language_switcher();
+                    } ?>
 
-				<button class="mobile-menu-toggle" aria-label="Menu" aria-expanded="false">
-					<span class="hamburger-line"></span>
-					<span class="hamburger-line"></span>
-					<span class="hamburger-line"></span>
-				</button>
+                    <nav class="main-navigation" role="navigation">
+                        <ul id="primary-menu">
+                            <li><a href="<?php echo home_url('/agenda/'); ?>"><?php _e('Agenda', 'gastro-starter'); ?></a></li>
+                            <li><a href="<?php echo home_url('/reserver/'); ?>"><?php _e('Réservation', 'gastro-starter'); ?></a></li>
+                            <li><a href="<?php echo home_url('/bon-achat/'); ?>"><?php _e('Bons-cadeaux', 'gastro-starter'); ?></a></li>
+                            <li><a href="<?php echo esc_url(get_theme_mod('gastro_starter_instagram_url', 'https://instagram.com/mon-restaurant')); ?>" target="_blank" rel="noopener noreferrer"><?php _e('Instagram', 'gastro-starter'); ?></a></li>
+                            <li><a href="mailto:<?php echo esc_attr(get_theme_mod('gastro_starter_restaurant_email', 'contact@mon-restaurant.fr')); ?>"><?php _e('Mail', 'gastro-starter'); ?></a></li>
+                        </ul>
+                    </nav>
+
+                    <button class="mobile-menu-toggle" aria-label="<?php _e('Menu', 'gastro-starter'); ?>" aria-expanded="false">
+                        <span class="hamburger-line"></span>
+                        <span class="hamburger-line"></span>
+                        <span class="hamburger-line"></span>
+                    </button>
+                </div>
 			</div>
 		</div>
 	</header>

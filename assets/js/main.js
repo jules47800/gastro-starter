@@ -1,5 +1,5 @@
 /**
- * Script principal pour le thème Le Margo
+ * Script principal pour le thème Gastro Starter
  */
 
 (function($) {

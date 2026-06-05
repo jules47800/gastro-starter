@@ -1,0 +1,302 @@
+/* Landing Page Base - Style Gastro Starter */
+.voucher-page { display:flex; justify-content:center; padding: 24px 16px }
+.voucher-container { width:100%; max-width: 800px; display:grid; gap:20px }
+.voucher-hero { display:grid; gap:8px }
+.voucher-hero h1 { margin:0 }
+
+/* Form Card - Style minimaliste restaurant */
+.voucher-card { 
+    background: var(--color-white);
+    border: 1px solid var(--color-beige-dark);
+    padding: 40px;
+    transition: all 0.2s ease;
+}
+
+.voucher-card:hover {
+    border-color: var(--color-warm-gray);
+}
+
+/* Form Styles */
+.gastro-starter-voucher-form { 
+    display: grid;
+    gap: 24px;
+    max-width: 100%;
+}
+
+.gastro-starter-voucher-form .grid { 
+    display: grid;
+    gap: 20px;
+    grid-template-columns: 1fr 1fr;
+}
+
+.gastro-starter-voucher-form .field { 
+    display: grid;
+    gap: 8px;
+}
+
+.gastro-starter-voucher-form label { 
+    font-weight: 400;
+    font-size: 12px;
+    color: var(--color-warm-gray);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.gastro-starter-voucher-form label .optional-badge {
+    display: inline-block;
+    background: var(--color-beige-dark);
+    color: var(--color-warm-gray);
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 10px;
+    margin-left: 6px;
+    font-weight: 300;
+    text-transform: none;
+    letter-spacing: 0.5px;
+}
+
+.gastro-starter-voucher-form input[type="text"],
+.gastro-starter-voucher-form input[type="email"],
+.gastro-starter-voucher-form input[type="number"],
+.gastro-starter-voucher-form select,
+.gastro-starter-voucher-form textarea { 
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid var(--color-beige-dark);
+    background: var(--color-white);
+    font-size: 15px;
+    font-family: var(--font-primary);
+    color: var(--color-primary);
+    transition: all 0.2s ease;
+    font-weight: 300;
+}
+
+.gastro-starter-voucher-form small.help {
+    font-size: 12px;
+    color: var(--color-warm-gray);
+    font-style: italic;
+    margin-top: -4px;
+    font-weight: 300;
+}
+
+.gastro-starter-voucher-form small.recipient-help {
+    display: block;
+    margin-top: -16px;
+    margin-bottom: 8px;
+}
+
+.gastro-starter-voucher-form input:hover,
+.gastro-starter-voucher-form select:hover,
+.gastro-starter-voucher-form textarea:hover {
+    border-color: var(--color-warm-gray);
+}
+
+.gastro-starter-voucher-form input:focus,
+.gastro-starter-voucher-form select:focus,
+.gastro-starter-voucher-form textarea:focus { 
+    outline: none;
+    border-color: var(--color-primary);
+    background: var(--color-white);
+}
+
+/* Select Custom Styling */
+.voucher-amount-select { 
+    font-size: 15px;
+    font-weight: 400;
+    cursor: pointer;
+    appearance: none;
+    background-image: url('data:image/svg+xml;charset=UTF-8,%3csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%231a1a1a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"%3e%3cpolyline points="6 9 12 15 18 9"%3e%3c/polyline%3e%3c/svg%3e');
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    background-size: 20px;
+    padding-right: 45px !important;
+}
+
+.amount-input-row { 
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* Buttons - Style restaurant sobre */
+.button.primary { 
+    background: var(--color-primary);
+    color: var(--color-white);
+    border: none;
+    padding: 16px 32px;
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    width: 100%;
+    text-align: center;
+}
+
+.button.primary:hover { 
+    background: var(--color-dark-brown);
+}
+
+.button.primary:active { 
+    transform: translateY(1px);
+}
+
+.button.primary:focus-visible { 
+    outline: 1px solid var(--color-primary);
+    outline-offset: 2px;
+}
+
+.button.primary[disabled],
+.button.primary:disabled { 
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none !important;
+}
+
+/* Actions Section */
+.gastro-starter-voucher-form .actions { 
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 10px;
+}
+
+/* Summary */
+.voucher-summary { 
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+    background: var(--color-cream);
+    border: 1px solid var(--color-beige-dark);
+    margin-top: 10px;
+}
+
+.voucher-summary span {
+    font-size: 12px;
+    font-weight: 400;
+    color: var(--color-warm-gray);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.voucher-summary .total-amount { 
+    font-size: 24px;
+    font-weight: 300;
+    color: var(--color-primary);
+    letter-spacing: 0;
+}
+
+/* Messages */
+.voucher-error { 
+    background: #fef2f2;
+    color: #991b1b;
+    padding: 14px 18px;
+    border-left: 2px solid #dc2626;
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.voucher-warning { 
+    background: #fffbeb;
+    color: #92400e;
+    padding: 14px 18px;
+    border-left: 2px solid #f59e0b;
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.voucher-hint {
+    text-align: center;
+    font-size: 13px;
+    color: var(--color-warm-gray);
+    margin: 0;
+    font-weight: 300;
+}
+
+.help { 
+    color: var(--color-warm-gray);
+    font-size: 13px;
+    font-style: italic;
+    font-weight: 300;
+}
+
+/* Textarea */
+.gastro-starter-voucher-form textarea {
+    resize: vertical;
+    min-height: 100px;
+    font-family: inherit;
+    line-height: 1.6;
+}
+
+/* Input placeholders */
+.gastro-starter-voucher-form input::placeholder,
+.gastro-starter-voucher-form textarea::placeholder {
+    color: var(--color-warm-gray);
+    opacity: 0.6;
+}
+
+/* Field focus effect */
+.field-focused label {
+    color: var(--color-primary);
+}
+
+/* Error field */
+.error-field {
+    border-color: #dc2626 !important;
+    background: #fef2f2 !important;
+}
+
+/* Character counter */
+.char-counter {
+    font-size: 11px;
+    color: var(--color-warm-gray);
+    text-align: right;
+    margin-top: 4px;
+    letter-spacing: 0.5px;
+}
+
+.char-counter.limit-reached {
+    color: #dc2626;
+    font-weight: 400;
+}
+
+/* Select selected state */
+.voucher-amount-select.selected {
+    border-color: var(--color-primary);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .gastro-starter-voucher-form .grid { 
+        grid-template-columns: 1fr;
+    }
+    
+    .voucher-card {
+        padding: 24px;
+    }
+    
+    .voucher-summary {
+        padding: 14px 18px;
+    }
+    
+    .voucher-summary .total-amount {
+        font-size: 20px;
+    }
+}
+
+/* Loading state animation */
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.6;
+    }
+}
+
+.button.primary[disabled] {
+    animation: pulse 1.5s ease-in-out infinite;
+}
+

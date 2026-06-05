@@ -1,4 +1,4 @@
-.le-margo-gallery-admin #gallery-preview-container {
+.gastro-starter-gallery-admin #gallery-preview-container {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
     gap: 15px;
@@ -9,7 +9,7 @@
     border-radius: 4px;
 }
 
-.le-margo-gallery-admin .gallery-item-preview {
+.gastro-starter-gallery-admin .gallery-item-preview {
     position: relative;
     background-color: #fff;
     border: 1px solid #ccc;
@@ -22,7 +22,7 @@
     cursor: move;
 }
 
-.le-margo-gallery-admin .gallery-item-preview img {
+.gastro-starter-gallery-admin .gallery-item-preview img {
     max-width: 100%;
     max-height: 100%;
     object-fit: cover;
@@ -30,7 +30,7 @@
     height: 100%;
 }
 
-.le-margo-gallery-admin .gallery-item-preview .item-controls {
+.gastro-starter-gallery-admin .gallery-item-preview .item-controls {
     position: absolute;
     bottom: 0;
     left: 0;
@@ -44,17 +44,17 @@
     transition: transform 0.2s ease-in-out;
 }
 
-.le-margo-gallery-admin .gallery-item-preview:hover .item-controls {
+.gastro-starter-gallery-admin .gallery-item-preview:hover .item-controls {
     transform: translateY(0);
 }
 
-.le-margo-gallery-admin .item-controls .image-shape {
+.gastro-starter-gallery-admin .item-controls .image-shape {
     max-width: 70%;
     height: 28px;
     font-size: 12px;
 }
 
-.le-margo-gallery-admin .item-controls .remove-image {
+.gastro-starter-gallery-admin .item-controls .remove-image {
     color: #fff;
     background-color: #dc3232;
     border: none;
@@ -67,6 +67,6 @@
     cursor: pointer;
 }
 
-.le-margo-gallery-admin .item-controls .remove-image:hover {
+.gastro-starter-gallery-admin .item-controls .remove-image:hover {
     background-color: #a02323;
 } 

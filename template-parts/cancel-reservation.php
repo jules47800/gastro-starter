@@ -11,7 +11,7 @@ $nonce = isset($_GET['nonce']) ? sanitize_text_field($_GET['nonce']) : '';
 
 // Traiter l'annulation si le formulaire est soumis
 if (isset($_POST['confirm_cancel']) && check_admin_referer('cancel_reservation_' . $reservation_id)) {
-    $result = le_margo_cancel_reservation($reservation_id, $nonce);
+    $result = gastro_starter_cancel_reservation($reservation_id, $nonce);
     
     if (is_wp_error($result)) {
         $error_message = $result->get_error_message();
@@ -40,34 +40,34 @@ $reservation = $wpdb->get_row($wpdb->prepare(
             <?php endif; ?>
             
             <?php if ($reservation) : ?>
-                <h1><?php _e('Annuler votre réservation', 'le-margo'); ?></h1>
+                <h1><?php _e('Annuler votre réservation', 'gastro-starter'); ?></h1>
                 
                 <div class="reservation-details">
-                    <p><?php _e('Vous êtes sur le point d\'annuler la réservation suivante :', 'le-margo'); ?></p>
+                    <p><?php _e('Vous êtes sur le point d\'annuler la réservation suivante :', 'gastro-starter'); ?></p>
                     
                     <ul>
-                        <li><strong><?php _e('Date :', 'le-margo'); ?></strong> <?php echo date_i18n('d/m/Y', strtotime($reservation->reservation_date)); ?></li>
-                        <li><strong><?php _e('Heure :', 'le-margo'); ?></strong> <?php echo esc_html($reservation->reservation_time); ?></li>
-                        <li><strong><?php _e('Nombre de personnes :', 'le-margo'); ?></strong> <?php echo intval($reservation->people); ?></li>
+                        <li><strong><?php _e('Date :', 'gastro-starter'); ?></strong> <?php echo date_i18n('d/m/Y', strtotime($reservation->reservation_date)); ?></li>
+                        <li><strong><?php _e('Heure :', 'gastro-starter'); ?></strong> <?php echo esc_html($reservation->reservation_time); ?></li>
+                        <li><strong><?php _e('Nombre de personnes :', 'gastro-starter'); ?></strong> <?php echo intval($reservation->people); ?></li>
                     </ul>
                     
                     <form method="post" class="cancel-form">
                         <?php wp_nonce_field('cancel_reservation_' . $reservation_id); ?>
                         <input type="hidden" name="confirm_cancel" value="1">
-                        <button type="submit" class="button cancel-button"><?php _e('Confirmer l\'annulation', 'le-margo'); ?></button>
-                        <a href="<?php echo home_url(); ?>" class="button back-button"><?php _e('Retour', 'le-margo'); ?></a>
+                        <button type="submit" class="button cancel-button"><?php _e('Confirmer l\'annulation', 'gastro-starter'); ?></button>
+                        <a href="<?php echo home_url(); ?>" class="button back-button"><?php _e('Retour', 'gastro-starter'); ?></a>
                     </form>
                 </div>
             <?php else : ?>
                 <div class="error-message">
-                    <?php _e('Réservation non trouvée.', 'le-margo'); ?>
+                    <?php _e('Réservation non trouvée.', 'gastro-starter'); ?>
                 </div>
             <?php endif; ?>
         <?php else : ?>
             <div class="success-message">
-                <h1><?php _e('Réservation annulée', 'le-margo'); ?></h1>
-                <p><?php _e('Votre réservation a bien été annulée. Un email de confirmation vous a été envoyé.', 'le-margo'); ?></p>
-                <a href="<?php echo home_url(); ?>" class="button"><?php _e('Retour à l\'accueil', 'le-margo'); ?></a>
+                <h1><?php _e('Réservation annulée', 'gastro-starter'); ?></h1>
+                <p><?php _e('Votre réservation a bien été annulée. Un email de confirmation vous a été envoyé.', 'gastro-starter'); ?></p>
+                <a href="<?php echo home_url(); ?>" class="button"><?php _e('Retour à l\'accueil', 'gastro-starter'); ?></a>
             </div>
         <?php endif; ?>
     </div>

@@ -2,7 +2,7 @@
 /**
  * Template pour l'affichage des témoignages - Version modernisée
  *
- * @package Le Margo
+ * @package Gastro_Starter
  */
 
 // Récupération des métadonnées
@@ -19,8 +19,8 @@ $helpful_count = get_post_meta(get_the_ID(), 'helpful_count', true);
 $language = get_post_meta(get_the_ID(), 'review_language', true);
 
 // Permettre aux développeurs de filtrer les métadonnées
-$rating = apply_filters('le_margo_testimonial_rating', $rating, get_the_ID());
-$author = apply_filters('le_margo_testimonial_author', $author, get_the_ID());
+$rating = apply_filters('gastro_starter_testimonial_rating', $rating, get_the_ID());
+$author = apply_filters('gastro_starter_testimonial_author', $author, get_the_ID());
 
 // Classes CSS personnalisées
 $testimonial_class = 'testimonial-item';
@@ -101,7 +101,7 @@ $source_config = isset($sources_config[$source]) ? $sources_config[$source] : nu
 
 <article id="post-<?php the_ID(); ?>" <?php post_class($testimonial_class); ?> itemscope itemtype="https://schema.org/Review">
     
-    <?php do_action('le_margo_testimonial_before_content'); ?>
+    <?php do_action('gastro_starter_testimonial_before_content'); ?>
     
     <div class="testimonial-card">
         <!-- En-tête du témoignage -->
@@ -122,7 +122,7 @@ $source_config = isset($sources_config[$source]) ? $sources_config[$source] : nu
                 <?php elseif ($source === 'direct') : ?>
                     <div class="source-badge source-direct">
                         <span class="dashicons dashicons-edit"></span>
-                        <span class="source-name"><?php _e('Livre d\'or', 'le-margo'); ?></span>
+                        <span class="source-name"><?php _e('Livre d\'or', 'gastro-starter'); ?></span>
                     </div>
                 <?php elseif ($source === 'autre' || $source) : ?>
                     <div class="source-badge source-other">
@@ -132,16 +132,16 @@ $source_config = isset($sources_config[$source]) ? $sources_config[$source] : nu
                 <?php endif; ?>
                 
                 <?php if ($verified) : ?>
-                    <span class="verified-badge" title="<?php _e('Avis vérifié', 'le-margo'); ?>">
+                    <span class="verified-badge" title="<?php _e('Avis vérifié', 'gastro-starter'); ?>">
                         <span class="dashicons dashicons-yes-alt"></span>
-                        <?php _e('Vérifié', 'le-margo'); ?>
+                        <?php _e('Vérifié', 'gastro-starter'); ?>
                     </span>
                 <?php endif; ?>
                 
                 <?php if ($featured) : ?>
-                    <span class="featured-badge" title="<?php _e('Avis en vedette', 'le-margo'); ?>">
+                    <span class="featured-badge" title="<?php _e('Avis en vedette', 'gastro-starter'); ?>">
                         <span class="dashicons dashicons-star-filled"></span>
-                        <?php _e('Vedette', 'le-margo'); ?>
+                        <?php _e('Vedette', 'gastro-starter'); ?>
                     </span>
                 <?php endif; ?>
             </div>
@@ -151,7 +151,7 @@ $source_config = isset($sources_config[$source]) ? $sources_config[$source] : nu
                     <meta itemprop="ratingValue" content="<?php echo esc_attr($rating); ?>">
                     <meta itemprop="bestRating" content="5">
                     <div class="stars-container">
-                        <span class="stars" aria-label="<?php echo esc_attr(sprintf(__('Note de %s sur 5', 'le-margo'), $rating)); ?>">
+                        <span class="stars" aria-label="<?php echo esc_attr(sprintf(__('Note de %s sur 5', 'gastro-starter'), $rating)); ?>">
                             <?php
                             $rating = min(5, max(0, intval($rating)));
                             for ($i = 1; $i <= 5; $i++) {
@@ -197,7 +197,7 @@ $source_config = isset($sources_config[$source]) ? $sources_config[$source] : nu
                         <?php if ($formatted_visit_date) : ?>
                             <span class="visit-date">
                                 <span class="dashicons dashicons-calendar-alt"></span>
-                                <?php echo esc_html(sprintf(__('Visité en %s', 'le-margo'), $formatted_visit_date)); ?>
+                                <?php echo esc_html(sprintf(__('Visité en %s', 'gastro-starter'), $formatted_visit_date)); ?>
                             </span>
                         <?php endif; ?>
                         
@@ -214,21 +214,21 @@ $source_config = isset($sources_config[$source]) ? $sources_config[$source] : nu
                 <?php if ($helpful_count && $helpful_count > 0) : ?>
                     <span class="helpful-count">
                         <span class="dashicons dashicons-thumbs-up"></span>
-                        <?php echo esc_html(sprintf(_n('%d personne trouve cet avis utile', '%d personnes trouvent cet avis utile', $helpful_count, 'le-margo'), $helpful_count)); ?>
+                        <?php echo esc_html(sprintf(_n('%d personne trouve cet avis utile', '%d personnes trouvent cet avis utile', $helpful_count, 'gastro-starter'), $helpful_count)); ?>
                     </span>
                 <?php endif; ?>
                 
                 <?php if ($source_url) : ?>
                     <a href="<?php echo esc_url($source_url); ?>" target="_blank" rel="noopener" class="view-original-link">
                         <span class="dashicons dashicons-external"></span>
-                        <?php _e('Voir l\'avis original', 'le-margo'); ?>
+                        <?php _e('Voir l\'avis original', 'gastro-starter'); ?>
                     </a>
                 <?php endif; ?>
             </div>
         </footer>
     </div>
     
-    <?php do_action('le_margo_testimonial_after_content'); ?>
+    <?php do_action('gastro_starter_testimonial_after_content'); ?>
     
 </article>
 

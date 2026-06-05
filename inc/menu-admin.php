@@ -1,9 +1,9 @@
 <?php
 /**
- * Interface d'administration des menus pour Le Margo
+ * Interface d'administration des menus pour Mon Restaurant
  * Gestion avancée avec glisser-déposer et réorganisation
  *
- * @package Le_Margo
+ * @package Gastro_Starter
  */
 
 if (!defined('ABSPATH')) {
@@ -13,22 +13,22 @@ if (!defined('ABSPATH')) {
 /**
  * Ajouter le menu d'administration des menus
  */
-function le_margo_add_menu_admin() {
+function gastro_starter_add_menu_admin() {
     add_submenu_page(
         'edit.php?post_type=daily_menu',
-        __('Gestionnaire de Menus', 'le-margo'),
-        __('Gestionnaire', 'le-margo'),
+        __('Gestionnaire de Menus', 'gastro-starter'),
+        __('Gestionnaire', 'gastro-starter'),
         'manage_options',
-        'le-margo-menu-manager',
-        'le_margo_menu_manager_page'
+        'gastro-starter-menu-manager',
+        'gastro_starter_menu_manager_page'
     );
 }
-add_action('admin_menu', 'le_margo_add_menu_admin');
+add_action('admin_menu', 'gastro_starter_add_menu_admin');
 
 /**
  * Page de gestion des menus avec glisser-déposer
  */
-function le_margo_menu_manager_page() {
+function gastro_starter_menu_manager_page() {
     // Traitement de la mise à jour de l'ordre
     if (isset($_POST['update_menu_order']) && check_admin_referer('update_menu_order', 'menu_order_nonce')) {
         $menu_order = json_decode(stripslashes($_POST['menu_order']), true);
@@ -39,7 +39,7 @@ function le_margo_menu_manager_page() {
                     'menu_order' => $position
                 ));
             }
-            add_settings_error('le_margo_menus', 'order_updated', __('Ordre des menus mis à jour avec succès.', 'le-margo'), 'success');
+            add_settings_error('gastro_starter_menus', 'order_updated', __('Ordre des menus mis à jour avec succès.', 'gastro-starter'), 'success');
         }
     }
 
@@ -55,8 +55,8 @@ function le_margo_menu_manager_page() {
         }
         
         if ($deleted_count > 0) {
-            add_settings_error('le_margo_menus', 'menus_deleted', 
-                sprintf(_n('%d menu supprimé.', '%d menus supprimés.', $deleted_count, 'le-margo'), $deleted_count), 'success');
+            add_settings_error('gastro_starter_menus', 'menus_deleted', 
+                sprintf(_n('%d menu supprimé.', '%d menus supprimés.', $deleted_count, 'gastro-starter'), $deleted_count), 'success');
         }
     }
 
@@ -70,36 +70,36 @@ function le_margo_menu_manager_page() {
     ));
 
     // Affichage des messages
-    settings_errors('le_margo_menus');
+    settings_errors('gastro_starter_menus');
 
     wp_enqueue_media();
     wp_enqueue_script('jquery-ui-sortable');
     ?>
 
-    <div class="wrap le-margo-menu-manager">
+    <div class="wrap gastro-starter-menu-manager">
         <h1 class="wp-heading-inline">
             <span class="dashicons dashicons-media-document"></span>
-            <?php echo esc_html__('Gestionnaire de Menus', 'le-margo'); ?>
+            <?php echo esc_html__('Gestionnaire de Menus', 'gastro-starter'); ?>
         </h1>
         
         <a href="<?php echo esc_url(admin_url('post-new.php?post_type=daily_menu')); ?>" class="page-title-action">
-            <?php echo esc_html__('Ajouter un nouveau menu', 'le-margo'); ?>
+            <?php echo esc_html__('Ajouter un nouveau menu', 'gastro-starter'); ?>
         </a>
 
         <hr class="wp-header-end">
 
         <!-- Zone de téléchargement rapide -->
-        <div class="le-margo-quick-upload">
+        <div class="gastro-starter-quick-upload">
             <div class="upload-section">
-                <h2><?php echo esc_html__('Téléchargement Rapide', 'le-margo'); ?></h2>
+                <h2><?php echo esc_html__('Téléchargement Rapide', 'gastro-starter'); ?></h2>
                 <div id="quick-upload-drop-zone" class="quick-upload-zone">
                     <div class="upload-icon">
                         <span class="dashicons dashicons-cloud-upload"></span>
                     </div>
-                    <h3><?php echo esc_html__('Glissez vos fichiers ici', 'le-margo'); ?></h3>
-                    <p><?php echo esc_html__('ou cliquez pour sélectionner des fichiers', 'le-margo'); ?></p>
+                    <h3><?php echo esc_html__('Glissez vos fichiers ici', 'gastro-starter'); ?></h3>
+                    <p><?php echo esc_html__('ou cliquez pour sélectionner des fichiers', 'gastro-starter'); ?></p>
                     <p class="supported-formats">
-                        <?php echo esc_html__('Formats supportés: PDF, JPG, PNG, DOC, DOCX', 'le-margo'); ?>
+                        <?php echo esc_html__('Formats supportés: PDF, JPG, PNG, DOC, DOCX', 'gastro-starter'); ?>
                     </p>
                     <input type="file" id="quick-upload-input" multiple accept=".pdf,.jpg,.jpeg,.png,.doc,.docx">
                 </div>
@@ -113,17 +113,17 @@ function le_margo_menu_manager_page() {
         </div>
 
         <!-- Actions en lot -->
-        <div class="le-margo-bulk-actions">
+        <div class="gastro-starter-bulk-actions">
             <form method="post" id="bulk-actions-form">
                 <?php wp_nonce_field('bulk_delete_menus', 'bulk_delete_nonce'); ?>
                 <div class="bulk-actions-bar">
                     <select name="bulk_action" id="bulk-action-selector">
-                        <option value=""><?php echo esc_html__('Actions en lot', 'le-margo'); ?></option>
-                        <option value="delete"><?php echo esc_html__('Supprimer', 'le-margo'); ?></option>
-                        <option value="publish"><?php echo esc_html__('Publier', 'le-margo'); ?></option>
-                        <option value="draft"><?php echo esc_html__('Mettre en brouillon', 'le-margo'); ?></option>
+                        <option value=""><?php echo esc_html__('Actions en lot', 'gastro-starter'); ?></option>
+                        <option value="delete"><?php echo esc_html__('Supprimer', 'gastro-starter'); ?></option>
+                        <option value="publish"><?php echo esc_html__('Publier', 'gastro-starter'); ?></option>
+                        <option value="draft"><?php echo esc_html__('Mettre en brouillon', 'gastro-starter'); ?></option>
                     </select>
-                    <button type="button" id="apply-bulk-action" class="button" disabled><?php echo esc_html__('Appliquer', 'le-margo'); ?></button>
+                    <button type="button" id="apply-bulk-action" class="button" disabled><?php echo esc_html__('Appliquer', 'gastro-starter'); ?></button>
                 </div>
         </div>
 
@@ -133,14 +133,14 @@ function le_margo_menu_manager_page() {
             <input type="hidden" name="menu_order" id="menu_order_input">
             
             <div class="menu-list-header">
-                <h2><?php echo esc_html__('Vos Menus', 'le-margo'); ?></h2>
+                <h2><?php echo esc_html__('Vos Menus', 'gastro-starter'); ?></h2>
                 <div class="header-actions">
                     <label class="select-all-container">
                         <input type="checkbox" id="select-all-menus">
-                        <?php echo esc_html__('Tout sélectionner', 'le-margo'); ?>
+                        <?php echo esc_html__('Tout sélectionner', 'gastro-starter'); ?>
                     </label>
                     <button type="submit" name="update_menu_order" class="button button-primary" disabled id="save-order-btn">
-                        <?php echo esc_html__('Sauvegarder l\'ordre', 'le-margo'); ?>
+                        <?php echo esc_html__('Sauvegarder l\'ordre', 'gastro-starter'); ?>
                     </button>
                 </div>
             </div>
@@ -149,10 +149,10 @@ function le_margo_menu_manager_page() {
                 <div class="no-menus-message">
                     <div class="empty-state">
                         <span class="dashicons dashicons-media-document"></span>
-                        <h3><?php echo esc_html__('Aucun menu disponible', 'le-margo'); ?></h3>
-                        <p><?php echo esc_html__('Commencez par ajouter votre premier menu ou utilisez la zone de téléchargement rapide ci-dessus.', 'le-margo'); ?></p>
+                        <h3><?php echo esc_html__('Aucun menu disponible', 'gastro-starter'); ?></h3>
+                        <p><?php echo esc_html__('Commencez par ajouter votre premier menu ou utilisez la zone de téléchargement rapide ci-dessus.', 'gastro-starter'); ?></p>
                         <a href="<?php echo esc_url(admin_url('post-new.php?post_type=daily_menu')); ?>" class="button button-primary">
-                            <?php echo esc_html__('Ajouter un menu', 'le-margo'); ?>
+                            <?php echo esc_html__('Ajouter un menu', 'gastro-starter'); ?>
                         </a>
                     </div>
                 </div>
@@ -178,7 +178,7 @@ function le_margo_menu_manager_page() {
                         }
                         
                         $status_class = $menu->post_status === 'publish' ? 'published' : 'draft';
-                        $status_text = $menu->post_status === 'publish' ? __('Publié', 'le-margo') : __('Brouillon', 'le-margo');
+                        $status_text = $menu->post_status === 'publish' ? __('Publié', 'gastro-starter') : __('Brouillon', 'gastro-starter');
                     ?>
                         <div class="menu-item <?php echo esc_attr($status_class); ?>" data-menu-id="<?php echo esc_attr($menu->ID); ?>">
                             <div class="menu-item-content">
@@ -226,16 +226,16 @@ function le_margo_menu_manager_page() {
 
                                 <div class="menu-item-actions">
                                     <?php if ($menu_pdf) : ?>
-                                        <a href="<?php echo esc_url($menu_pdf); ?>" target="_blank" class="button button-small" title="<?php echo esc_attr__('Prévisualiser', 'le-margo'); ?>">
+                                        <a href="<?php echo esc_url($menu_pdf); ?>" target="_blank" class="button button-small" title="<?php echo esc_attr__('Prévisualiser', 'gastro-starter'); ?>">
                                             <span class="dashicons dashicons-visibility"></span>
                                         </a>
                                     <?php endif; ?>
                                     
-                                    <a href="<?php echo esc_url(get_edit_post_link($menu->ID)); ?>" class="button button-small" title="<?php echo esc_attr__('Modifier', 'le-margo'); ?>">
+                                    <a href="<?php echo esc_url(get_edit_post_link($menu->ID)); ?>" class="button button-small" title="<?php echo esc_attr__('Modifier', 'gastro-starter'); ?>">
                                         <span class="dashicons dashicons-edit"></span>
                                     </a>
                                     
-                                    <button type="button" class="button button-small delete-menu-btn" data-menu-id="<?php echo esc_attr($menu->ID); ?>" title="<?php echo esc_attr__('Supprimer', 'le-margo'); ?>">
+                                    <button type="button" class="button button-small delete-menu-btn" data-menu-id="<?php echo esc_attr($menu->ID); ?>" title="<?php echo esc_attr__('Supprimer', 'gastro-starter'); ?>">
                                         <span class="dashicons dashicons-trash"></span>
                                     </button>
                                 </div>
@@ -249,11 +249,11 @@ function le_margo_menu_manager_page() {
     </div>
 
     <style>
-    .le-margo-menu-manager {
+    .gastro-starter-menu-manager {
         max-width: 1200px;
     }
 
-    .le-margo-quick-upload {
+    .gastro-starter-quick-upload {
         background: #fff;
         border: 1px solid #e2e4e7;
         border-radius: 8px;
@@ -337,7 +337,7 @@ function le_margo_menu_manager_page() {
         text-shadow: 0 1px 2px rgba(0,0,0,0.5);
     }
 
-    .le-margo-bulk-actions {
+    .gastro-starter-bulk-actions {
         background: #fff;
         border: 1px solid #e2e4e7;
         border-radius: 8px;
@@ -639,9 +639,9 @@ function le_margo_menu_manager_page() {
 
         function uploadFile(file, callback) {
             const formData = new FormData();
-            formData.append('action', 'le_margo_quick_upload_menu');
+            formData.append('action', 'gastro_starter_quick_upload_menu');
             formData.append('file', file);
-            formData.append('security', '<?php echo wp_create_nonce("le_margo_quick_upload"); ?>');
+            formData.append('security', '<?php echo wp_create_nonce("gastro_starter_quick_upload"); ?>');
 
             $.ajax({
                 url: ajaxurl,
@@ -721,10 +721,10 @@ function le_margo_menu_manager_page() {
                 } else {
                     // Traitement AJAX pour publish/draft
                     $.post(ajaxurl, {
-                        action: 'le_margo_bulk_update_menu_status',
+                        action: 'gastro_starter_bulk_update_menu_status',
                         menu_ids: selectedMenus,
                         new_status: action,
-                        security: '<?php echo wp_create_nonce("le_margo_bulk_update"); ?>'
+                        security: '<?php echo wp_create_nonce("gastro_starter_bulk_update"); ?>'
                     }, function(response) {
                         if (response.success) {
                             location.reload();
@@ -743,9 +743,9 @@ function le_margo_menu_manager_page() {
             
             if (confirm('Êtes-vous sûr de vouloir supprimer le menu "' + menuTitle + '" ?')) {
                 $.post(ajaxurl, {
-                    action: 'le_margo_delete_menu',
+                    action: 'gastro_starter_delete_menu',
                     menu_id: menuId,
-                    security: '<?php echo wp_create_nonce("le_margo_delete_menu"); ?>'
+                    security: '<?php echo wp_create_nonce("gastro_starter_delete_menu"); ?>'
                 }, function(response) {
                     if (response.success) {
                         location.reload();
@@ -775,15 +775,15 @@ function le_margo_menu_manager_page() {
 /**
  * AJAX: Téléchargement rapide de menu
  */
-function le_margo_quick_upload_menu() {
-    check_ajax_referer('le_margo_quick_upload', 'security');
+function gastro_starter_quick_upload_menu() {
+    check_ajax_referer('gastro_starter_quick_upload', 'security');
     
     if (!current_user_can('upload_files')) {
-        wp_send_json_error(array('message' => __('Permissions insuffisantes.', 'le-margo')));
+        wp_send_json_error(array('message' => __('Permissions insuffisantes.', 'gastro-starter')));
     }
 
     if (empty($_FILES['file'])) {
-        wp_send_json_error(array('message' => __('Aucun fichier reçu.', 'le-margo')));
+        wp_send_json_error(array('message' => __('Aucun fichier reçu.', 'gastro-starter')));
     }
 
     $uploaded_file = $_FILES['file'];
@@ -791,7 +791,7 @@ function le_margo_quick_upload_menu() {
     
     $allowed_types = array('pdf', 'jpg', 'jpeg', 'png', 'doc', 'docx');
     if (!in_array($file_type['ext'], $allowed_types)) {
-        wp_send_json_error(array('message' => __('Type de fichier non autorisé.', 'le-margo')));
+        wp_send_json_error(array('message' => __('Type de fichier non autorisé.', 'gastro-starter')));
     }
 
     // Upload du fichier
@@ -817,27 +817,27 @@ function le_margo_quick_upload_menu() {
     }
 
     wp_send_json_success(array(
-        'message' => __('Menu créé avec succès.', 'le-margo'),
+        'message' => __('Menu créé avec succès.', 'gastro-starter'),
         'menu_id' => $menu_id
     ));
 }
-add_action('wp_ajax_le_margo_quick_upload_menu', 'le_margo_quick_upload_menu');
+add_action('wp_ajax_gastro_starter_quick_upload_menu', 'gastro_starter_quick_upload_menu');
 
 /**
  * AJAX: Mise à jour en lot du statut des menus
  */
-function le_margo_bulk_update_menu_status() {
-    check_ajax_referer('le_margo_bulk_update', 'security');
+function gastro_starter_bulk_update_menu_status() {
+    check_ajax_referer('gastro_starter_bulk_update', 'security');
     
     if (!current_user_can('edit_posts')) {
-        wp_send_json_error(array('message' => __('Permissions insuffisantes.', 'le-margo')));
+        wp_send_json_error(array('message' => __('Permissions insuffisantes.', 'gastro-starter')));
     }
 
     $menu_ids = isset($_POST['menu_ids']) ? array_map('intval', $_POST['menu_ids']) : array();
     $new_status = sanitize_text_field($_POST['new_status']);
     
     if (empty($menu_ids) || !in_array($new_status, array('publish', 'draft'))) {
-        wp_send_json_error(array('message' => __('Paramètres invalides.', 'le-margo')));
+        wp_send_json_error(array('message' => __('Paramètres invalides.', 'gastro-starter')));
     }
 
     $updated = 0;
@@ -852,34 +852,34 @@ function le_margo_bulk_update_menu_status() {
         }
     }
 
-    $message = sprintf(_n('%d menu mis à jour.', '%d menus mis à jour.', $updated, 'le-margo'), $updated);
+    $message = sprintf(_n('%d menu mis à jour.', '%d menus mis à jour.', $updated, 'gastro-starter'), $updated);
     wp_send_json_success(array('message' => $message));
 }
-add_action('wp_ajax_le_margo_bulk_update_menu_status', 'le_margo_bulk_update_menu_status');
+add_action('wp_ajax_gastro_starter_bulk_update_menu_status', 'gastro_starter_bulk_update_menu_status');
 
 /**
  * AJAX: Suppression d'un menu
  */
-function le_margo_delete_menu() {
-    check_ajax_referer('le_margo_delete_menu', 'security');
+function gastro_starter_delete_menu() {
+    check_ajax_referer('gastro_starter_delete_menu', 'security');
     
     if (!current_user_can('delete_posts')) {
-        wp_send_json_error(array('message' => __('Permissions insuffisantes.', 'le-margo')));
+        wp_send_json_error(array('message' => __('Permissions insuffisantes.', 'gastro-starter')));
     }
 
     $menu_id = intval($_POST['menu_id']);
     if (!$menu_id) {
-        wp_send_json_error(array('message' => __('ID de menu invalide.', 'le-margo')));
+        wp_send_json_error(array('message' => __('ID de menu invalide.', 'gastro-starter')));
     }
 
     $result = wp_delete_post($menu_id, true);
     if ($result) {
-        wp_send_json_success(array('message' => __('Menu supprimé avec succès.', 'le-margo')));
+        wp_send_json_success(array('message' => __('Menu supprimé avec succès.', 'gastro-starter')));
     } else {
-        wp_send_json_error(array('message' => __('Erreur lors de la suppression.', 'le-margo')));
+        wp_send_json_error(array('message' => __('Erreur lors de la suppression.', 'gastro-starter')));
     }
 }
-add_action('wp_ajax_le_margo_delete_menu', 'le_margo_delete_menu');
+add_action('wp_ajax_gastro_starter_delete_menu', 'gastro_starter_delete_menu');
 
 
 /**
@@ -891,22 +891,22 @@ add_action('wp_ajax_le_margo_delete_menu', 'le_margo_delete_menu');
 /**
  * Ajouter des champs personnalisés pour les menus
  */
-function le_margo_add_meta_boxes() {
+function gastro_starter_add_meta_boxes() {
     add_meta_box(
         'daily_menu_details',
-        __('Fichier de menu', 'le-margo'),
-        'le_margo_daily_menu_callback',
+        __('Fichier de menu', 'gastro-starter'),
+        'gastro_starter_daily_menu_callback',
         'daily_menu',
         'normal',
         'default'
     );
 }
-add_action('add_meta_boxes', 'le_margo_add_meta_boxes');
+add_action('add_meta_boxes', 'gastro_starter_add_meta_boxes');
 
 /**
  * Callback pour afficher les champs personnalisés du menu
  */
-function le_margo_daily_menu_callback($post) {
+function gastro_starter_daily_menu_callback($post) {
     wp_nonce_field(basename(__FILE__), 'daily_menu_nonce');
     
     // Récupérer les valeurs existantes
@@ -930,32 +930,32 @@ function le_margo_daily_menu_callback($post) {
     }
     
     // Texte du bouton adapté au type de fichier
-    $view_text = __('Voir le fichier', 'le-margo');
+    $view_text = __('Voir le fichier', 'gastro-starter');
     if ($file_type === 'pdf') {
-        $view_text = __('Voir le PDF', 'le-margo');
+        $view_text = __('Voir le PDF', 'gastro-starter');
     } elseif (in_array($file_type, ['jpg', 'jpeg', 'png'])) {
-        $view_text = __('Voir l\'image', 'le-margo');
+        $view_text = __('Voir l\'image', 'gastro-starter');
     } elseif (in_array($file_type, ['doc', 'docx'])) {
-        $view_text = __('Voir le document', 'le-margo');
+        $view_text = __('Voir le document', 'gastro-starter');
     } elseif (in_array($file_type, ['xls', 'xlsx'])) {
-        $view_text = __('Voir le tableur', 'le-margo');
+        $view_text = __('Voir le tableur', 'gastro-starter');
     } elseif (in_array($file_type, ['ppt', 'pptx'])) {
-        $view_text = __('Voir la présentation', 'le-margo');
+        $view_text = __('Voir la présentation', 'gastro-starter');
     }
     
     ?>
-    <div class="le-margo-menu-upload">
+    <div class="gastro-starter-menu-upload">
         <?php if (empty($menu_pdf)) : ?>
             <!-- Zone de téléchargement -->
             <div id="menu-drop-area" class="menu-drop-area">
                 <div class="upload-icon">
                     <span class="dashicons dashicons-cloud-upload"></span>
                 </div>
-                <h4><?php _e('Glissez votre fichier de menu ici', 'le-margo'); ?></h4>
-                <p><?php _e('ou cliquez pour sélectionner un fichier', 'le-margo'); ?></p>
-                <p class="file-types"><?php _e('Formats acceptés : PDF, JPG, PNG, DOC, DOCX, XLS, XLSX, PPT, PPTX', 'le-margo'); ?></p>
+                <h4><?php _e('Glissez votre fichier de menu ici', 'gastro-starter'); ?></h4>
+                <p><?php _e('ou cliquez pour sélectionner un fichier', 'gastro-starter'); ?></p>
+                <p class="file-types"><?php _e('Formats acceptés : PDF, JPG, PNG, DOC, DOCX, XLS, XLSX, PPT, PPTX', 'gastro-starter'); ?></p>
                 <input type="file" id="menu-file-input" accept=".pdf,.jpg,.jpeg,.png,.doc,.docx,.xls,.xlsx,.ppt,.pptx" style="display: none;">
-                <button type="button" id="select-menu-file-button" class="button button-secondary"><?php _e('Sélectionner un fichier', 'le-margo'); ?></button>
+                <button type="button" id="select-menu-file-button" class="button button-secondary"><?php _e('Sélectionner un fichier', 'gastro-starter'); ?></button>
             </div>
         <?php else : ?>
             <!-- Aperçu du fichier existant -->
@@ -984,11 +984,11 @@ function le_margo_daily_menu_callback($post) {
                         </a>
                         <button type="button" id="change-menu-file" class="button">
                             <span class="dashicons dashicons-update"></span>
-                            <?php _e('Changer le fichier', 'le-margo'); ?>
+                            <?php _e('Changer le fichier', 'gastro-starter'); ?>
                         </button>
                         <button type="button" id="remove-menu-file" class="button button-link-delete">
                             <span class="dashicons dashicons-trash"></span>
-                            <?php _e('Supprimer', 'le-margo'); ?>
+                            <?php _e('Supprimer', 'gastro-starter'); ?>
                         </button>
                     </div>
                 </div>
@@ -999,12 +999,12 @@ function le_margo_daily_menu_callback($post) {
                 <div class="upload-icon">
                     <span class="dashicons dashicons-cloud-upload"></span>
                 </div>
-                <h4><?php _e('Glissez votre nouveau fichier ici', 'le-margo'); ?></h4>
-                <p><?php _e('ou cliquez pour sélectionner un fichier', 'le-margo'); ?></p>
+                <h4><?php _e('Glissez votre nouveau fichier ici', 'gastro-starter'); ?></h4>
+                <p><?php _e('ou cliquez pour sélectionner un fichier', 'gastro-starter'); ?></p>
                 <input type="file" id="replacement-file-input" accept=".pdf,.jpg,.jpeg,.png,.doc,.docx,.xls,.xlsx,.ppt,.pptx" style="display: none;">
                 <div class="replacement-actions">
-                    <button type="button" id="select-replacement-file" class="button button-secondary"><?php _e('Sélectionner un fichier', 'le-margo'); ?></button>
-                    <button type="button" id="cancel-replacement" class="button"><?php _e('Annuler', 'le-margo'); ?></button>
+                    <button type="button" id="select-replacement-file" class="button button-secondary"><?php _e('Sélectionner un fichier', 'gastro-starter'); ?></button>
+                    <button type="button" id="cancel-replacement" class="button"><?php _e('Annuler', 'gastro-starter'); ?></button>
                 </div>
             </div>
         <?php endif; ?>
@@ -1018,12 +1018,12 @@ function le_margo_daily_menu_callback($post) {
                 <div class="progress-fill"></div>
                 <span class="progress-text">0%</span>
             </div>
-            <p class="progress-message"><?php _e('Téléchargement en cours...', 'le-margo'); ?></p>
+            <p class="progress-message"><?php _e('Téléchargement en cours...', 'gastro-starter'); ?></p>
         </div>
     </div>
 
     <style>
-    .le-margo-menu-upload {
+    .gastro-starter-menu-upload {
         background: #fff;
         border-radius: 8px;
         overflow: hidden;
@@ -1279,7 +1279,7 @@ function le_margo_daily_menu_callback($post) {
         });
 
         $('#remove-menu-file').on('click', function() {
-            if (confirm('<?php echo esc_js(__('Êtes-vous sûr de vouloir supprimer ce fichier ?', 'le-margo')); ?>')) {
+            if (confirm('<?php echo esc_js(__('Êtes-vous sûr de vouloir supprimer ce fichier ?', 'gastro-starter')); ?>')) {
                 $('#menu_pdf').val('');
                 $('.current-menu-file').hide();
                 $('#menu-drop-area').show();
@@ -1292,7 +1292,7 @@ function le_margo_daily_menu_callback($post) {
             const fileExtension = file.name.split('.').pop().toLowerCase();
             
             if (!allowedTypes.includes(fileExtension)) {
-                alert('<?php echo esc_js(__('Type de fichier non autorisé. Utilisez : PDF, JPG, PNG, DOC, DOCX, XLS, XLSX, PPT, PPTX', 'le-margo')); ?>');
+                alert('<?php echo esc_js(__('Type de fichier non autorisé. Utilisez : PDF, JPG, PNG, DOC, DOCX, XLS, XLSX, PPT, PPTX', 'gastro-starter')); ?>');
                 return;
             }
 
@@ -1303,9 +1303,9 @@ function le_margo_daily_menu_callback($post) {
 
             // Préparer FormData
             const formData = new FormData();
-            formData.append('action', 'le_margo_upload_menu_file');
+            formData.append('action', 'gastro_starter_upload_menu_file');
             formData.append('file', file);
-            formData.append('security', '<?php echo wp_create_nonce("le_margo_upload_file"); ?>');
+            formData.append('security', '<?php echo wp_create_nonce("gastro_starter_upload_file"); ?>');
 
             // Upload AJAX
             $.ajax({
@@ -1340,7 +1340,7 @@ function le_margo_daily_menu_callback($post) {
                     }
                 },
                 error: function() {
-                    alert('<?php echo esc_js(__('Erreur lors du téléchargement du fichier.', 'le-margo')); ?>');
+                    alert('<?php echo esc_js(__('Erreur lors du téléchargement du fichier.', 'gastro-starter')); ?>');
                     $('#menu-upload-progress').hide();
                     $('#menu-drop-area').show();
                 }
@@ -1352,7 +1352,7 @@ function le_margo_daily_menu_callback($post) {
             $('.progress-text').text(percent + '%');
             
             if (percent === 100) {
-                $('.progress-message').text('<?php echo esc_js(__('Téléchargement terminé !', 'le-margo')); ?>');
+                $('.progress-message').text('<?php echo esc_js(__('Téléchargement terminé !', 'gastro-starter')); ?>');
             }
         }
     });
@@ -1363,7 +1363,7 @@ function le_margo_daily_menu_callback($post) {
 /**
  * Enregistrer les données des champs personnalisés
  */
-function le_margo_save_daily_menu_meta($post_id) {
+function gastro_starter_save_daily_menu_meta($post_id) {
     // Vérifier le nonce
     if (!isset($_POST['daily_menu_nonce']) || !wp_verify_nonce($_POST['daily_menu_nonce'], basename(__FILE__))) {
         return $post_id;
@@ -1384,19 +1384,19 @@ function le_margo_save_daily_menu_meta($post_id) {
         update_post_meta($post_id, '_menu_pdf', esc_url_raw($_POST['menu_pdf']));
     }
 }
-add_action('save_post_daily_menu', 'le_margo_save_daily_menu_meta');
+add_action('save_post_daily_menu', 'gastro_starter_save_daily_menu_meta');
 
 /**
  * Fonction AJAX pour télécharger un fichier de menu
  */
-function le_margo_upload_menu_file() {
+function gastro_starter_upload_menu_file() {
     // Vérifier les droits
     if (!current_user_can('upload_files')) {
-        wp_send_json_error(array('message' => __('Vous n\'avez pas les droits suffisants.', 'le-margo')));
+        wp_send_json_error(array('message' => __('Vous n\'avez pas les droits suffisants.', 'gastro-starter')));
     }
     
     // Vérifier nonce
-    check_ajax_referer('le_margo_upload_file', 'security');
+    check_ajax_referer('gastro_starter_upload_file', 'security');
     
     // Gérer le téléchargement
     $uploaded_file = $_FILES['file'];
@@ -1410,7 +1410,7 @@ function le_margo_upload_menu_file() {
         );
         
         if (!in_array($file_type['ext'], $allowed_types)) {
-            wp_send_json_error(array('message' => __('Type de fichier non autorisé. Formats acceptés : PDF, JPG, PNG, DOC, DOCX, XLS, XLSX, PPT, PPTX.', 'le-margo')));
+            wp_send_json_error(array('message' => __('Type de fichier non autorisé. Formats acceptés : PDF, JPG, PNG, DOC, DOCX, XLS, XLSX, PPT, PPTX.', 'gastro-starter')));
         }
         
         // Préparer l'upload
@@ -1445,9 +1445,9 @@ function le_margo_upload_menu_file() {
             }
         }
     } else {
-        wp_send_json_error(array('message' => __('Aucun fichier n\'a été téléchargé.', 'le-margo')));
+        wp_send_json_error(array('message' => __('Aucun fichier n\'a été téléchargé.', 'gastro-starter')));
     }
 }
-add_action('wp_ajax_le_margo_upload_menu_file', 'le_margo_upload_menu_file');
+add_action('wp_ajax_gastro_starter_upload_menu_file', 'gastro_starter_upload_menu_file');
 // Pour la rétrocompatibilité, conserver l'ancienne action
-add_action('wp_ajax_le_margo_upload_menu_pdf', 'le_margo_upload_menu_file'); 
+add_action('wp_ajax_gastro_starter_upload_menu_pdf', 'gastro_starter_upload_menu_file'); 

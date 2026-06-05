@@ -1,0 +1,177 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Le Margo\n"
+"POT-Creation-Date: 2023-10-27 10:00+0000\n"
+"PO-Revision-Date: 2023-10-27 10:00+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: es_ES\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: AI Assistant\n"
+
+msgid "Réservation"
+msgstr "Reservación"
+
+msgid "Instagram"
+msgstr "Instagram"
+
+msgid "Mail"
+msgstr "Correo"
+
+msgid "Menu"
+msgstr "Menú"
+
+msgid "Le Margo"
+msgstr "Le Margo"
+
+msgid "Restaurant Bistronomique à Eymet, Dordogne"
+msgstr "Restaurante Bistronómico en Eymet, Dordoña"
+
+msgid "Découvrez une cuisine locale et créative, élaborée à partir de produits frais et bio du Périgord, accompagnée d'une sélection de vins naturels."
+msgstr "Descubra una cocina local y creativa, elaborada con productos frescos y orgánicos del Périgord, acompañada de una selección de vinos naturales."
+
+msgid "Réserver"
+msgstr "Reservar"
+
+msgid "Veuillez configurer votre galerie dans les réglages du thème."
+msgstr "Por favor, configure su galería en los ajustes del tema."
+
+msgid "Une table, un moment"
+msgstr "Una mesa, un momento"
+
+msgid "Le Margo vous attend"
+msgstr "Le Margo le espera"
+
+msgid "Une cuisine qui raconte une histoire"
+msgstr "Una cocina que cuenta una historia"
+
+msgid "Des saveurs qui marquent les esprits"
+msgstr "Sabores que dejan huella"
+
+msgid "Un moment qui devient souvenir"
+msgstr "Un momento que se convierte en recuerdo"
+
+msgid "Date"
+msgstr "Fecha"
+
+msgid "JJ/MM/AAAA"
+msgstr "DD/MM/AAAA"
+
+msgid "Horaire"
+msgstr "Horario"
+
+msgid "Choisissez d'abord une date"
+msgstr "Primero, elija una fecha"
+
+msgid "Personnes"
+msgstr "Personas"
+
+msgid "Sélectionnez..."
+msgstr "Seleccione..."
+
+msgid "personne"
+msgstr "persona"
+
+msgid "personnes"
+msgstr "personas"
+
+msgid "Plus de 10 personnes"
+msgstr "Más de 10 personas"
+
+msgid "Pour les groupes de 4 personnes ou plus, merci de nous appeler pour garantir la meilleure expérience !"
+msgstr "¡Para grupos de 4 personas o más, por favor llámenos para garantizar la mejor experiencia!"
+
+msgid "Appeler le restaurant"
+msgstr "Llamar al restaurante"
+
+msgid "Nom"
+msgstr "Nombre"
+
+msgid "Nom et prénom"
+msgstr "Nombre y apellido"
+
+msgid "Téléphone"
+msgstr "Teléfono"
+
+msgid "Pour vous contacter"
+msgstr "Para contactarle"
+
+msgid "Email"
+msgstr "Correo electrónico"
+
+msgid "Pour confirmation"
+msgstr "Para confirmación"
+
+msgid "Allergies ou végétarien ?"
+msgstr "¿Alergias o vegetariano?"
+
+msgid "Merci de préciser toute allergie ou demande végétarienne dans les notes. Nous adaptons nos plats avec plaisir !"
+msgstr "Por favor, especifique cualquier alergia o solicitud vegetariana en las notas. ¡Estaremos encantados de adaptar nuestros platos!"
+
+msgid "Notes spéciales (optionnel)"
+msgstr "Notas especiales (opcional)"
+
+msgid "Allergies, occasion spéciale..."
+msgstr "Alergias, ocasión especial..."
+
+msgid "Préférences & Consentement"
+msgstr "Preferencias y Consentimiento"
+
+msgid "Recevoir un rappel par email avant ma réservation"
+msgstr "Recibir un recordatorio por correo electrónico antes de mi reserva"
+
+msgid "S'inscrire à notre newsletter pour nos actualités et offres"
+msgstr "Suscribirse a nuestro boletín para recibir noticias y ofertas"
+
+msgid "J'ai lu et j'accepte la <a href=\"%s\" target=\"_blank\">politique de confidentialité</a> du site.*"
+msgstr "He leído y acepto la <a href=\"%s\" target=\"_blank\">política de privacidad</a> del sitio.*"
+
+msgid "En soumettant ce formulaire, vous acceptez notre <a href=\"%1$s\" target=\"_blank\">politique de confidentialité</a>. Vous pouvez à tout moment exercer vos droits RGPD via notre <a href=\"%2$s\" target=\"_blank\">formulaire de suppression de données</a>."
+msgstr "Al enviar este formulario, usted acepta nuestra <a href=\"%1$s\" target=\"_blank\">política de privacidad</a>. Puede ejercer sus derechos de RGPD en cualquier momento a través de nuestro <a href=\"%2$s\" target=\"_blank\">formulario de supresión de datos</a>."
+
+msgid "Réservez votre table"
+msgstr "Reserve su mesa"
+
+msgid "Votre demande a bien été reçue !"
+msgstr "¡Su solicitud ha sido recibida correctamente!"
+
+msgid "Nous avons hâte de vous accueillir au Margo."
+msgstr "Esperamos darle la bienvenida a Le Margo."
+
+msgid "Un email de confirmation vient de vous être envoyé avec les détails de votre demande. Nous la traiterons dans les plus brefs délais."
+msgstr "Se le acaba de enviar un correo electrónico de confirmación con los detalles de su solicitud. Lo procesaremos lo antes posible."
+
+msgid "Pensez à vérifier votre dossier de courriers indésirables (spam) si vous ne le trouvez pas."
+msgstr "Recuerde revisar su carpeta de correo no deseado (spam) si no lo encuentra."
+
+msgid "En cas de question ou de modification, n'hésitez pas à nous appeler :"
+msgstr "Si tiene alguna pregunta o modificación, no dude en llamarnos:"
+
+msgid "Retour à l'accueil"
+msgstr "Volver al inicio"
+
+msgid "Oups, cette page n'existe pas !"
+msgstr "¡Vaya, esta página no existe!"
+
+msgid "Il semblerait que la page que vous cherchez n'existe plus ou n'ait jamais existé."
+msgstr "Parece que la página que busca ya no existe o nunca existió."
+
+msgid "Pas de panique, revenez à l'accueil pour continuer votre expérience gourmande chez"
+msgstr "No se preocupe, vuelva a la página de inicio para continuar su experiencia gourmet en"
+
+msgid "Notre carte"
+msgstr "Nuestra carta"
+
+msgid "Tous nos menus"
+msgstr "Todos nuestros menús"
+
+msgid "Découvrez l'ensemble de nos menus, à télécharger ou consulter en ligne."
+msgstr "Descubra todos nuestros menús, para descargar o consultar en línea."
+
+msgid "Aucun fichier disponible pour ce menu."
+msgstr "No hay ningún archivo disponible para este menú."
+
+msgid "Aucun menu disponible pour le moment."
+msgstr "No hay menús disponibles por el momento."

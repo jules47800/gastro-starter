@@ -1,0 +1,127 @@
+.gastro-starter-admin-shell {
+  & .gastro-starter-page-wrap {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: var(--lm-space-6);
+  }
+
+  & .gastro-starter-page-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--lm-space-4);
+    margin-bottom: var(--lm-space-6);
+    flex-wrap: wrap;
+
+    & h1 {
+      margin: 0;
+    }
+  }
+
+  & .gastro-starter-header-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--lm-space-2);
+  }
+
+  /* Grid system with container queries */
+  & .gastro-starter-grid {
+    display: grid;
+    gap: var(--lm-space-4);
+    container-type: inline-size;
+  }
+
+  & .gastro-starter-grid--kpi {
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+
+    @container (max-width: 600px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @container (max-width: 360px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  & .gastro-starter-grid--cards {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+
+    @container (max-width: 600px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  & .gastro-starter-grid--2col {
+    grid-template-columns: 1fr 1fr;
+
+    @container (max-width: 700px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  & .gastro-starter-grid--3col {
+    grid-template-columns: repeat(3, 1fr);
+
+    @container (max-width: 900px) {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    @container (max-width: 500px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* Stack layout */
+  & .gastro-starter-stack {
+    display: flex;
+    flex-direction: column;
+    gap: var(--lm-space-4);
+  }
+
+  & .gastro-starter-stack--sm {
+    gap: var(--lm-space-2);
+  }
+
+  & .gastro-starter-stack--lg {
+    gap: var(--lm-space-6);
+  }
+
+  /* Cluster layout */
+  & .gastro-starter-cluster {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--lm-space-3);
+  }
+
+  /* Section spacing */
+  & .gastro-starter-section {
+    margin-bottom: var(--lm-space-8);
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+/* Responsive utilities */
+@media (max-width: 782px) {
+  .gastro-starter-admin-shell {
+    & .gastro-starter-page-header {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    & .gastro-starter-page-wrap {
+      padding: var(--lm-space-4);
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .gastro-starter-admin-shell {
+    & .gastro-starter-page-wrap {
+      padding: var(--lm-space-3);
+    }
+  }
+}

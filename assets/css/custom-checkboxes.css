@@ -1,5 +1,5 @@
 /**
- * Personnalisation des cases à cocher pour Le Margo
+ * Personnalisation des cases à cocher pour Gastro Starter
  * Ces styles appliquent la direction artistique du site aux checkboxes
  */
 
@@ -128,7 +128,7 @@ select {
     -moz-appearance: none;
     padding: 12px 40px 12px 16px;
     font-family: var(--font-primary);
-    font-size: 1rem;
+    font-size: 1.1rem;
     font-weight: 400;
     color: var(--color-primary);
     background-color: var(--color-white);

@@ -1,5 +1,5 @@
 /**
- * Scripts d'administration pour Le Margo
+ * Scripts d'administration pour Gastro Starter
  * Gestion du téléchargement des fichiers de menu
  */
 
@@ -88,13 +88,13 @@
             
             // Vérifier que le fichier est d'un type autorisé
             if (!allowedTypes.includes(file.type)) {
-                alert(le_margo_admin.file_type_message || 'Type de fichier non autorisé. Formats acceptés : PDF, JPG, PNG, DOC, DOCX, XLS, XLSX, PPT, PPTX.');
+                alert(gastro_starter_admin.file_type_message || 'Type de fichier non autorisé. Formats acceptés : PDF, JPG, PNG, DOC, DOCX, XLS, XLSX, PPT, PPTX.');
                 return;
             }
             
             const formData = new FormData();
-            formData.append('action', 'le_margo_upload_menu_file');
-            formData.append('security', le_margo_admin.nonce);
+            formData.append('action', 'gastro_starter_upload_menu_file');
+            formData.append('security', gastro_starter_admin.nonce);
             formData.append('file', file);
             
             // Afficher la barre de progression
@@ -175,9 +175,118 @@
         }
     }
     
+    // Les notes sont maintenant affichées directement, plus besoin de tooltips
+
+    // Fonction pour améliorer l'UX tactile globale
+    function initTouchEnhancements() {
+        // Amélioration du feedback visuel pour les boutons d'action
+        const actionButtons = document.querySelectorAll('.action-button');
+        actionButtons.forEach(button => {
+            // Feedback tactile amélioré avec vibration si disponible
+            button.addEventListener('touchstart', function(e) {
+                e.preventDefault();
+                this.style.transform = 'scale(0.9)';
+                this.style.boxShadow = '0 2px 8px rgba(0,0,0,0.3)';
+                
+                // Vibration tactile légère si supportée
+                if (navigator.vibrate) {
+                    navigator.vibrate(10);
+                }
+            });
+            
+            button.addEventListener('touchend', function() {
+                setTimeout(() => {
+                    this.style.transform = '';
+                    this.style.boxShadow = '';
+                }, 150);
+            });
+            
+            // Meilleure gestion des événements tactiles
+            button.addEventListener('touchmove', function(e) {
+                // Annuler l'interaction si on sort du bouton
+                const touch = e.touches[0];
+                const rect = this.getBoundingClientRect();
+                
+                if (touch.clientX < rect.left || touch.clientX > rect.right ||
+                    touch.clientY < rect.top || touch.clientY > rect.bottom) {
+                    this.style.transform = '';
+                    this.style.boxShadow = '';
+                }
+            });
+            
+            // S'assurer que les boutons sont toujours cliquables
+            button.style.pointerEvents = 'auto';
+            button.style.touchAction = 'manipulation';
+        });
+        
+        // Amélioration du scroll horizontal sur tablette
+        const tableContainer = document.querySelector('.reservations-table-container');
+        if (tableContainer) {
+            let isScrolling = false;
+            
+            tableContainer.addEventListener('touchstart', () => {
+                isScrolling = false;
+            });
+            
+            tableContainer.addEventListener('touchmove', () => {
+                isScrolling = true;
+            });
+            
+            // Empêcher les clics accidentels pendant le scroll
+            tableContainer.addEventListener('touchend', (e) => {
+                if (isScrolling) {
+                    e.preventDefault();
+                }
+            });
+        }
+        
+        // Amélioration des liens email/téléphone
+        const contactLinks = document.querySelectorAll('.customer-email, .customer-phone');
+        contactLinks.forEach(link => {
+            link.addEventListener('touchstart', function() {
+                this.style.backgroundColor = 'rgba(181, 166, 146, 0.1)';
+            });
+            
+            link.addEventListener('touchend', function() {
+                setTimeout(() => {
+                    this.style.backgroundColor = '';
+                }, 200);
+            });
+        });
+    }
+
+    // Fonction pour optimiser les filtres sur mobile/tablette
+    function initResponsiveFilters() {
+        const filterForm = document.querySelector('.filter-form');
+        if (!filterForm) return;
+        
+        // Auto-focus sur le champ de recherche quand on ouvre les filtres sur tablette
+        const searchInput = filterForm.querySelector('input[type="search"], input[name="s"]');
+        if (searchInput && window.innerWidth >= 768 && window.innerWidth <= 1024) {
+            // Délai pour éviter l'auto-zoom sur iOS
+            setTimeout(() => {
+                if (document.activeElement !== searchInput) {
+                    searchInput.focus();
+                }
+            }, 500);
+        }
+        
+        // Améliorer le comportement du formulaire sur tablette
+        const submitButton = filterForm.querySelector('.filter-button');
+        if (submitButton) {
+            // Ajouter un indicateur de chargement sur tablette
+            filterForm.addEventListener('submit', function() {
+                submitButton.style.opacity = '0.7';
+                submitButton.innerHTML = submitButton.innerHTML.replace(/Filtrer/, 'Chargement...');
+            });
+        }
+    }
+
     // Initialiser les fonctionnalités au chargement du document
     $(document).ready(function() {
         initFileUpload();
+        initTouchEnhancements();
+        initResponsiveFilters();
     });
 
 })(jQuery); 

@@ -8,49 +8,52 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-function le_margo_quick_reservation_form() {
-    $restaurant_capacity = get_option('le_margo_restaurant_capacity', 4);
+function gastro_starter_quick_reservation_form() {
+    $restaurant_capacity = get_option('gastro_starter_restaurant_capacity', 4);
     ?>
     <div class="postbox">
-        <h2 class="hndle"><span><?php echo esc_html__('Réservation rapide', 'le-margo'); ?></span></h2>
+        <h2 class="hndle"><span><?php echo esc_html__('Réservation rapide', 'gastro-starter'); ?></span></h2>
         <div class="inside">
             <form method="post" class="quick-add-form">
                 <?php wp_nonce_field('quick_add_reservation'); ?>
                 <table class="form-table">
                     <tr>
-                        <th scope="row"><label for="customer_name"><?php echo esc_html__('Client', 'le-margo'); ?></label></th>
-                        <td><input type="text" id="customer_name" name="customer_name" class="regular-text" required></td>
+                        <th scope="row"><label for="customer_name"><?php echo esc_html__('Client', 'gastro-starter'); ?></label></th>
+                        <td class="customer-autocomplete-wrap">
+                            <input type="text" id="customer_name" name="customer_name" class="regular-text" required autocomplete="off">
+                            <div class="customer-autocomplete-list" id="customer-autocomplete-list"></div>
+                        </td>
                         
-                        <th scope="row"><label for="customer_phone"><?php echo esc_html__('Téléphone', 'le-margo'); ?></label></th>
+                        <th scope="row"><label for="customer_phone"><?php echo esc_html__('Téléphone', 'gastro-starter'); ?></label></th>
                         <td><input type="tel" id="customer_phone" name="customer_phone" class="regular-text" required></td>
                     </tr>
                     <tr>
-                        <th scope="row"><label for="customer_email"><?php echo esc_html__('Email', 'le-margo'); ?></label></th>
+                        <th scope="row"><label for="customer_email"><?php echo esc_html__('Email', 'gastro-starter'); ?></label></th>
                         <td colspan="3"><input type="email" id="customer_email" name="customer_email" class="regular-text"></td>
                     </tr>
                     <tr>
-                        <th scope="row"><label for="reservation_date"><?php echo esc_html__('Date', 'le-margo'); ?></label></th>
+                        <th scope="row"><label for="reservation_date"><?php echo esc_html__('Date', 'gastro-starter'); ?></label></th>
                         <td><input type="date" id="reservation_date" name="reservation_date" value="<?php echo esc_attr(date('Y-m-d')); ?>" required></td>
                         
-                        <th scope="row"><label for="people"><?php echo esc_html__('Personnes', 'le-margo'); ?></label></th>
+                        <th scope="row"><label for="people"><?php echo esc_html__('Personnes', 'gastro-starter'); ?></label></th>
                         <td><input type="number" id="people" name="people" min="1" value="2" required></td>
                     </tr>
                     <tr>
-                        <th scope="row"><label for="reservation_time"><?php echo esc_html__('Heure', 'le-margo'); ?></label></th>
+                        <th scope="row"><label for="reservation_time"><?php echo esc_html__('Heure', 'gastro-starter'); ?></label></th>
                         <td>
                             <select id="reservation_time" name="reservation_time" required>
-                                <option value=""><?php echo esc_html__('Choisissez d\'abord une date', 'le-margo'); ?></option>
+                                <option value=""><?php echo esc_html__('Choisissez d\'abord une date', 'gastro-starter'); ?></option>
                             </select>
                         </td>
                     </tr>
                     <tr>
-                        <th scope="row"><label for="notes"><?php echo esc_html__('Notes', 'le-margo'); ?></label></th>
+                        <th scope="row"><label for="notes"><?php echo esc_html__('Notes', 'gastro-starter'); ?></label></th>
                         <td colspan="3"><textarea id="notes" name="notes" rows="2" class="large-text"></textarea></td>
                     </tr>
                 </table>
                 <p class="submit">
                     <button type="submit" name="quick_add_reservation" class="button button-primary">
-                        <?php echo esc_html__('Ajouter la réservation', 'le-margo'); ?>
+                        <?php echo esc_html__('Ajouter la réservation', 'gastro-starter'); ?>
                     </button>
                 </p>
             </form>
@@ -166,6 +169,60 @@ function le_margo_quick_reservation_form() {
         border-color: #a39483;
     }
 
+    /* Autocomplete */
+    .customer-autocomplete-wrap {
+        position: relative;
+    }
+
+    .customer-autocomplete-list {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        max-width: 250px;
+        background: #fff;
+        border: 1px solid #dcdcde;
+        border-top: none;
+        border-radius: 0 0 4px 4px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        z-index: 1000;
+        display: none;
+        max-height: 240px;
+        overflow-y: auto;
+    }
+
+    .customer-autocomplete-list.open {
+        display: block;
+    }
+
+    .customer-autocomplete-item {
+        padding: 8px 12px;
+        cursor: pointer;
+        border-bottom: 1px solid #f0f0f0;
+        transition: background 0.15s;
+    }
+
+    .customer-autocomplete-item:last-child {
+        border-bottom: none;
+    }
+
+    .customer-autocomplete-item:hover,
+    .customer-autocomplete-item.active {
+        background: #f5f2ee;
+    }
+
+    .customer-autocomplete-item .ac-name {
+        font-weight: 500;
+        color: #1d2327;
+        font-size: 14px;
+    }
+
+    .customer-autocomplete-item .ac-detail {
+        font-size: 12px;
+        color: #757575;
+        margin-top: 2px;
+    }
+
     /* Responsive */
     @media screen and (max-width: 782px) {
         .quick-add-form .form-table,
@@ -200,7 +257,7 @@ function le_margo_quick_reservation_form() {
         const peopleInput = $('#people');
         
         // NOUVEAU : Utiliser le système d'horaires par jour
-        const dailySchedule = <?php echo json_encode(get_option('le_margo_daily_schedule', array())); ?>;
+        const dailySchedule = <?php echo json_encode(get_option('gastro_starter_daily_schedule', array())); ?>;
         
         // Fonction pour générer les créneaux horaires
         function generateTimeSlots(startTime, endTime, interval = 15) {
@@ -222,10 +279,10 @@ function le_margo_quick_reservation_form() {
             const selectedDate = dateInput.val();
             const selectedPeople = parseInt(peopleInput.val()) || 0;
             
-            timeSelect.empty().append('<option value=""><?php echo esc_js(__('Chargement...', 'le-margo')); ?></option>');
+            timeSelect.empty().append('<option value=""><?php echo esc_js(__('Chargement...', 'gastro-starter')); ?></option>');
             
             if (!selectedDate) {
-                timeSelect.empty().append('<option value=""><?php echo esc_js(__('Choisissez d\'abord une date', 'le-margo')); ?></option>');
+                timeSelect.empty().append('<option value=""><?php echo esc_js(__('Choisissez d\'abord une date', 'gastro-starter')); ?></option>');
                 return;
             }
             
@@ -236,7 +293,7 @@ function le_margo_quick_reservation_form() {
             const daySchedule = dailySchedule[dayKey];
             
             if (!daySchedule || !daySchedule.open) {
-                timeSelect.empty().append('<option value=""><?php echo esc_js(__('Restaurant fermé à cette date', 'le-margo')); ?></option>');
+                timeSelect.empty().append('<option value=""><?php echo esc_js(__('Restaurant fermé à cette date', 'gastro-starter')); ?></option>');
                 return;
             }
             
@@ -245,7 +302,7 @@ function le_margo_quick_reservation_form() {
                 url: '<?php echo admin_url('admin-ajax.php'); ?>',
                 method: 'GET',
                 data: {
-                    action: 'le_margo_get_availability',
+                    action: 'gastro_starter_get_availability',
                     date: selectedDate,
                     source: 'admin' // Indiquer que l'appel vient de l'admin
                 },
@@ -266,14 +323,14 @@ function le_margo_quick_reservation_form() {
                                 );
                             });
                         } else {
-                            timeSelect.append('<option value=""><?php echo esc_js(__('Aucun créneau configuré pour ce jour', 'le-margo')); ?></option>');
+                            timeSelect.append('<option value=""><?php echo esc_js(__('Aucun créneau configuré pour ce jour', 'gastro-starter')); ?></option>');
                         }
                     } else {
-                        timeSelect.append('<option value=""><?php echo esc_js(__('Erreur de chargement des créneaux', 'le-margo')); ?></option>');
+                        timeSelect.append('<option value=""><?php echo esc_js(__('Erreur de chargement des créneaux', 'gastro-starter')); ?></option>');
                     }
                 },
                 error: function() {
-                    timeSelect.empty().append('<option value=""><?php echo esc_js(__('Erreur de communication avec le serveur.', 'le-margo')); ?></option>');
+                    timeSelect.empty().append('<option value=""><?php echo esc_js(__('Erreur de communication avec le serveur.', 'gastro-starter')); ?></option>');
                 }
             });
         }
@@ -286,6 +343,81 @@ function le_margo_quick_reservation_form() {
         if (dateInput.val()) {
             updateAvailableTimes();
         }
+
+        // ─── Autocomplétion client ─────────────────────────────────────────────
+        const nameInput = $('#customer_name');
+        const acList = $('#customer-autocomplete-list');
+        let acTimeout = null;
+        let acIndex = -1;
+
+        nameInput.on('input', function() {
+            clearTimeout(acTimeout);
+            const term = this.value.trim();
+            if (term.length < 2) {
+                acList.removeClass('open').empty();
+                return;
+            }
+            acTimeout = setTimeout(function() {
+                $.ajax({
+                    url: '<?php echo admin_url('admin-ajax.php'); ?>',
+                    method: 'POST',
+                    data: {
+                        action: 'gastro_starter_customer_autocomplete',
+                        nonce: '<?php echo wp_create_nonce('gastro_starter_reservation_edit'); ?>',
+                        term: term
+                    },
+                    success: function(response) {
+                        if (response.success && response.data.length > 0) {
+                            acIndex = -1;
+                            let html = '';
+                            response.data.forEach(function(c) {
+                                const detail = [c.phone, c.email].filter(Boolean).join(' — ');
+                                html += '<div class="customer-autocomplete-item" data-name="' + $('<span>').text(c.name).html() + '" data-phone="' + $('<span>').text(c.phone).html() + '" data-email="' + $('<span>').text(c.email).html() + '">';
+                                html += '<div class="ac-name">' + $('<span>').text(c.name).html() + '</div>';
+                                if (detail) html += '<div class="ac-detail">' + $('<span>').text(detail).html() + '</div>';
+                                html += '</div>';
+                            });
+                            acList.html(html).addClass('open');
+                        } else {
+                            acList.removeClass('open').empty();
+                        }
+                    }
+                });
+            }, 300);
+        });
+
+        acList.on('click', '.customer-autocomplete-item', function() {
+            nameInput.val($(this).data('name'));
+            $('#customer_phone').val($(this).data('phone'));
+            $('#customer_email').val($(this).data('email'));
+            acList.removeClass('open').empty();
+        });
+
+        nameInput.on('keydown', function(e) {
+            const items = acList.find('.customer-autocomplete-item');
+            if (!items.length || !acList.hasClass('open')) return;
+
+            if (e.key === 'ArrowDown') {
+                e.preventDefault();
+                acIndex = Math.min(acIndex + 1, items.length - 1);
+                items.removeClass('active').eq(acIndex).addClass('active');
+            } else if (e.key === 'ArrowUp') {
+                e.preventDefault();
+                acIndex = Math.max(acIndex - 1, 0);
+                items.removeClass('active').eq(acIndex).addClass('active');
+            } else if (e.key === 'Enter' && acIndex >= 0) {
+                e.preventDefault();
+                items.eq(acIndex).trigger('click');
+            } else if (e.key === 'Escape') {
+                acList.removeClass('open').empty();
+            }
+        });
+
+        $(document).on('click', function(e) {
+            if (!$(e.target).closest('.customer-autocomplete-wrap').length) {
+                acList.removeClass('open').empty();
+            }
+        });
     });
     </script>
     <?php

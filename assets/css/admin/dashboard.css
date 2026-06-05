@@ -1,0 +1,292 @@
+/* ─── Dashboard Widgets — Gastro Starter Design System ─── */
+
+/* Widget wrapper override */
+#gastro_starter_todays_reservations .inside,
+#gastro_starter_upcoming_reservations .inside,
+#gastro_starter_customer_stats_widget .inside,
+#gastro_starter_vip_customers_widget .inside,
+#gastro_starter_recent_customers_widget .inside {
+  padding: var(--lm-space-4) !important;
+  font-family: var(--lm-font-sans);
+}
+
+/* ─── KPI Mini Grid ─── */
+.lm-dash-kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: var(--lm-space-3);
+  margin-bottom: var(--lm-space-4);
+}
+
+.lm-dash-kpi {
+  background: var(--lm-glass-bg);
+  backdrop-filter: var(--lm-glass-blur-light);
+  -webkit-backdrop-filter: var(--lm-glass-blur-light);
+  border: 1px solid var(--lm-glass-border);
+  border-radius: var(--lm-radius-md);
+  padding: var(--lm-space-3) var(--lm-space-4);
+  text-align: center;
+  transition: all var(--lm-duration-fast) var(--lm-ease-out);
+}
+
+.lm-dash-kpi:hover {
+  background: var(--lm-glass-bg-elevated);
+  box-shadow: var(--lm-shadow-sm);
+}
+
+.lm-dash-kpi-value {
+  font-size: var(--lm-text-xl);
+  font-weight: 700;
+  color: var(--lm-color-taupe);
+  line-height: var(--lm-leading-tight);
+}
+
+.lm-dash-kpi-label {
+  font-size: var(--lm-text-xs);
+  color: var(--lm-color-text-muted);
+  margin-top: var(--lm-space-1);
+  text-transform: uppercase;
+  letter-spacing: var(--lm-tracking-wide);
+}
+
+/* ─── Reservation Cards ─── */
+.lm-dash-cards {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lm-space-2);
+}
+
+.lm-dash-card {
+  display: flex;
+  align-items: center;
+  gap: var(--lm-space-3);
+  background: var(--lm-glass-bg);
+  backdrop-filter: var(--lm-glass-blur-light);
+  -webkit-backdrop-filter: var(--lm-glass-blur-light);
+  border: 1px solid var(--lm-glass-border);
+  border-radius: var(--lm-radius-md);
+  padding: var(--lm-space-3) var(--lm-space-4);
+  transition: all var(--lm-duration-fast) var(--lm-ease-out);
+}
+
+.lm-dash-card:hover {
+  background: var(--lm-glass-bg-elevated);
+  border-color: var(--lm-glass-border-accent);
+  box-shadow: var(--lm-shadow-sm);
+}
+
+.lm-dash-card-time {
+  background: var(--lm-color-taupe);
+  color: #fff;
+  font-size: var(--lm-text-sm);
+  font-weight: 600;
+  padding: var(--lm-space-1) var(--lm-space-2);
+  border-radius: var(--lm-radius-sm);
+  min-width: 48px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.lm-dash-card-date {
+  background: var(--lm-color-secondary);
+  color: #fff;
+  font-size: var(--lm-text-xs);
+  font-weight: 500;
+  padding: var(--lm-space-1) var(--lm-space-2);
+  border-radius: var(--lm-radius-sm);
+  min-width: 70px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.lm-dash-card-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.lm-dash-card-name {
+  font-size: var(--lm-text-sm);
+  font-weight: 600;
+  color: var(--lm-color-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.lm-dash-card-details {
+  font-size: var(--lm-text-xs);
+  color: var(--lm-color-text-muted);
+  margin-top: 2px;
+}
+
+.lm-dash-card-status {
+  font-size: var(--lm-text-xs);
+  font-weight: 600;
+  padding: var(--lm-space-1) var(--lm-space-2);
+  border-radius: var(--lm-radius-full);
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.lm-dash-card-status--confirmed {
+  background: var(--lm-color-success-bg);
+  color: var(--lm-color-success);
+  border: 1px solid var(--lm-color-success-border);
+}
+
+.lm-dash-card-status--pending {
+  background: var(--lm-color-warning-bg);
+  color: var(--lm-color-warning);
+  border: 1px solid var(--lm-color-warning-border);
+}
+
+/* ─── Customer Stats KPI (dashboard widget) ─── */
+.lm-dash-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--lm-space-3);
+}
+
+.lm-dash-stat-box {
+  background: var(--lm-glass-bg);
+  backdrop-filter: var(--lm-glass-blur-light);
+  -webkit-backdrop-filter: var(--lm-glass-blur-light);
+  border: 1px solid var(--lm-glass-border);
+  border-radius: var(--lm-radius-md);
+  padding: var(--lm-space-4);
+  text-align: center;
+  transition: all var(--lm-duration-fast) var(--lm-ease-out);
+  position: relative;
+  overflow: hidden;
+}
+
+.lm-dash-stat-box::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--lm-color-taupe);
+  opacity: 0;
+  transition: opacity var(--lm-duration-fast) var(--lm-ease-out);
+}
+
+.lm-dash-stat-box:hover {
+  background: var(--lm-glass-bg-elevated);
+  box-shadow: var(--lm-shadow-md);
+  transform: translateY(-1px);
+}
+
+.lm-dash-stat-box:hover::before {
+  opacity: 1;
+}
+
+.lm-dash-stat-value {
+  font-size: var(--lm-text-2xl);
+  font-weight: 700;
+  color: var(--lm-color-taupe);
+  line-height: var(--lm-leading-tight);
+}
+
+.lm-dash-stat-label {
+  font-size: var(--lm-text-xs);
+  color: var(--lm-color-text-muted);
+  margin-top: var(--lm-space-1);
+  text-transform: uppercase;
+  letter-spacing: var(--lm-tracking-wide);
+}
+
+/* Accent variants */
+.lm-dash-stat-box--vip .lm-dash-stat-value { color: var(--lm-color-bronze); }
+.lm-dash-stat-box--vip::before { background: var(--lm-color-bronze); }
+.lm-dash-stat-box--new .lm-dash-stat-value { color: var(--lm-color-success); }
+.lm-dash-stat-box--new::before { background: var(--lm-color-success); }
+
+/* ─── Customer Table (VIP & Recent) ─── */
+.lm-dash-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.lm-dash-table th {
+  font-size: var(--lm-text-xs);
+  font-weight: 600;
+  color: var(--lm-color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: var(--lm-tracking-wide);
+  padding: var(--lm-space-2) var(--lm-space-3);
+  text-align: left;
+  border-bottom: 1px solid var(--lm-glass-border-accent);
+}
+
+.lm-dash-table td {
+  font-size: var(--lm-text-sm);
+  color: var(--lm-color-text);
+  padding: var(--lm-space-3);
+  border-bottom: 1px solid var(--lm-glass-border);
+  transition: background var(--lm-duration-fast) var(--lm-ease-out);
+}
+
+.lm-dash-table tr:hover td {
+  background: var(--lm-glass-bg-subtle);
+}
+
+.lm-dash-table tr:last-child td {
+  border-bottom: none;
+}
+
+.lm-dash-badge-vip {
+  display: inline-block;
+  background: linear-gradient(135deg, var(--lm-color-bronze), var(--lm-color-bronze-light));
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: var(--lm-radius-full);
+  margin-left: var(--lm-space-1);
+  letter-spacing: var(--lm-tracking-wide);
+  text-transform: uppercase;
+}
+
+/* ─── Common: Empty State ─── */
+.lm-dash-empty {
+  text-align: center;
+  padding: var(--lm-space-6) var(--lm-space-4);
+  color: var(--lm-color-text-muted);
+  font-size: var(--lm-text-sm);
+}
+
+.lm-dash-empty-icon {
+  font-size: var(--lm-text-2xl);
+  margin-bottom: var(--lm-space-2);
+  opacity: 0.5;
+}
+
+/* ─── Common: Footer Link ─── */
+.lm-dash-footer {
+  margin-top: var(--lm-space-4);
+  text-align: right;
+}
+
+.lm-dash-footer a {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--lm-space-1);
+  font-size: var(--lm-text-sm);
+  font-weight: 500;
+  color: var(--lm-color-taupe);
+  text-decoration: none;
+  padding: var(--lm-space-2) var(--lm-space-3);
+  border-radius: var(--lm-radius-sm);
+  background: var(--lm-glass-bg-subtle);
+  border: 1px solid transparent;
+  transition: all var(--lm-duration-fast) var(--lm-ease-out);
+}
+
+.lm-dash-footer a:hover {
+  background: var(--lm-glass-bg);
+  border-color: var(--lm-glass-border-accent);
+  box-shadow: var(--lm-shadow-xs);
+}

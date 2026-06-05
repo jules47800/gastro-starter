@@ -1,0 +1,923 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Le Margo\n"
+"POT-Creation-Date: 2023-10-27 10:00+0000\n"
+"PO-Revision-Date: 2023-10-27 10:00+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: en_US\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: AI Assistant\n"
+
+msgid "Réservation"
+msgstr "Reservation"
+
+msgid "Instagram"
+msgstr "Instagram"
+
+msgid "Mail"
+msgstr "Mail"
+
+msgid "Menu"
+msgstr "Menu"
+
+msgid "Le Margo"
+msgstr "Le Margo"
+
+msgid "Restaurant Bistronomique à Eymet, Dordogne"
+msgstr "Bistronomic Restaurant in Eymet, Dordogne"
+
+msgid "Découvrez une cuisine locale et créative, élaborée à partir de produits frais et bio du Périgord, accompagnée d'une sélection de vins naturels."
+msgstr "Discover a local and creative cuisine, made from fresh and organic products from Périgord, accompanied by a selection of natural wines."
+
+msgid "Réserver"
+msgstr "Book"
+
+msgid "Veuillez configurer votre galerie dans les réglages du thème."
+msgstr "Please configure your gallery in the theme settings."
+
+msgid "Une table, un moment"
+msgstr "A table, a moment"
+
+msgid "Le Margo vous attend"
+msgstr "Le Margo awaits you"
+
+msgid "Une cuisine qui raconte une histoire"
+msgstr "A cuisine that tells a story"
+
+msgid "Des saveurs qui marquent les esprits"
+msgstr "Flavors that leave a mark"
+
+msgid "Un moment qui devient souvenir"
+msgstr "A moment that becomes a memory"
+
+msgid "Date"
+msgstr "Date"
+
+msgid "JJ/MM/AAAA"
+msgstr "DD/MM/YYYY"
+
+msgid "Horaire"
+msgstr "Time"
+
+msgid "Choisissez d'abord une date"
+msgstr "First, choose a date"
+
+msgid "Personnes"
+msgstr "Guests"
+
+msgid "Sélectionnez..."
+msgstr "Select..."
+
+msgid "personne"
+msgstr "person"
+
+msgid "personnes"
+msgstr "people"
+
+msgid "Plus de 10 personnes"
+msgstr "More than 10 people"
+
+msgid "Pour les groupes de 4 personnes ou plus, merci de nous appeler pour garantir la meilleure expérience !"
+msgstr "For groups of 4 or more, please call us to ensure the best experience!"
+
+msgid "Appeler le restaurant"
+msgstr "Call the restaurant"
+
+msgid "Nom"
+msgstr "Name"
+
+msgid "Nom et prénom"
+msgstr "First and last name"
+
+msgid "Téléphone"
+msgstr "Phone"
+
+msgid "Pour vous contacter"
+msgstr "To contact you"
+
+msgid "Email"
+msgstr "Email"
+
+msgid "Pour confirmation"
+msgstr "For confirmation"
+
+msgid "Allergies ou végétarien ?"
+msgstr "Allergies or vegetarian?"
+
+msgid "Merci de préciser toute allergie ou demande végétarienne dans les notes. Nous adaptons nos plats avec plaisir !"
+msgstr "Please specify any allergies or vegetarian requests in the notes. We are happy to adapt our dishes!"
+
+msgid "Notes spéciales (optionnel)"
+msgstr "Special notes (optional)"
+
+msgid "Allergies, occasion spéciale..."
+msgstr "Allergies, special occasion..."
+
+msgid "Préférences & Consentement"
+msgstr "Preferences & Consent"
+
+msgid "Recevoir un rappel par email avant ma réservation"
+msgstr "Receive a reminder by email before my reservation"
+
+msgid "S'inscrire à notre newsletter pour nos actualités et offres"
+msgstr "Subscribe to our newsletter for our news and offers"
+
+msgid "J'ai lu et j'accepte la <a href=\"%s\" target=\"_blank\">politique de confidentialité</a> du site.*"
+msgstr "I have read and agree to the site's <a href=\"%s\" target=\"_blank\">privacy policy</a>.*"
+
+msgid "En soumettant ce formulaire, vous acceptez notre <a href=\"%1$s\" target=\"_blank\">politique de confidentialité</a>. Vous pouvez à tout moment exercer vos droits RGPD via notre <a href=\"%2$s\" target=\"_blank\">formulaire de suppression de données</a>."
+msgstr "By submitting this form, you agree to our <a href=\"%1$s\" target=\"_blank\">privacy policy</a>. You can exercise your GDPR rights at any time via our <a href=\"%2$s\" target=\"_blank\">data deletion form</a>."
+
+msgid "Réservez votre table"
+msgstr "Book your table"
+
+msgid "Votre demande a bien été reçue !"
+msgstr "Your request has been well received!"
+
+msgid "Nous avons hâte de vous accueillir au Margo."
+msgstr "We look forward to welcoming you to Le Margo."
+
+msgid "Un email de confirmation vient de vous être envoyé avec les détails de votre demande. Nous la traiterons dans les plus brefs délais."
+msgstr "A confirmation email has just been sent to you with the details of your request. We will process it as soon as possible."
+
+msgid "Pensez à vérifier votre dossier de courriers indésirables (spam) si vous ne le trouvez pas."
+msgstr "Remember to check your spam folder if you can't find it."
+
+msgid "En cas de question ou de modification, n'hésitez pas à nous appeler :"
+msgstr "If you have any questions or changes, do not hesitate to call us:"
+
+msgid "Retour à l'accueil"
+msgstr "Back to home"
+
+msgid "Oups, cette page n'existe pas !"
+msgstr "Oops, this page does not exist!"
+
+msgid "Il semblerait que la page que vous cherchez n'existe plus ou n'ait jamais existé."
+msgstr "It seems that the page you are looking for no longer exists or never existed."
+
+msgid "Pas de panique, revenez à l'accueil pour continuer votre expérience gourmande chez"
+msgstr "Don't panic, go back to the home page to continue your gourmet experience at"
+
+msgid "Notre carte"
+msgstr "Our menu"
+
+msgid "Tous nos menus"
+msgstr "All our menus"
+
+msgid "Découvrez l'ensemble de nos menus, à télécharger ou consulter en ligne."
+msgstr "Discover all our menus, to download or consult online."
+
+msgid "Aucun fichier disponible pour ce menu."
+msgstr "No file available for this menu."
+
+msgid "Aucun menu disponible pour le moment."
+msgstr "No menu available at the moment."
+
+#: header.php
+msgid "Agenda"
+msgstr "Events"
+
+msgid "Bons-cadeaux"
+msgstr "Gift Vouchers"
+
+#: front-page.php
+msgid "Menu Spécial Nouvel An - Découvrez notre carte exceptionnelle"
+msgstr "Special New Year Menu - Discover our exceptional selection"
+
+#: reservation-form.php
+msgid "Confirmation automatique"
+msgstr "Automatic confirmation"
+
+msgid "100% sécurisé"
+msgstr "100% secure"
+
+msgid "Choisissez d'abord une date et le nombre de personnes"
+msgstr "First, choose a date and number of guests"
+
+msgid "Aucune disponibilité pour votre groupe ?"
+msgstr "No availability for your group?"
+
+msgid "Le système ne voit pas toutes nos possibilités. Si vous êtes plus nombreux que ce qu'il affiche, appelez-nous : on trouve souvent une table !"
+msgstr "The system doesn't see all our possibilities. If your group is larger than what it shows, call us – we can often find a table!"
+
+msgid "06 02 55 63 15"
+msgstr "06 02 55 63 15"
+
+msgid "* Mention obligatoire : Vos données personnelles sont collectées et traitées conformément à notre politique de confidentialité."
+msgstr "* Required: Your personal data is collected and processed in accordance with our privacy policy."
+
+msgid "Je réserve ma table"
+msgstr "Book my table"
+
+msgid "Réservation envoyée avec succès !"
+msgstr "Reservation sent successfully!"
+
+msgid "Nous avons bien reçu votre demande de réservation. Vous allez recevoir un email de confirmation dans quelques instants."
+msgstr "We have received your reservation request. You will receive a confirmation email shortly."
+
+msgid "Nous vous contacterons rapidement pour confirmer votre réservation."
+msgstr "We will contact you shortly to confirm your reservation."
+
+#: page-eymet.php
+msgid "Eymet, bastide vivante du Périgord"
+msgstr "Eymet, a Living Bastide in the Périgord"
+
+msgid "Le Margo, au cœur de la place, entre arcades médiévales et douce vie périgourdine."
+msgstr "Le Margo, in the heart of the square, between medieval arcades and the sweet Périgord lifestyle."
+
+msgid "Contact : "
+msgstr "Contact: "
+
+msgid "Bastide de 1270"
+msgstr "Bastide since 1270"
+
+msgid "Plan en damier, arcades, halle… une balade historique à deux pas du restaurant."
+msgstr "Checkerboard layout, arcades, market hall… a historical stroll just steps from the restaurant."
+
+msgid "Marché d\u2019Eymet"
+msgstr "Eymet Market"
+
+msgid "Le jeudi matin sur la place – producteurs locaux, couleurs et ambiance chaleureuse."
+msgstr "Thursday mornings on the square – local producers, colours and a warm atmosphere."
+
+msgid "Autour d\u2019Eymet"
+msgstr "Around Eymet"
+
+msgid "Vignobles de Duras & Bergerac, rivières, villages classés – de belles escapades à portée de main."
+msgstr "Duras & Bergerac vineyards, rivers, listed villages – beautiful getaways within easy reach."
+
+msgid "750 ans d'histoire"
+msgstr "750 Years of History"
+
+msgid "La fondation"
+msgstr "The foundation"
+
+msgid "Eymet est fondée par Alphonse de Poitiers. Son plan régulier s'organise autour de la place à arcades."
+msgstr "Eymet was founded by Alphonse de Poitiers. Its regular layout is organised around the arcaded square."
+
+msgid "La guerre de Cent Ans"
+msgstr "The Hundred Years' War"
+
+msgid "Ville frontière, Eymet change plusieurs fois de camp, conservant un patrimoine médiéval remarquable."
+msgstr "A border town, Eymet changed sides several times, preserving a remarkable medieval heritage."
+
+msgid "Aujourd\u2019hui"
+msgstr "Today"
+
+msgid "Une destination vivante : marché animé, brocantes, concerts d'été… et une belle table sur la place."
+msgstr "A lively destination: bustling market, antique fairs, summer concerts… and a fine table on the square."
+
+msgid "Eymet – %s"
+msgstr "Eymet – %s"
+
+msgid "Nous trouver à Eymet"
+msgstr "Find Us in Eymet"
+
+msgid "Prêts pour une balade et un dîner ?"
+msgstr "Ready for a Stroll and Dinner?"
+
+msgid "Réservez votre table au Margo et profitez d'Eymet au meilleur de la saison."
+msgstr "Book your table at Le Margo and enjoy Eymet at its best."
+
+msgid "Réserver maintenant"
+msgstr "Book now"
+
+msgid "Retour à l\u2019accueil"
+msgstr "Back to home"
+
+#: page-galerie.php
+msgid "Galerie Photos"
+msgstr "Photo Gallery"
+
+msgid "Découvrez l'univers du Margo en images"
+msgstr "Discover the world of Le Margo in pictures"
+
+msgid "Notre univers"
+msgstr "Our world"
+
+msgid "Le Margo en images"
+msgstr "Le Margo in Pictures"
+
+msgid "Le Restaurant"
+msgstr "The Restaurant"
+
+msgid "Extérieur du restaurant Le Margo"
+msgstr "Exterior of Le Margo restaurant"
+
+msgid "Façade du restaurant"
+msgstr "Restaurant façade"
+
+msgid "Notre belle façade au cœur d'Eymet"
+msgstr "Our beautiful façade in the heart of Eymet"
+
+msgid "Intérieur du restaurant"
+msgstr "Restaurant interior"
+
+msgid "Ambiance intérieure"
+msgstr "Interior ambiance"
+
+msgid "Un décor artistique et chaleureux"
+msgstr "An artistic and warm décor"
+
+msgid "Salle du restaurant"
+msgstr "Restaurant dining room"
+
+msgid "Salle principale"
+msgstr "Main dining room"
+
+msgid "Espace convivial pour vos repas"
+msgstr "A convivial space for your meals"
+
+msgid "Terrasse du restaurant"
+msgstr "Restaurant terrace"
+
+msgid "Terrasse extérieure"
+msgstr "Outdoor terrace"
+
+msgid "Profitez des beaux jours en terrasse"
+msgstr "Enjoy sunny days on the terrace"
+
+msgid "Ambiance de soirée"
+msgstr "Evening ambiance"
+
+msgid "Une atmosphère intimiste le soir"
+msgstr "An intimate atmosphere in the evening"
+
+msgid "Dressage de table"
+msgstr "Table setting"
+
+msgid "Élégance dans chaque détail"
+msgstr "Elegance in every detail"
+
+msgid "La Cuisine"
+msgstr "The Kitchen"
+
+msgid "Cuisine ouverte"
+msgstr "Open kitchen"
+
+msgid "Transparence et créativité culinaire"
+msgstr "Transparency and culinary creativity"
+
+msgid "Chef en préparation"
+msgstr "Chef preparing"
+
+msgid "Chef en action"
+msgstr "Chef in action"
+
+msgid "Passion et savoir-faire"
+msgstr "Passion and expertise"
+
+msgid "Préparation culinaire"
+msgstr "Culinary preparation"
+
+msgid "Chaque plat est une œuvre d'art"
+msgstr "Every dish is a work of art"
+
+msgid "Équipement moderne"
+msgstr "Modern equipment"
+
+msgid "Technologie au service du goût"
+msgstr "Technology in the service of taste"
+
+msgid "Nos Plats"
+msgstr "Our Dishes"
+
+msgid "Plat signature"
+msgstr "Signature dish"
+
+msgid "Plat signature Le Margo"
+msgstr "Le Margo signature dish"
+
+msgid "Notre création emblématique"
+msgstr "Our iconic creation"
+
+msgid "Cuisine créative"
+msgstr "Creative cuisine"
+
+msgid "Innovation et tradition réunies"
+msgstr "Innovation and tradition combined"
+
+msgid "Plat gastronomique"
+msgstr "Gourmet dish"
+
+msgid "Excellence culinaire française"
+msgstr "French culinary excellence"
+
+msgid "Signature du chef"
+msgstr "Chef's signature"
+
+msgid "Vision unique du chef"
+msgstr "The chef's unique vision"
+
+msgid "Ingrédients locaux"
+msgstr "Local ingredients"
+
+msgid "Terroir du Périgord sublimé"
+msgstr "The finest Périgord terroir"
+
+msgid "Menu de saison"
+msgstr "Seasonal menu"
+
+msgid "Fraîcheur et saisonnalité"
+msgstr "Freshness and seasonality"
+
+msgid "Dessert maison"
+msgstr "Homemade dessert"
+
+msgid "Dessert fait maison"
+msgstr "Homemade dessert"
+
+msgid "Douceur et gourmandise"
+msgstr "Sweetness and indulgence"
+
+msgid "Dressage gastronomique"
+msgstr "Gourmet plating"
+
+msgid "Art de l'assiette"
+msgstr "The art of plating"
+
+msgid "Menu dégustation"
+msgstr "Tasting menu"
+
+msgid "Voyage culinaire complet"
+msgstr "A complete culinary journey"
+
+msgid "Nos Vins"
+msgstr "Our Wines"
+
+msgid "Sélection de vins naturels"
+msgstr "Selection of natural wines"
+
+msgid "Vignerons passionnés et nature"
+msgstr "Passionate and natural winemakers"
+
+msgid "Bar à vins"
+msgstr "Wine bar"
+
+msgid "Bar à vins naturels"
+msgstr "Natural wine bar"
+
+msgid "Espace dégustation convivial"
+msgstr "Friendly tasting area"
+
+msgid "Cave à vins"
+msgstr "Wine cellar"
+
+msgid "Collection soigneusement choisie"
+msgstr "A carefully curated collection"
+
+msgid "Cave et sélection"
+msgstr "Cellar and selection"
+
+msgid "Découvertes et grands crus"
+msgstr "Discoveries and great vintages"
+
+msgid "Dégustation de vins"
+msgstr "Wine tasting"
+
+msgid "Expérience œnologique unique"
+msgstr "A unique wine experience"
+
+msgid "Produits & Équipe"
+msgstr "Products & Team"
+
+msgid "Produits locaux"
+msgstr "Local products"
+
+msgid "Circuit court et qualité"
+msgstr "Short supply chain and quality"
+
+msgid "Ingrédients frais"
+msgstr "Fresh ingredients"
+
+msgid "Ingrédients frais et locaux"
+msgstr "Fresh local ingredients"
+
+msgid "Fraîcheur garantie du producteur"
+msgstr "Guaranteed freshness from the producer"
+
+msgid "Fondateurs"
+msgstr "Founders"
+
+msgid "Antoine et Floriane"
+msgstr "Antoine and Floriane"
+
+msgid "Fondateurs passionnés du Margo"
+msgstr "Passionate founders of Le Margo"
+
+msgid "Équipe de service"
+msgstr "Service team"
+
+msgid "Accueil chaleureux et professionnel"
+msgstr "Warm and professional welcome"
+
+msgid "Venez découvrir Le Margo"
+msgstr "Come and Discover Le Margo"
+
+msgid "Réservez votre table pour vivre une expérience culinaire unique dans notre restaurant."
+msgstr "Book your table for a unique culinary experience in our restaurant."
+
+msgid "Réserver une table"
+msgstr "Book a table"
+
+#: page-suppression-donnees.php
+msgid "Trop de tentatives. Veuillez réessayer dans une heure."
+msgstr "Too many attempts. Please try again in one hour."
+
+msgid "Veuillez fournir une adresse email valide."
+msgstr "Please provide a valid email address."
+
+msgid "Aucun client trouvé avec cette adresse email."
+msgstr "No customer found with this email address."
+
+msgid "Erreur de sécurité. Veuillez réessayer."
+msgstr "Security error. Please try again."
+
+msgid "Données supprimées avec succès"
+msgstr "Data successfully deleted"
+
+msgid "Vos données personnelles ont été supprimées de notre base de données."
+msgstr "Your personal data has been deleted from our database."
+
+msgid "Vos anciennes réservations ont été anonymisées."
+msgstr "Your previous reservations have been anonymised."
+
+msgid "Exercez votre droit à l'oubli"
+msgstr "Exercise Your Right to Be Forgotten"
+
+msgid "Conformément au Règlement Général sur la Protection des Données (RGPD), vous pouvez demander la suppression de vos données personnelles de notre base de données."
+msgstr "In accordance with the General Data Protection Regulation (GDPR), you can request the deletion of your personal data from our database."
+
+msgid "Veuillez remplir le formulaire ci-dessous pour initier cette demande. Une fois votre demande traitée, vos informations personnelles et votre historique de visites seront définitivement supprimés."
+msgstr "Please fill in the form below to initiate this request. Once your request has been processed, your personal information and visit history will be permanently deleted."
+
+msgid "Important"
+msgstr "Important"
+
+msgid "Cette action est irréversible. Après suppression, nous ne pourrons plus récupérer votre historique de fidélité ni vos préférences."
+msgstr "This action is irreversible. After deletion, we will no longer be able to recover your loyalty history or preferences."
+
+msgid "Vos anciennes réservations seront anonymisées pour des raisons statistiques et de gestion."
+msgstr "Your previous reservations will be anonymised for statistical and management purposes."
+
+msgid "Votre email"
+msgstr "Your email"
+
+msgid "Entrez l'email utilisé pour vos réservations"
+msgstr "Enter the email used for your reservations"
+
+msgid "Veuillez utiliser l'adresse email avec laquelle vous avez effectué vos réservations."
+msgstr "Please use the email address with which you made your reservations."
+
+msgid "Je confirme vouloir supprimer définitivement mes données personnelles de la base de données du restaurant Le Margo."
+msgstr "I confirm that I wish to permanently delete my personal data from Le Margo restaurant's database."
+
+msgid "Supprimer mes données"
+msgstr "Delete my data"
+
+#: page-politique-confidentialite.php
+msgid "Politique de Confidentialité"
+msgstr "Privacy Policy"
+
+msgid "Protection de vos données personnelles"
+msgstr "Protection of Your Personal Data"
+
+msgid "Le restaurant Le Margo s'engage à protéger la confidentialité de vos données personnelles conformément au Règlement Général sur la Protection des Données (RGPD)."
+msgstr "Le Margo restaurant is committed to protecting the privacy of your personal data in accordance with the General Data Protection Regulation (GDPR)."
+
+msgid "1. Données collectées"
+msgstr "1. Data Collected"
+
+msgid "Nous collectons les informations suivantes lorsque vous effectuez une réservation :"
+msgstr "We collect the following information when you make a reservation:"
+
+msgid "Adresse email"
+msgstr "Email address"
+
+msgid "Numéro de téléphone"
+msgstr "Phone number"
+
+msgid "Détails de la réservation (date, heure, nombre de personnes, demandes spéciales)"
+msgstr "Reservation details (date, time, number of guests, special requests)"
+
+msgid "Historique des visites"
+msgstr "Visit history"
+
+msgid "2. Utilisation des données"
+msgstr "2. Use of Data"
+
+msgid "Nous utilisons vos données pour :"
+msgstr "We use your data to:"
+
+msgid "Gérer votre réservation"
+msgstr "Manage your reservation"
+
+msgid "Vous envoyer des confirmations et rappels"
+msgstr "Send you confirmations and reminders"
+
+msgid "Identifier les clients fidèles et proposer un programme VIP (après 5 visites)"
+msgstr "Identify loyal customers and offer a VIP programme (after 5 visits)"
+
+msgid "Personnaliser votre expérience"
+msgstr "Personalise your experience"
+
+msgid "Vous contacter en cas de modification de votre réservation"
+msgstr "Contact you in case of changes to your reservation"
+
+msgid "Si vous avez consenti à recevoir notre newsletter, nous utiliserons votre email pour vous envoyer des actualités et offres spéciales du restaurant."
+msgstr "If you have agreed to receive our newsletter, we will use your email to send you news and special offers from the restaurant."
+
+msgid "3. Conservation des données"
+msgstr "3. Data Retention"
+
+msgid "Nous conservons vos données pendant une durée de 3 ans à compter de votre dernière réservation, afin de maintenir votre historique de visite et votre statut de fidélité."
+msgstr "We retain your data for a period of 3 years from your last reservation, in order to maintain your visit history and loyalty status."
+
+msgid "4. Vos droits"
+msgstr "4. Your Rights"
+
+msgid "Conformément au RGPD, vous disposez des droits suivants concernant vos données personnelles :"
+msgstr "In accordance with the GDPR, you have the following rights regarding your personal data:"
+
+msgid "Droit d'accès à vos données"
+msgstr "Right of access to your data"
+
+msgid "Droit de rectification"
+msgstr "Right of rectification"
+
+msgid "Droit à l'effacement (« droit à l'oubli »)"
+msgstr "Right to erasure ('right to be forgotten')"
+
+msgid "Droit à la limitation du traitement"
+msgstr "Right to restriction of processing"
+
+msgid "Droit d'opposition"
+msgstr "Right to object"
+
+msgid "Droit à la portabilité des données"
+msgstr "Right to data portability"
+
+msgid "5. Exercer vos droits"
+msgstr "5. Exercising Your Rights"
+
+msgid "Pour exercer vos droits ou pour toute question relative à la protection de vos données, vous pouvez :"
+msgstr "To exercise your rights or for any questions about the protection of your data, you can:"
+
+msgid "Utiliser notre formulaire de contact"
+msgstr "Use our contact form"
+
+msgid "Nous envoyer un email à sasdamaeymet@gmail.com"
+msgstr "Send us an email at sasdamaeymet@gmail.com"
+
+msgid "Nous contacter par téléphone au +33 5 53 63 80 80"
+msgstr "Contact us by phone at +33 5 53 63 80 80"
+
+msgid "Nous écrire à l'adresse : Restaurant Le Margo, 6 avenue du 6 juin 1944, Eymet 24500"
+msgstr "Write to us at: Restaurant Le Margo, 6 avenue du 6 juin 1944, Eymet 24500"
+
+msgid "Nous nous efforcerons de répondre à votre demande dans un délai d'un mois."
+msgstr "We will endeavour to respond to your request within one month."
+
+msgid "6. Sécurité des données"
+msgstr "6. Data Security"
+
+msgid "Nous mettons en œuvre des mesures techniques et organisationnelles appropriées pour protéger vos données personnelles contre la perte, l'accès non autorisé, la divulgation, l'altération et la destruction."
+msgstr "We implement appropriate technical and organisational measures to protect your personal data against loss, unauthorised access, disclosure, alteration and destruction."
+
+msgid "7. Partage des données"
+msgstr "7. Data Sharing"
+
+msgid "Nous ne partageons pas vos données personnelles avec des tiers, sauf lorsque cela est nécessaire pour l'exécution de nos services ou lorsque nous sommes légalement tenus de le faire."
+msgstr "We do not share your personal data with third parties, except when necessary for the performance of our services or when we are legally required to do so."
+
+msgid "8. Modifications de notre politique de confidentialité"
+msgstr "8. Changes to Our Privacy Policy"
+
+msgid "Nous pouvons mettre à jour cette politique de confidentialité de temps à autre. Toute modification sera publiée sur cette page avec une date de révision mise à jour."
+msgstr "We may update this privacy policy from time to time. Any changes will be posted on this page with an updated revision date."
+
+msgid "Dernière mise à jour : "
+msgstr "Last updated: "
+
+#: archive-event.php
+msgid "L'Agenda"
+msgstr "Events"
+
+msgid "Nos soirées spéciales & événements \"Bec Fin\""
+msgstr "Our special evenings & \"Bec Fin\" events"
+
+msgid "Complet"
+msgstr "Fully booked"
+
+msgid "Terminé"
+msgstr "Ended"
+
+msgid "Voir le menu"
+msgstr "View the menu"
+
+msgid "Fermé"
+msgstr "Closed"
+
+msgid "Aucun événement n'est prévu pour le moment. Revenez bientôt !"
+msgstr "No events are currently scheduled. Check back soon!"
+
+#: archive-testimonial.php
+msgid "Témoignages de nos clients"
+msgstr "Guest Reviews"
+
+msgid "Découvrez ce que nos clients disent de leur expérience au Margo."
+msgstr "Discover what our guests say about their experience at Le Margo."
+
+#: archive-daily_menu.php
+msgid "Notre Menu"
+msgstr "Our Menu"
+
+msgid "Nos Formules"
+msgstr "Our Set Menus"
+
+msgid "Entrée + Plat + Dessert"
+msgstr "Starter + Main + Dessert"
+
+msgid "Entrée + Plat ou Plat + Dessert"
+msgstr "Starter + Main or Main + Dessert"
+
+msgid "Menu du Jour"
+msgstr "Menu of the Day"
+
+msgid "Découvrez notre menu du jour, élaboré avec des produits frais et de saison."
+msgstr "Discover our menu of the day, made with fresh seasonal produce."
+
+msgid "Télécharger le menu"
+msgstr "Download the menu"
+
+msgid "Le menu n'est pas encore disponible."
+msgstr "The menu is not yet available."
+
+msgid "Informations"
+msgstr "Information"
+
+msgid "Tous nos produits sont cuisinés maison"
+msgstr "All our dishes are homemade"
+
+msgid "Produits de saison sourcés localement"
+msgstr "Locally sourced seasonal produce"
+
+msgid "Carte des vins naturels disponible"
+msgstr "Natural wine list available"
+
+msgid "Aucun menu n'est disponible pour le moment. Veuillez revenir bientôt."
+msgstr "No menu is currently available. Please check back soon."
+
+#: template-parts/content-none.php
+msgid "Aucun contenu trouvé"
+msgstr "Nothing found"
+
+msgid "Prêt à publier votre premier article ? <a href=\"%1$s\">Commencez ici</a>."
+msgstr "Ready to publish your first post? <a href=\"%1$s\">Get started here</a>."
+
+msgid "Désolé, mais rien ne correspond à vos termes de recherche. Veuillez réessayer avec des mots-clés différents."
+msgstr "Sorry, but nothing matched your search terms. Please try again with different keywords."
+
+msgid "Il semble que nous ne puissions pas trouver ce que vous cherchez. Peut-être que la recherche peut vous aider."
+msgstr "It seems we can't find what you're looking for. Perhaps searching can help."
+
+#: template-parts/content.php
+msgid "Publié le"
+msgstr "Published on"
+
+msgid "par"
+msgstr "by"
+
+msgid "Continuer la lecture<span class=\"screen-reader-text\"> \"%s\"</span>"
+msgstr "Continue reading<span class=\"screen-reader-text\"> \"%s\"</span>"
+
+msgid "Pages:"
+msgstr "Pages:"
+
+msgid "Lire la suite"
+msgstr "Read more"
+
+msgid ", "
+msgstr ", "
+
+msgid "Catégories:"
+msgstr "Categories:"
+
+msgid "Tags:"
+msgstr "Tags:"
+
+#: template-parts/content-testimonial.php
+msgid "Livre d'or"
+msgstr "Guest book"
+
+msgid "Avis vérifié"
+msgstr "Verified review"
+
+msgid "Vérifié"
+msgstr "Verified"
+
+msgid "Avis en vedette"
+msgstr "Featured review"
+
+msgid "Vedette"
+msgstr "Featured"
+
+msgid "Note de %s sur 5"
+msgstr "Rating %s out of 5"
+
+msgid "Visité en %s"
+msgstr "Visited in %s"
+
+#, php-format
+msgid "%d personne trouve cet avis utile"
+msgid_plural "%d personnes trouvent cet avis utile"
+msgstr[0] "%d person found this review helpful"
+msgstr[1] "%d people found this review helpful"
+
+msgid "Voir l'avis original"
+msgstr "View the original review"
+
+#: template-parts/content-menu_item.php
+msgid "Ingrédients:"
+msgstr "Ingredients:"
+
+#: template-parts/cancel-reservation.php
+msgid "Annuler votre réservation"
+msgstr "Cancel your reservation"
+
+msgid "Vous êtes sur le point d'annuler la réservation suivante :"
+msgstr "You are about to cancel the following reservation:"
+
+msgid "Date :"
+msgstr "Date:"
+
+msgid "Heure :"
+msgstr "Time:"
+
+msgid "Nombre de personnes :"
+msgstr "Number of guests:"
+
+msgid "Confirmer l'annulation"
+msgstr "Confirm cancellation"
+
+msgid "Retour"
+msgstr "Back"
+
+msgid "Réservation non trouvée."
+msgstr "Reservation not found."
+
+msgid "Réservation annulée"
+msgstr "Reservation cancelled"
+
+msgid "Votre réservation a bien été annulée. Un email de confirmation vous a été envoyé."
+msgstr "Your reservation has been successfully cancelled. A confirmation email has been sent to you."
+
+#: maintenance.php
+msgid "Site en maintenance - Le Margo"
+msgstr "Site Under Maintenance - Le Margo"
+
+msgid "Site en maintenance"
+msgstr "Site Under Maintenance"
+
+msgid "Nous travaillons actuellement sur une nouvelle version de notre site web pour vous offrir une meilleure expérience."
+msgstr "We are currently working on a new version of our website to offer you a better experience."
+
+msgid "Retrouvez-nous début juillet 2025"
+msgstr "See you in early July 2025"
+
+msgid "En attendant, vous pouvez toujours nous contacter :"
+msgstr "In the meantime, you can still reach us:"
+
+#: inc/seo-meta.php
+msgid "Paramètres SEO & Partage Social"
+msgstr "SEO & Social Sharing Settings"
+
+msgid "Meta Title"
+msgstr "Meta Title"
+
+msgid "Le titre qui apparaîtra dans les résultats de recherche. Idéalement entre 50-60 caractères."
+msgstr "The title that will appear in search results. Ideally between 50-60 characters."
+
+msgid "Meta Description"
+msgstr "Meta Description"
+
+msgid "La description qui apparaîtra dans les résultats de recherche. Idéalement entre 150-160 caractères."
+msgstr "The description that will appear in search results. Ideally between 150-160 characters."
+
+msgid "Image de Partage Social"
+msgstr "Social Sharing Image"
+
+msgid "Choisir une image"
+msgstr "Choose an image"
+
+msgid "Cette image sera utilisée lors du partage sur les réseaux sociaux. Taille recommandée : 1200x630 pixels."
+msgstr "This image will be used when sharing on social media. Recommended size: 1200x630 pixels."
+
+msgid "Choisir une image de partage"
+msgstr "Choose a sharing image"
+
+msgid "Utiliser cette image"
+msgstr "Use this image"

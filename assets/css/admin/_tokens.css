@@ -1,0 +1,122 @@
+.gastro-starter-admin-shell {
+    /* ─── Brand Colors ─── */
+    --lm-color-taupe: #8B7355;
+    --lm-color-taupe-light: #a08f7a;
+    --lm-color-taupe-dark: #6e5a42;
+    --lm-color-secondary: #b5a692;
+    --lm-color-secondary-light: #d4c4a8;
+    --lm-color-bronze: #A67C52;
+    --lm-color-bronze-light: #c4a27a;
+
+    /* ─── Semantic Colors ─── */
+    --lm-color-success: #22c55e;
+    --lm-color-success-bg: rgba(34, 197, 94, 0.10);
+    --lm-color-success-border: rgba(34, 197, 94, 0.25);
+    --lm-color-warning: #f59e0b;
+    --lm-color-warning-bg: rgba(245, 158, 11, 0.10);
+    --lm-color-warning-border: rgba(245, 158, 11, 0.25);
+    --lm-color-danger: #ef4444;
+    --lm-color-danger-bg: rgba(239, 68, 68, 0.10);
+    --lm-color-danger-border: rgba(239, 68, 68, 0.25);
+    --lm-color-info: #3b82f6;
+    --lm-color-info-bg: rgba(59, 130, 246, 0.10);
+    --lm-color-info-border: rgba(59, 130, 246, 0.25);
+
+    /* ─── Neutrals ─── */
+    --lm-color-ink: #1a1a1a;
+    --lm-color-text: #2d2824;
+    --lm-color-text-muted: #646970;
+    --lm-color-text-faint: #9ca3af;
+
+    /* ─── Glass Surfaces ─── */
+    --lm-glass-bg: rgba(255, 255, 255, 0.65);
+    --lm-glass-bg-elevated: rgba(255, 255, 255, 0.80);
+    --lm-glass-bg-heavy: rgba(255, 255, 255, 0.92);
+    --lm-glass-bg-subtle: rgba(255, 255, 255, 0.40);
+    --lm-glass-border: rgba(255, 255, 255, 0.45);
+    --lm-glass-border-subtle: rgba(255, 255, 255, 0.20);
+    --lm-glass-border-accent: rgba(181, 166, 146, 0.30);
+    --lm-glass-blur: blur(16px);
+    --lm-glass-blur-heavy: blur(24px);
+    --lm-glass-blur-light: blur(8px);
+
+    /* ─── Page Background ─── */
+    --lm-page-gradient: linear-gradient(
+      135deg,
+      #faf7f3 0%,
+      #f5f0e8 25%,
+      #f0ebe3 50%,
+      #ede7dc 75%,
+      #f5f0e8 100%
+    );
+    --lm-page-gradient-accent: radial-gradient(
+      ellipse at 20% 50%,
+      rgba(181, 166, 146, 0.08) 0%,
+      transparent 60%
+    );
+
+    /* ─── Shadows ─── */
+    --lm-shadow-xs: 0 1px 2px rgba(139, 115, 85, 0.04);
+    --lm-shadow-sm: 0 1px 3px rgba(139, 115, 85, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+    --lm-shadow-md: 0 4px 12px rgba(139, 115, 85, 0.08), 0 2px 6px rgba(0, 0, 0, 0.04);
+    --lm-shadow-lg: 0 8px 32px rgba(139, 115, 85, 0.12), 0 4px 16px rgba(0, 0, 0, 0.06);
+    --lm-shadow-xl: 0 16px 48px rgba(139, 115, 85, 0.16), 0 8px 24px rgba(0, 0, 0, 0.08);
+    --lm-shadow-glow: 0 0 20px rgba(181, 166, 146, 0.30);
+    --lm-shadow-inner: inset 0 1px 3px rgba(0, 0, 0, 0.06);
+
+    /* ─── Typography ─── */
+    --lm-font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    --lm-font-mono: 'JetBrains Mono', 'SF Mono', 'Fira Code', monospace;
+
+    --lm-text-xs: 0.75rem;
+    --lm-text-sm: 0.8125rem;
+    --lm-text-base: 0.9375rem;
+    --lm-text-lg: 1.125rem;
+    --lm-text-xl: 1.5rem;
+    --lm-text-2xl: 2rem;
+    --lm-text-3xl: 2.5rem;
+
+    --lm-leading-tight: 1.2;
+    --lm-leading-normal: 1.5;
+    --lm-leading-relaxed: 1.7;
+
+    --lm-tracking-tight: -0.025em;
+    --lm-tracking-normal: 0;
+    --lm-tracking-wide: 0.05em;
+
+    /* ─── Spacing ─── */
+    --lm-space-1: 4px;
+    --lm-space-2: 8px;
+    --lm-space-3: 12px;
+    --lm-space-4: 16px;
+    --lm-space-5: 20px;
+    --lm-space-6: 24px;
+    --lm-space-8: 32px;
+    --lm-space-10: 40px;
+    --lm-space-12: 48px;
+    --lm-space-16: 64px;
+
+    /* ─── Border Radius ─── */
+    --lm-radius-sm: 8px;
+    --lm-radius-md: 12px;
+    --lm-radius-lg: 16px;
+    --lm-radius-xl: 24px;
+    --lm-radius-full: 9999px;
+
+    /* ─── Transitions ─── */
+    --lm-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+    --lm-ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+    --lm-ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+    --lm-duration-fast: 150ms;
+    --lm-duration-normal: 250ms;
+    --lm-duration-slow: 400ms;
+
+    /* ─── Z-index Scale ─── */
+    --lm-z-dropdown: 100;
+    --lm-z-sticky: 200;
+    --lm-z-overlay: 1000;
+    --lm-z-modal-backdrop: 99999;
+    --lm-z-modal: 100000;
+    --lm-z-panel: 100001;
+    --lm-z-toast: 100010;
+}

@@ -1,5 +1,5 @@
 /**
- * JavaScript pour l'interface d'administration des réservations - Le Margo
+ * JavaScript pour l'interface d'administration des réservations - Gastro Starter
  * Gestion des plages horaires multiples et interface dynamique
  */
 
@@ -21,6 +21,7 @@
         initEmailTest();
         initSmoothScroll();
         handleActionScrolling();
+        initEditReservation();
     }
 
     /**
@@ -91,11 +92,11 @@
                 <div class="time-inputs">
                     <div class="time-input">
                         <label>Début</label>
-                        <input type="time" name="le_margo_daily_schedule[${dayKey}][time_ranges][${newIndex}][start]" value="12:00">
+                        <input type="time" name="gastro_starter_daily_schedule[${dayKey}][time_ranges][${newIndex}][start]" value="12:00">
                     </div>
                     <div class="time-input">
                         <label>Fin</label>
-                        <input type="time" name="le_margo_daily_schedule[${dayKey}][time_ranges][${newIndex}][end]" value="14:00">
+                        <input type="time" name="gastro_starter_daily_schedule[${dayKey}][time_ranges][${newIndex}][end]" value="14:00">
                     </div>
                 </div>
                 <button type="button" class="remove-range" data-day="${dayKey}" data-index="${newIndex}">Supprimer</button>
@@ -115,23 +116,16 @@
     /**
      * Supprimer une plage horaire
      */
-    /*
     function removeTimeRange(dayKey, index) {
         const rangeRow = $(`.time-range-row[data-index="${index}"]`);
-        
-        // Animation de suppression
+        if (!rangeRow.length) return;
         rangeRow.fadeOut(300, function() {
             $(this).remove();
-            
-            // Réindexer les plages restantes
             reindexTimeRanges(dayKey);
-            
-            // Mettre à jour l'aperçu des créneaux
-            const dayElement = rangeRow.closest('.schedule-day');
+            const dayElement = $(`.schedule-day[data-day="${dayKey}"]`);
             updateSlotsPreview(dayElement);
         });
     }
-    */
 
     /**
      * Réindexer les plages horaires après suppression
@@ -142,8 +136,8 @@
         
         container.find('.time-range-row').each(function() {
             $(this).attr('data-index', newIndex);
-            $(this).find('input[name*="[start]"]').attr('name', `le_margo_daily_schedule[${dayKey}][time_ranges][${newIndex}][start]`);
-            $(this).find('input[name*="[end]"]').attr('name', `le_margo_daily_schedule[${dayKey}][time_ranges][${newIndex}][end]`);
+            $(this).find('input[name*="[start]"]').attr('name', `gastro_starter_daily_schedule[${dayKey}][time_ranges][${newIndex}][start]`);
+            $(this).find('input[name*="[end]"]').attr('name', `gastro_starter_daily_schedule[${dayKey}][time_ranges][${newIndex}][end]`);
             $(this).find('.remove-range').attr('data-index', newIndex);
             newIndex++;
         });
@@ -296,7 +290,7 @@
                 $this.addClass('stat-loading');
                 
                 // Si c'est un lien interne, laisser le comportement normal
-                if (href && href.indexOf('le-margo-reservations') !== -1) {
+                if (href && href.indexOf('gastro-starter-reservations') !== -1) {
                     return true;
                 }
             }
@@ -316,7 +310,7 @@
                 url: ajaxurl,
                 type: 'POST',
                 data: {
-                    action: 'le_margo_test_email'
+                    action: 'gastro_starter_test_email'
                 },
                 success: function(response) {
                     if (response.success) {
@@ -430,8 +424,8 @@
 
         // NOUVEAU : Initialisation du calendrier pour les vacances (Version robuste)
         if (typeof flatpickr !== 'undefined') {
-            const holidaysInput = document.getElementById('le_margo_holiday_dates');
-            const holidaysCalendarContainer = document.getElementById('le_margo_holiday_dates_calendar');
+            const holidaysInput = document.getElementById('gastro_starter_holiday_dates');
+            const holidaysCalendarContainer = document.getElementById('gastro_starter_holiday_dates_calendar');
 
             if (holidaysInput && holidaysCalendarContainer) {
                 flatpickr(holidaysCalendarContainer, {
@@ -454,17 +448,208 @@
         }
         
         // Debugging console pour les développeurs
-        console.log('Admin réservations Le Margo initialisé avec système d\'horaires avancé');
+        console.log('Admin réservations Gastro Starter initialisé avec système d\'horaires avancé');
     });
 
     /**
      * Export des fonctions pour utilisation externe
      */
-    window.LeMargoAdmin = {
+    window.GastroStarterAdmin = {
         addTimeRange,
         removeTimeRange,
         updateSlotsPreview,
         showNotification
     };
+
+    // ================================
+    // ÉDITION DE RÉSERVATION (MODAL)
+    // ================================
+    function initEditReservation() {
+        $(document).on('click', '.edit-button', function(e) {
+            const id = $(this).data('reservation-id');
+            openEditModal(id);
+        });
+        // Support tactile (iPad/tablette)
+        addTapHandler('.edit-button', function(target){
+            const id = $(target).data('reservation-id');
+            openEditModal(id);
+        });
+    }
+
+    function buildModal() {
+        let $modal = $('#gastro-starter-edit-modal');
+        if ($modal.length) return $modal;
+        $modal = $(`
+            <div id="gastro-starter-edit-modal" class="gastro-starter-modal" style="display:none;">
+                <div class="gastro-starter-modal-backdrop"></div>
+                <div class="gastro-starter-modal-dialog">
+                    <div class="gastro-starter-modal-header">
+                        <h2>${(gastro_starter_res_admin && gastro_starter_res_admin.i18n && gastro_starter_res_admin.i18n.editTitle) || 'Modifier la réservation'}</h2>
+                        <button type="button" class="gastro-starter-modal-close">×</button>
+                    </div>
+                    <div class="gastro-starter-modal-body">
+                        <form id="gastro-starter-edit-form">
+                            <input type="hidden" name="id" />
+                            <div class="form-grid">
+                                <label>Date
+                                    <input type="date" name="reservation_date" required />
+                                </label>
+                                <label>Heure
+                                    <input type="time" name="reservation_time" required />
+                                </label>
+                                <label>Personnes
+                                    <input type="number" name="people" min="1" max="20" required />
+                                </label>
+                                <label>Nom
+                                    <input type="text" name="customer_name" required />
+                                </label>
+                                <label>Email
+                                    <input type="email" name="customer_email" />
+                                </label>
+                                <label>Téléphone
+                                    <input type="text" name="customer_phone" />
+                                </label>
+                                <label>Notes
+                                    <textarea name="notes" rows="3"></textarea>
+                                </label>
+                            </div>
+                        </form>
+                        <div class="gastro-starter-modal-status" style="margin-top:8px;"></div>
+                    </div>
+                    <div class="gastro-starter-modal-footer">
+                        <button type="button" class="button button-secondary gastro-starter-cancel">${(gastro_starter_res_admin && gastro_starter_res_admin.i18n && gastro_starter_res_admin.i18n.cancel) || 'Annuler'}</button>
+                        <button type="button" class="button button-primary gastro-starter-save">${(gastro_starter_res_admin && gastro_starter_res_admin.i18n && gastro_starter_res_admin.i18n.save) || 'Enregistrer'}</button>
+                    </div>
+                </div>
+            </div>
+        `);
+        $('body').append($modal);
+        $modal.on('click', '.gastro-starter-modal-close, .gastro-starter-cancel, .gastro-starter-modal-backdrop', function() {
+            closeModal();
+        });
+        $modal.on('click', '.gastro-starter-save', function() {
+            submitEditForm();
+        });
+        return $modal;
+    }
+
+    function openEditModal(id) {
+        const $modal = buildModal();
+        $modal.find('.gastro-starter-modal-status').html('');
+        $modal.fadeIn(120);
+
+        $.ajax({
+            url: (gastro_starter_res_admin && gastro_starter_res_admin.ajax_url) || ajaxurl,
+            type: 'GET',
+            data: {
+                action: 'gastro_starter_get_reservation',
+                security: gastro_starter_res_admin && gastro_starter_res_admin.nonce,
+                id: id
+            },
+            success: function(resp) {
+                if (!resp || !resp.success || !resp.data) {
+                    showStatus('Erreur de chargement', 'error');
+                    return;
+                }
+                fillForm(resp.data);
+            },
+            error: handleAjaxError
+        });
+    }
+
+    function fillForm(data) {
+        const $form = $('#gastro-starter-edit-form');
+        $form.find('[name="id"]').val(data.id);
+        $form.find('[name="reservation_date"]').val(data.reservation_date);
+        $form.find('[name="reservation_time"]').val((data.reservation_time || '').slice(0,5));
+        $form.find('[name="people"]').val(data.people);
+        $form.find('[name="customer_name"]').val(data.customer_name);
+        $form.find('[name="customer_email"]').val(data.customer_email || '');
+        $form.find('[name="customer_phone"]').val(data.customer_phone || '');
+        $form.find('[name="notes"]').val(data.notes || '');
+    }
+
+    function submitEditForm() {
+        const $form = $('#gastro-starter-edit-form');
+        const formData = $form.serializeArray();
+        const payload = {};
+        formData.forEach(i => payload[i.name] = i.value);
+        payload.action = 'gastro_starter_update_reservation';
+        payload.security = gastro_starter_res_admin && gastro_starter_res_admin.nonce;
+
+        $.ajax({
+            url: (gastro_starter_res_admin && gastro_starter_res_admin.ajax_url) || ajaxurl,
+            type: 'POST',
+            data: payload,
+            success: function(resp) {
+                if (resp && resp.success) {
+                    showStatus((gastro_starter_res_admin && gastro_starter_res_admin.i18n && gastro_starter_res_admin.i18n.updated) || 'Réservation mise à jour.', 'success');
+                    // Mise à jour visuelle (personnes et notes) sans rechargement
+                    const id = payload.id;
+                    const $row = $(".edit-button[data-reservation-id='"+id+"']").closest('tr');
+                    $row.find('.column-people .people-count').text(payload.people);
+                    if (payload.notes && payload.notes.trim() !== '') {
+                        $row.find('.column-notes .notes-text').text(payload.notes);
+                        if ($row.find('.column-notes .notes-content').length === 0) {
+                            $row.find('.column-notes').html('<div class="notes-content"><span class="notes-icon dashicons dashicons-admin-comments"></span><span class="notes-text"></span></div>');
+                            $row.find('.column-notes .notes-text').text(payload.notes);
+                        }
+                    } else {
+                        $row.find('.column-notes').html('<span class="no-notes">—</span>');
+                    }
+                    setTimeout(closeModal, 650);
+                } else {
+                    showStatus((gastro_starter_res_admin && gastro_starter_res_admin.i18n && gastro_starter_res_admin.i18n.error) || 'Erreur lors de la mise à jour.', 'error');
+                }
+            },
+            error: handleAjaxError
+        });
+    }
+
+    function showStatus(msg, type) {
+        const $box = $('#gastro-starter-edit-modal .gastro-starter-modal-status');
+        $box.html(`<div class="notice notice-${type} inline"><p>${msg}</p></div>`);
+    }
+
+    function closeModal() {
+        $('#gastro-starter-edit-modal').fadeOut(100);
+    }
+
+    // Fiabiliser les taps sur les autres boutons d'action (liens)
+    addTapHandler('.reservations-table .action-buttons a', function(target){
+        const href = target.getAttribute('href');
+        if (href) {
+            // Déclencher le click natif, fallback navigation si nécessaire
+            try { target.click(); return; } catch(_e) {}
+            window.location.href = href;
+        }
+    });
+
+    // Gestion générique du "tap" (fiable en environnement tactile)
+    function addTapHandler(selector, onTap) {
+        let startX = 0, startY = 0, startTime = 0;
+        const TAP_MOVE_THRESHOLD = 10; // px
+        const TAP_TIME_THRESHOLD = 500; // ms
+
+        $(document).on('touchstart', selector, function(e){
+            const t = e.originalEvent.touches && e.originalEvent.touches[0];
+            if (!t) return;
+            startX = t.pageX;
+            startY = t.pageY;
+            startTime = Date.now();
+        });
+
+        $(document).on('touchend', selector, function(e){
+            const t = e.originalEvent.changedTouches && e.originalEvent.changedTouches[0];
+            if (!t) return;
+            const dx = Math.abs(t.pageX - startX);
+            const dy = Math.abs(t.pageY - startY);
+            const dt = Date.now() - startTime;
+            const isTap = dx < TAP_MOVE_THRESHOLD && dy < TAP_MOVE_THRESHOLD && dt < TAP_TIME_THRESHOLD;
+            if (!isTap) return; // geste de scroll -> ne rien faire
+            e.preventDefault();
+            onTap(this);
+        });
+    }
 
 })(jQuery); 

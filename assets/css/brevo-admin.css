@@ -1,0 +1,634 @@
+/**
+ * Brevo Newsletter Admin Styles — Gastro Starter
+ * Refonte : design sobre, typographique, cohérent avec l'identité Gastro Starter.
+ */
+
+/* ===== Variables ===== */
+.brevo-newsletter-metabox {
+    --brevo-ink: #1a1a1a;
+    --brevo-muted: #8b8680;
+    --brevo-border: #e8e3d9;
+    --brevo-soft-bg: #faf8f4;
+    --brevo-card-bg: #ffffff;
+    --brevo-accent: #c4a27a;
+    --brevo-danger: #b4432f;
+    --brevo-success-bg: #eef7ef;
+    --brevo-success-fg: #1e5e33;
+    --brevo-warn-bg: #fff7e0;
+    --brevo-warn-fg: #7a5a10;
+    --brevo-radius: 8px;
+    --brevo-radius-sm: 5px;
+    padding: 18px 22px 22px 22px;
+    background: #ffffff;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    color: #2d2824;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+/* ===== Intro / Notice ===== */
+.brevo-newsletter-metabox .brevo-intro {
+    background: var(--brevo-soft-bg);
+    border-left: 3px solid var(--brevo-accent);
+    padding: 12px 16px;
+    border-radius: 0 var(--brevo-radius-sm) var(--brevo-radius-sm) 0;
+    color: #555;
+    font-size: 12.5px;
+    margin-bottom: 24px;
+    line-height: 1.6;
+}
+.brevo-newsletter-metabox .brevo-intro em {
+    font-style: normal;
+    background: #fff;
+    padding: 1px 6px;
+    border-radius: 3px;
+    border: 1px solid var(--brevo-border);
+    font-weight: 500;
+    color: var(--brevo-ink);
+}
+
+.brevo-newsletter-metabox .brevo-notice {
+    padding: 12px 16px;
+    border-radius: var(--brevo-radius-sm);
+    font-size: 13px;
+    margin-bottom: 20px;
+}
+.brevo-newsletter-metabox .brevo-notice-warning {
+    background: var(--brevo-warn-bg);
+    color: var(--brevo-warn-fg);
+    border: 1px solid #f0d98a;
+}
+.brevo-newsletter-metabox .brevo-notice-draft {
+    background: #fff5f5;
+    color: #7a1c1c;
+    border: 1px solid #f5b8b8;
+    border-left: 3px solid #c0392b;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+.brevo-newsletter-metabox .brevo-publish-btn {
+    display: inline-block;
+    margin-left: auto;
+    background: #c0392b;
+    color: #fff !important;
+    text-decoration: none !important;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 5px 14px;
+    border-radius: 3px;
+    white-space: nowrap;
+    transition: background 0.15s ease;
+}
+.brevo-newsletter-metabox .brevo-publish-btn:hover {
+    background: #a93226;
+}
+.brevo-newsletter-metabox .brevo-notice a {
+    color: inherit;
+    font-weight: 600;
+    text-decoration: underline;
+}
+
+/* ===== Sections ===== */
+.brevo-newsletter-metabox .brevo-section {
+    position: relative;
+    padding: 22px 24px;
+    margin-bottom: 18px;
+    background: var(--brevo-card-bg);
+    border: 1px solid var(--brevo-border);
+    border-radius: var(--brevo-radius);
+    transition: border-color 0.15s ease;
+}
+.brevo-newsletter-metabox .brevo-section:hover {
+    border-color: #d8d0be;
+}
+.brevo-newsletter-metabox .brevo-section-last {
+    margin-bottom: 0;
+}
+
+.brevo-newsletter-metabox .brevo-section-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--brevo-muted);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin: 0 0 16px 0;
+    padding-bottom: 12px;
+    border-bottom: 1px dashed var(--brevo-border);
+}
+.brevo-newsletter-metabox .brevo-icon-dot {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--brevo-accent);
+    flex-shrink: 0;
+}
+.brevo-newsletter-metabox .brevo-optional {
+    font-weight: 400;
+    text-transform: none;
+    letter-spacing: 0;
+    color: #b5ad9d;
+    font-size: 11px;
+}
+
+/* ===== Champs ===== */
+.brevo-newsletter-metabox .brevo-field {
+    margin-bottom: 14px;
+}
+.brevo-newsletter-metabox .brevo-field:last-child {
+    margin-bottom: 0;
+}
+.brevo-newsletter-metabox .brevo-field label {
+    display: block;
+    font-weight: 500;
+    font-size: 12px;
+    color: #3a3530;
+    margin-bottom: 6px;
+    letter-spacing: 0.2px;
+}
+.brevo-newsletter-metabox .brevo-field .description,
+.brevo-newsletter-metabox .description {
+    font-size: 11.5px;
+    color: var(--brevo-muted);
+    margin-top: 6px;
+    font-style: italic;
+    line-height: 1.5;
+}
+
+.brevo-newsletter-metabox input[type="text"],
+.brevo-newsletter-metabox input[type="email"],
+.brevo-newsletter-metabox textarea {
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid #dcd8d0;
+    border-radius: var(--brevo-radius-sm);
+    padding: 9px 12px;
+    font-size: 13px;
+    font-family: inherit;
+    color: var(--brevo-ink);
+    background: #fff;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.brevo-newsletter-metabox input[type="text"]:focus,
+.brevo-newsletter-metabox input[type="email"]:focus,
+.brevo-newsletter-metabox textarea:focus {
+    border-color: var(--brevo-ink);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(26, 26, 26, 0.06);
+}
+.brevo-newsletter-metabox input[type="text"]::placeholder,
+.brevo-newsletter-metabox input[type="email"]::placeholder,
+.brevo-newsletter-metabox textarea::placeholder {
+    color: #b5ad9d;
+}
+.brevo-newsletter-metabox textarea {
+    min-height: 70px;
+    resize: vertical;
+    line-height: 1.5;
+}
+
+/* ===== Grilles 2 colonnes ===== */
+.brevo-newsletter-metabox .brevo-grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 14px;
+}
+.brevo-newsletter-metabox .brevo-grid-2:last-child {
+    margin-bottom: 0;
+}
+
+/* ===== Helpers ===== */
+.brevo-newsletter-metabox .brevo-muted {
+    color: var(--brevo-muted);
+    font-style: italic;
+    font-size: 12.5px;
+    margin: 0;
+}
+.brevo-newsletter-metabox .brevo-center { text-align: center; }
+
+/* ===== Onglets FR/EN ===== */
+.brevo-newsletter-metabox .brevo-tabs {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 18px;
+    border-bottom: 1px solid var(--brevo-border);
+}
+.brevo-newsletter-metabox .brevo-tab {
+    background: transparent;
+    border: none;
+    padding: 10px 18px;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--brevo-muted);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+    transition: color 0.15s ease, border-color 0.15s ease;
+}
+.brevo-newsletter-metabox .brevo-tab:hover {
+    color: var(--brevo-ink);
+}
+.brevo-newsletter-metabox .brevo-tab.active {
+    color: var(--brevo-ink);
+    border-bottom-color: var(--brevo-ink);
+}
+.brevo-newsletter-metabox .brevo-tab-hint {
+    font-size: 10.5px;
+    color: #b5ad9d;
+    font-weight: 400;
+    margin-left: 2px;
+}
+.brevo-newsletter-metabox .brevo-tab-panel {
+    display: none;
+    animation: brevo-fade-in 0.2s ease;
+}
+.brevo-newsletter-metabox .brevo-tab-panel.active {
+    display: block;
+}
+@keyframes brevo-fade-in {
+    from { opacity: 0; transform: translateY(2px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== Image picker ===== */
+.brevo-newsletter-metabox .brevo-image-picker {
+    display: flex;
+    gap: 12px;
+    align-items: stretch;
+}
+.brevo-newsletter-metabox .brevo-image-picker > div:first-child,
+.brevo-newsletter-metabox #brevo-image-preview,
+.brevo-newsletter-metabox #brevo-menu-image-preview,
+.brevo-newsletter-metabox .brevo-image-preview {
+    flex: 1;
+    min-height: 80px;
+    background: var(--brevo-soft-bg);
+    border: 1px dashed #d8d0be;
+    border-radius: var(--brevo-radius-sm);
+    padding: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.brevo-newsletter-metabox .brevo-image-picker img {
+    max-width: 100%;
+    height: auto;
+    border-radius: var(--brevo-radius-sm);
+    display: block;
+}
+
+.brevo-newsletter-metabox .brevo-image-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-width: 130px;
+}
+.brevo-newsletter-metabox .brevo-image-buttons .button {
+    text-align: center;
+}
+
+/* ===== Boutons ===== */
+.brevo-newsletter-metabox .button {
+    border-radius: var(--brevo-radius-sm);
+    font-size: 12.5px;
+    padding: 5px 14px;
+    height: auto;
+    line-height: 1.8;
+}
+.brevo-newsletter-metabox .brevo-btn-danger {
+    color: var(--brevo-danger) !important;
+    text-decoration: none;
+}
+.brevo-newsletter-metabox .brevo-btn-danger:hover {
+    color: #8c2c1e !important;
+    text-decoration: underline;
+}
+
+/* ===== Switch menu mode (items vs image) ===== */
+.brevo-newsletter-metabox .brevo-menu-mode-switch {
+    display: inline-flex;
+    background: var(--brevo-soft-bg);
+    border: 1px solid var(--brevo-border);
+    border-radius: 999px;
+    padding: 3px;
+    margin-bottom: 16px;
+    gap: 2px;
+}
+.brevo-newsletter-metabox .brevo-switch-option {
+    position: relative;
+    padding: 7px 18px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--brevo-muted);
+    cursor: pointer;
+    border-radius: 999px;
+    transition: background 0.15s ease, color 0.15s ease;
+    user-select: none;
+}
+.brevo-newsletter-metabox .brevo-switch-option input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+.brevo-newsletter-metabox .brevo-switch-option:hover {
+    color: var(--brevo-ink);
+}
+.brevo-newsletter-metabox .brevo-switch-option.active {
+    background: var(--brevo-ink);
+    color: #fff;
+    box-shadow: 0 1px 3px rgba(26, 26, 26, 0.15);
+}
+
+/* ===== Repeater menu ===== */
+.brevo-newsletter-metabox #brevo-menu-items-list {
+    margin-bottom: 12px;
+}
+.brevo-newsletter-metabox .brevo-menu-item {
+    background: var(--brevo-soft-bg);
+    border: 1px solid var(--brevo-border);
+    border-radius: var(--brevo-radius-sm);
+    padding: 14px;
+    margin-bottom: 10px;
+    transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+.brevo-newsletter-metabox .brevo-menu-item:hover {
+    background: #f5f1e8;
+    border-color: #d8d0be;
+}
+.brevo-newsletter-metabox .brevo-menu-item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    cursor: grab;
+    user-select: none;
+}
+.brevo-newsletter-metabox .brevo-menu-item-number {
+    font-family: Georgia, "Cormorant Garamond", serif;
+    font-size: 20px;
+    color: #c4b99d;
+    font-weight: 400;
+}
+.brevo-newsletter-metabox .brevo-remove-item {
+    color: var(--brevo-danger) !important;
+    font-size: 11px !important;
+    cursor: pointer;
+    text-decoration: none !important;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    opacity: 0.55;
+    transition: opacity 0.15s ease;
+}
+.brevo-newsletter-metabox .brevo-remove-item:hover {
+    opacity: 1;
+    text-decoration: underline !important;
+}
+.brevo-newsletter-metabox .brevo-menu-item input {
+    margin-bottom: 6px;
+}
+.brevo-newsletter-metabox .brevo-menu-item input:last-child {
+    margin-bottom: 0;
+}
+.brevo-newsletter-metabox .brevo-item-name-en,
+.brevo-newsletter-metabox .brevo-item-desc-en {
+    background: #fff;
+    border-style: dashed !important;
+    font-size: 12.5px;
+}
+
+.brevo-newsletter-metabox .brevo-sortable-placeholder {
+    height: 90px;
+    background: #f5f1e8;
+    border: 2px dashed #d8d0be;
+    border-radius: var(--brevo-radius-sm);
+    margin-bottom: 10px;
+}
+
+/* ===== Panneau d'envoi ===== */
+.brevo-newsletter-metabox .brevo-send-panel {
+    background: var(--brevo-soft-bg);
+    border: 1px solid var(--brevo-border);
+    border-radius: var(--brevo-radius);
+    padding: 22px;
+}
+
+.brevo-newsletter-metabox .brevo-audience-selector {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+.brevo-newsletter-metabox .brevo-audience-option {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 14px;
+    background: #fff;
+    border: 1px solid var(--brevo-border);
+    border-radius: var(--brevo-radius-sm);
+    cursor: pointer;
+    font-size: 12.5px;
+    color: #3a3530;
+    transition: border-color 0.15s ease, background 0.15s ease;
+}
+.brevo-newsletter-metabox .brevo-audience-option:hover {
+    border-color: #c4b99d;
+}
+.brevo-newsletter-metabox .brevo-audience-option input[type="radio"] {
+    margin: 0;
+    accent-color: var(--brevo-ink);
+}
+.brevo-newsletter-metabox .brevo-audience-option:has(input:checked) {
+    border-color: var(--brevo-ink);
+    background: #fff;
+    box-shadow: 0 0 0 2px rgba(26, 26, 26, 0.05);
+}
+
+.brevo-newsletter-metabox .brevo-contact-count {
+    display: inline-block;
+    padding: 8px 14px;
+    background: #fff;
+    border: 1px solid var(--brevo-border);
+    border-radius: 999px;
+    font-size: 12.5px;
+    font-weight: 500;
+    color: var(--brevo-ink);
+    margin-bottom: 16px;
+}
+
+/* ===== Sélecteur de langue (test / aperçu) ===== */
+.brevo-newsletter-metabox .brevo-lang-selector {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 14px;
+}
+.brevo-newsletter-metabox .brevo-lang-label {
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    color: var(--brevo-muted);
+    text-transform: uppercase;
+    margin-right: 4px;
+    white-space: nowrap;
+}
+.brevo-newsletter-metabox .brevo-lang-opt {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+.brevo-newsletter-metabox .brevo-lang-opt input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+.brevo-newsletter-metabox .brevo-lang-opt span {
+    display: inline-block;
+    padding: 4px 14px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    border: 1px solid var(--brevo-border);
+    border-radius: 3px;
+    background: var(--brevo-surface);
+    color: var(--brevo-muted);
+    transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+    user-select: none;
+}
+.brevo-newsletter-metabox .brevo-lang-opt:hover span {
+    border-color: #c4b99d;
+    color: var(--brevo-ink);
+}
+.brevo-newsletter-metabox .brevo-lang-opt input:checked + span {
+    background: var(--brevo-ink);
+    color: #fff;
+    border-color: var(--brevo-ink);
+}
+
+/* ===== Email de test ===== */
+.brevo-newsletter-metabox .brevo-test-section {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+}
+.brevo-newsletter-metabox .brevo-test-section input[type="email"] {
+    width: 260px;
+    flex: 1 1 220px;
+}
+
+/* ===== Actions principales ===== */
+.brevo-newsletter-metabox .brevo-actions {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+}
+.brevo-newsletter-metabox .brevo-send-button {
+    background: var(--brevo-ink) !important;
+    color: #ffffff !important;
+    border-color: var(--brevo-ink) !important;
+    font-weight: 500 !important;
+    padding: 8px 22px !important;
+    font-size: 13px !important;
+    text-shadow: none !important;
+    letter-spacing: 0.3px;
+    border-radius: var(--brevo-radius-sm) !important;
+    transition: background-color 0.15s ease, transform 0.1s ease;
+    box-shadow: 0 1px 2px rgba(26, 26, 26, 0.08);
+}
+.brevo-newsletter-metabox .brevo-send-button:hover {
+    background: #2d2824 !important;
+}
+.brevo-newsletter-metabox .brevo-send-button:active {
+    transform: translateY(1px);
+}
+.brevo-newsletter-metabox .brevo-send-button:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+}
+
+/* ===== Statut d'envoi ===== */
+.brevo-newsletter-metabox #brevo-send-status,
+.brevo-newsletter-metabox #brevo-test-status {
+    font-size: 12.5px;
+    margin-top: 6px;
+    padding: 4px 0;
+}
+.brevo-newsletter-metabox .brevo-status-success {
+    display: inline-block;
+    color: var(--brevo-success-fg);
+    background: var(--brevo-success-bg);
+    padding: 6px 12px;
+    border-radius: var(--brevo-radius-sm);
+    border: 1px solid #c3e2c9;
+}
+.brevo-newsletter-metabox .brevo-status-error {
+    display: inline-block;
+    color: #8c2c1e;
+    background: #fbecea;
+    padding: 6px 12px;
+    border-radius: var(--brevo-radius-sm);
+    border: 1px solid #efc1b9;
+}
+
+/* ===== Infos envoi précédent ===== */
+.brevo-newsletter-metabox .brevo-previous-send {
+    background: var(--brevo-success-bg);
+    border: 1px solid #c3e2c9;
+    border-radius: var(--brevo-radius-sm);
+    padding: 10px 14px;
+    font-size: 12.5px;
+    color: var(--brevo-success-fg);
+    margin-bottom: 16px;
+}
+.brevo-newsletter-metabox .brevo-previous-send.has-errors {
+    background: var(--brevo-warn-bg);
+    border-color: #f0d98a;
+    color: var(--brevo-warn-fg);
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 782px) {
+    .brevo-newsletter-metabox {
+        padding: 14px;
+    }
+    .brevo-newsletter-metabox .brevo-section {
+        padding: 16px;
+    }
+    .brevo-newsletter-metabox .brevo-grid-2 {
+        grid-template-columns: 1fr;
+    }
+    .brevo-newsletter-metabox .brevo-audience-selector {
+        flex-direction: column;
+    }
+    .brevo-newsletter-metabox .brevo-test-section input[type="email"] {
+        width: 100%;
+    }
+    .brevo-newsletter-metabox .brevo-image-picker {
+        flex-direction: column;
+    }
+    .brevo-newsletter-metabox .brevo-image-buttons {
+        flex-direction: row;
+        min-width: 0;
+    }
+    .brevo-newsletter-metabox .brevo-menu-mode-switch {
+        width: 100%;
+        display: flex;
+    }
+    .brevo-newsletter-metabox .brevo-switch-option {
+        flex: 1;
+        text-align: center;
+    }
+}

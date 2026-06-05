@@ -3,7 +3,7 @@
 <head>
     <meta charset="<?php bloginfo('charset'); ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title><?php echo esc_html__('Site en maintenance - Le Margo', 'le-margo'); ?></title>
+    <title><?php echo esc_html__('Site en maintenance - Mon Restaurant', 'gastro-starter'); ?></title>
     <style>
         :root {
             --color-primary: #000000;
@@ -111,21 +111,21 @@
             <?php endif; ?>
         </div>
 
-        <h1><?php echo esc_html__('Site en maintenance', 'le-margo'); ?></h1>
+        <h1><?php echo esc_html__('Site en maintenance', 'gastro-starter'); ?></h1>
 
         <div class="message">
-            <?php echo esc_html__('Nous travaillons actuellement sur une nouvelle version de notre site web pour vous offrir une meilleure expérience.', 'le-margo'); ?>
+            <?php echo esc_html__('Nous travaillons actuellement sur une nouvelle version de notre site web pour vous offrir une meilleure expérience.', 'gastro-starter'); ?>
         </div>
 
         <div class="date">
-            <?php echo esc_html__('Retrouvez-nous début juillet 2025', 'le-margo'); ?>
+            <?php echo esc_html__('Retrouvez-nous début juillet 2025', 'gastro-starter'); ?>
         </div>
 
         <div class="contact">
-            <p><?php echo esc_html__('En attendant, vous pouvez toujours nous contacter :', 'le-margo'); ?></p>
+            <p><?php echo esc_html__('En attendant, vous pouvez toujours nous contacter :', 'gastro-starter'); ?></p>
             <p><a href="tel:+33602556315">06 02 55 63 15</a></p>
-            <p><a href="mailto:sasdamaeymet@gmail.com">sasdamaeymet@gmail.com</a></p>
-            <p>@lemargoeymet</p>
+            <p><a href="mailto:contact@mon-restaurant.fr">contact@mon-restaurant.fr</a></p>
+            <p>@mon-restaurant</p>
         </div>
     </div>
 

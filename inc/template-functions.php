@@ -2,7 +2,7 @@
 /**
  * Fonctions qui améliorent le thème en accrochant aux hooks et en appliquant des filtres
  *
- * @package Le Margo
+ * @package Gastro_Starter
  */
 
 /**
@@ -11,7 +11,7 @@
  * @param array $classes Classes pour la balise body.
  * @return array
  */
-function le_margo_body_classes($classes) {
+function gastro_starter_body_classes($classes) {
 	// Ajoute une classe 'hfeed' aux pages non singulières
 	if (!is_singular()) {
 		$classes[] = 'hfeed';
@@ -40,7 +40,7 @@ function le_margo_body_classes($classes) {
 
 	return $classes;
 }
-add_filter('body_class', 'le_margo_body_classes');
+add_filter('body_class', 'gastro_starter_body_classes');
 
 /**
  * Ajoute un titre de page dans la balise title de l'en-tête pour les archives
@@ -48,7 +48,7 @@ add_filter('body_class', 'le_margo_body_classes');
  * @param string $title La chaîne de titre originale.
  * @return string Le titre mis à jour.
  */
-function le_margo_archive_title($title) {
+function gastro_starter_archive_title($title) {
 	if (is_category()) {
 		$title = single_cat_title('', false);
 	} elseif (is_tag()) {
@@ -63,12 +63,12 @@ function le_margo_archive_title($title) {
 
 	return $title;
 }
-add_filter('get_the_archive_title', 'le_margo_archive_title');
+add_filter('get_the_archive_title', 'gastro_starter_archive_title');
 
 /**
  * Fonction pour afficher le logo dans le pied de page
  */
-function le_margo_footer_logo() {
+function gastro_starter_footer_logo() {
 	if (function_exists('the_custom_logo')) {
 		if (has_custom_logo()) {
 			the_custom_logo();
@@ -81,23 +81,23 @@ function le_margo_footer_logo() {
 /**
  * Limite la longueur des extraits
  */
-function le_margo_custom_excerpt_length($length) {
+function gastro_starter_custom_excerpt_length($length) {
 	return 20;
 }
-add_filter('excerpt_length', 'le_margo_custom_excerpt_length', 999);
+add_filter('excerpt_length', 'gastro_starter_custom_excerpt_length', 999);
 
 /**
  * Modifie le texte "Lire la suite"
  */
-function le_margo_excerpt_more($more) {
+function gastro_starter_excerpt_more($more) {
 	return '...';
 }
-add_filter('excerpt_more', 'le_margo_excerpt_more');
+add_filter('excerpt_more', 'gastro_starter_excerpt_more');
 
 /**
  * Personnalise le chargement des scripts dans le pied de page
  */
-function le_margo_scripts_to_footer() {
+function gastro_starter_scripts_to_footer() {
 	remove_action('wp_head', 'wp_print_scripts');
 	remove_action('wp_head', 'wp_print_head_scripts', 9);
 	remove_action('wp_head', 'wp_enqueue_scripts', 1);
@@ -105,7 +105,7 @@ function le_margo_scripts_to_footer() {
 	add_action('wp_footer', 'wp_enqueue_scripts', 5);
 	add_action('wp_footer', 'wp_print_head_scripts', 5);
 }
-add_action('wp_enqueue_scripts', 'le_margo_scripts_to_footer');
+add_action('wp_enqueue_scripts', 'gastro_starter_scripts_to_footer');
 
 /**
  * Récupère et formate les horaires d'ouverture pour un affichage public.
@@ -113,8 +113,8 @@ add_action('wp_enqueue_scripts', 'le_margo_scripts_to_footer');
  *
  * @return string Le HTML formaté des horaires d'ouverture.
  */
-function le_margo_get_formatted_opening_hours() {
-    $schedule = get_option('le_margo_daily_schedule');
+function gastro_starter_get_formatted_opening_hours() {
+    $schedule = get_option('gastro_starter_daily_schedule');
 
     // Si les horaires ne sont pas configurés, on ne renvoie rien.
     if (empty($schedule)) {
@@ -122,13 +122,13 @@ function le_margo_get_formatted_opening_hours() {
     }
 
     $days_fr = array(
-        'monday'    => __('Lundi', 'le-margo'),
-        'tuesday'   => __('Mardi', 'le-margo'),
-        'wednesday' => __('Mercredi', 'le-margo'),
-        'thursday'  => __('Jeudi', 'le-margo'),
-        'friday'    => __('Vendredi', 'le-margo'),
-        'saturday'  => __('Samedi', 'le-margo'),
-        'sunday'    => __('Dimanche', 'le-margo'),
+        'monday'    => __('Lundi', 'gastro-starter'),
+        'tuesday'   => __('Mardi', 'gastro-starter'),
+        'wednesday' => __('Mercredi', 'gastro-starter'),
+        'thursday'  => __('Jeudi', 'gastro-starter'),
+        'friday'    => __('Vendredi', 'gastro-starter'),
+        'saturday'  => __('Samedi', 'gastro-starter'),
+        'sunday'    => __('Dimanche', 'gastro-starter'),
     );
     $days_order = array_keys($days_fr);
 
@@ -144,9 +144,9 @@ function le_margo_get_formatted_opening_hours() {
                     $ranges[] = str_replace('i', '', str_replace('00', '', $start)) . ' - ' . str_replace('i', '', str_replace('00', '', $end));
                 }
             }
-            $day_hours_strings[$day_key] = !empty($ranges) ? implode(' / ', $ranges) : __('Fermé', 'le-margo');
+            $day_hours_strings[$day_key] = !empty($ranges) ? implode(' / ', $ranges) : __('Fermé', 'gastro-starter');
         } else {
-            $day_hours_strings[$day_key] = __('Fermé', 'le-margo');
+            $day_hours_strings[$day_key] = __('Fermé', 'gastro-starter');
         }
     }
 
@@ -175,7 +175,7 @@ function le_margo_get_formatted_opening_hours() {
             ? $days_fr[reset($group['days'])]
             : $days_fr[reset($group['days'])] . ' - ' . $days_fr[end($group['days'])];
 
-        $hours_display = ($group['hours'] === __('Fermé', 'le-margo'))
+        $hours_display = ($group['hours'] === __('Fermé', 'gastro-starter'))
             ? '<span class="hours-closed">' . $group['hours'] . '</span>'
             : '<span class="hours-open">' . $group['hours'] . '</span>';
 
@@ -195,7 +195,7 @@ function le_margo_get_formatted_opening_hours() {
 /**
  * Masquer le bouton RÉSERVER dans le menu principal sur la page de réservation
  */
-function le_margo_filter_nav_menu_items($items, $args) {
+function gastro_starter_filter_nav_menu_items($items, $args) {
     if ($args->theme_location === 'menu-principal' && is_page('reserver')) {
         // Recherche et supprime les liens vers la page réserver dans le menu
         // Utilisation d'une expression plus précise pour cibler le lien "RÉSERVER"
@@ -203,10 +203,10 @@ function le_margo_filter_nav_menu_items($items, $args) {
     }
     return $items;
 }
-add_filter('wp_nav_menu_items', 'le_margo_filter_nav_menu_items', 10, 2);
+add_filter('wp_nav_menu_items', 'gastro_starter_filter_nav_menu_items', 10, 2);
 
 // Ajouter une classe pour identifier les éléments de menu sur la page réservation
-function le_margo_nav_menu_css_class($classes, $item) {
+function gastro_starter_nav_menu_css_class($classes, $item) {
     // Si on est sur la page réserver et que le lien mène à la page réserver
     if (is_page('reserver') && strpos($item->url, '/reserver') !== false) {
         // Ajouter une classe pour cibler par CSS
@@ -214,10 +214,10 @@ function le_margo_nav_menu_css_class($classes, $item) {
     }
     return $classes;
 }
-add_filter('nav_menu_css_class', 'le_margo_nav_menu_css_class', 10, 2);
+add_filter('nav_menu_css_class', 'gastro_starter_nav_menu_css_class', 10, 2);
 
 // Ajouter le CSS personnalisé pour masquer les éléments du menu sur la page réservation
-function le_margo_add_reservation_css() {
+function gastro_starter_add_reservation_css() {
     if (is_page('reserver')) {
         echo '<style>
             .hidden-on-reservation-page {
@@ -226,4 +226,4 @@ function le_margo_add_reservation_css() {
         </style>';
     }
 }
-add_action('wp_head', 'le_margo_add_reservation_css'); 
+add_action('wp_head', 'gastro_starter_add_reservation_css'); 

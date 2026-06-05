@@ -1,5 +1,5 @@
 /**
- * Fichier dédié à la gestion de la navigation du thème Le Margo
+ * Fichier dédié à la gestion de la navigation du thème Gastro Starter
  */
 
 (function() {

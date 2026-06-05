@@ -1,14 +1,14 @@
 <?php
 /**
  * Page d'accueil - Style Chéri Bibi - Galerie pure
- * @package Le Margo
+ * @package Gastro_Starter
  */
 get_header();
 ?>
 
 <?php
 // Récupérer les horaires depuis l'admin
-$horaires = get_option('le_margo_opening_hours', []);
+$horaires = get_option('gastro_starter_opening_hours', []);
 
 // Fonction pour formater les horaires
 $format_creneaux = function($creneaux_str) {
@@ -81,10 +81,10 @@ if (!empty($jours_ouverts)) {
     <div class="intro-cards-container">
         <div class="gallery-item hero-card">
             <div class="hero-card__content">
-                <h1 class="hero-card__title"><?php echo esc_html(get_theme_mod('le_margo_restaurant_name', 'Le Margo')); ?></h1>
-                <p class="hero-card__description">Restaurant Bistronomique à Eymet, Dordogne</p>
+                <h1 class="hero-card__title"><?php echo esc_html(get_theme_mod('gastro_starter_restaurant_name', __('Mon Restaurant', 'gastro-starter'))); ?></h1>
+                <p class="hero-card__description"><?php echo esc_html(get_theme_mod('gastro_starter_tagline', __('Restaurant Bistronomique', 'gastro-starter'))); ?></p>
                 <p class="hero-card__subtitle">
-                    Découvrez une cuisine locale et créative, élaborée à partir de produits frais et bio du Périgord, accompagnée d'une sélection de vins naturels.
+                    <?php echo esc_html(get_theme_mod('gastro_starter_description', __("Découvrez une cuisine locale et créative, élaborée à partir de produits frais, accompagnée d'une sélection de vins naturels.", 'gastro-starter'))); ?>
                 </p>
                 
             </div>
@@ -105,16 +105,31 @@ if (!empty($jours_ouverts)) {
                             }
                             ?>
                         <?php endif; ?>
-                        <a href="<?php echo home_url('/reserver/'); ?>">Réserver</a>
-                        <a href="<?php echo esc_url(get_theme_mod('le_margo_instagram_url', 'https://instagram.com/lemargoeymet')); ?>" target="_blank" rel="noopener">Instagram</a>
+                        <a href="<?php echo home_url('/reserver/'); ?>"><?php _e('Réserver', 'gastro-starter'); ?></a>
+                        <a href="<?php echo home_url('/bon-achat/'); ?>"><?php _e('Bons-cadeaux', 'gastro-starter'); ?></a>
+                        
+                        <?php
+                        // Bannière menu spécial
+                        $special_menu_enabled = get_theme_mod('gastro_starter_special_menu_enabled', false);
+                        $special_menu_text = get_theme_mod('gastro_starter_special_menu_text', __('Menu Spécial Nouvel An - Découvrez notre carte exceptionnelle', 'gastro-starter'));
+                        $special_menu_pdf = get_theme_mod('gastro_starter_special_menu_pdf', '');
+
+                        if ($special_menu_enabled && !empty($special_menu_pdf)) :
+                        ?>
+                        <div class="special-menu-banner">
+                            <a href="<?php echo esc_url($special_menu_pdf); ?>" target="_blank" rel="noopener noreferrer">
+                                <?php echo esc_html($special_menu_text); ?>
+                            </a>
+                        </div>
+                        <?php endif; ?>
                     </div>
                 </div>
         </div>
 
         <div class="gallery-item info-card">
             <div class="info-content">
-                <p><?php echo nl2br(esc_html(get_theme_mod('le_margo_restaurant_address', "6 avenue du 6 juin 1944\n24500 Eymet"))); ?></p>
-                <p><?php echo esc_html(get_theme_mod('le_margo_restaurant_phone', '05 53 00 00 00')); ?></p>
+                <p><?php echo nl2br(esc_html(get_theme_mod('gastro_starter_restaurant_address', "6 avenue du 6 juin 1944\n24500 Notre Ville"))); ?></p>
+                <p><?php echo esc_html(get_theme_mod('gastro_starter_restaurant_phone', '05 53 00 00 00')); ?></p>
             </div>
         </div>
 
@@ -126,7 +141,7 @@ if (!empty($jours_ouverts)) {
 <section class="photo-gallery">
     <div class="gallery-grid">
         <?php
-        $gallery_images = get_option('le_margo_homepage_gallery', []);
+        $gallery_images = get_option('gastro_starter_homepage_gallery', []);
 
         if (!empty($gallery_images)) {
             foreach ($gallery_images as $image) {
@@ -134,14 +149,14 @@ if (!empty($jours_ouverts)) {
                 $shape = isset($image['shape']) ? $image['shape'] : 'normal';
 
                 $class = 'gallery-item';
-                $size = 'le-margo-gallery-normal'; // Taille par défaut
+                $size = 'gastro-starter-gallery-normal'; // Taille par défaut
 
                 if ($shape === 'tall') {
                     $class .= ' item-tall';
-                    $size = 'le-margo-gallery-tall';
+                    $size = 'gastro-starter-gallery-tall';
                 } elseif ($shape === 'wide') {
                     $class .= ' item-wide';
-                    $size = 'le-margo-gallery-wide';
+                    $size = 'gastro-starter-gallery-wide';
                 }
 
                 // Récupérer l'alt de l'image pour l'accessibilité
@@ -165,7 +180,7 @@ if (!empty($jours_ouverts)) {
             }
         } else {
             // Contenu de secours si la galerie est vide
-            echo '<p>Veuillez configurer votre galerie dans les réglages du thème.</p>';
+            echo '<p>' . __('Veuillez configurer votre galerie dans les réglages du thème.', 'gastro-starter') . '</p>';
         }
         ?>
     </div>

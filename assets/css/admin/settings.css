@@ -1,0 +1,327 @@
+/* Shared settings page styles for:
+   - Opening hours / Schedule
+   - Capacity pooling
+   - Vouchers admin
+   - Prize wheel admin
+*/
+
+.gastro-starter-admin .gastro-starter-admin-card,
+.gastro-starter-reservations .gastro-starter-admin-card {
+  background: var(--lm-glass-bg);
+  backdrop-filter: var(--lm-glass-blur);
+  -webkit-backdrop-filter: var(--lm-glass-blur);
+  border: 1px solid var(--lm-glass-border);
+  border-radius: var(--lm-radius-lg);
+  padding: var(--lm-space-6);
+  box-shadow: var(--lm-shadow-md);
+  margin-bottom: var(--lm-space-6);
+}
+
+/* ─── Schedule Grid ─── */
+.gastro-starter-admin-shell .schedule-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--lm-space-4);
+}
+
+.gastro-starter-admin-shell .schedule-day {
+  background: var(--lm-glass-bg);
+  backdrop-filter: var(--lm-glass-blur);
+  -webkit-backdrop-filter: var(--lm-glass-blur);
+  border: 1px solid var(--lm-glass-border);
+  border-radius: var(--lm-radius-lg);
+  padding: var(--lm-space-5);
+  transition: all var(--lm-duration-normal) var(--lm-ease-out);
+  box-shadow: var(--lm-shadow-sm);
+
+  &:hover {
+    border-color: var(--lm-glass-border-accent);
+    box-shadow: var(--lm-shadow-md);
+    transform: translateY(-2px);
+  }
+}
+
+.gastro-starter-admin-shell .schedule-day .day-schedule.day-closed {
+  opacity: 0.4;
+}
+
+.gastro-starter-admin-shell .day-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--lm-space-4);
+  padding-bottom: var(--lm-space-3);
+  border-bottom: 1px solid rgba(181, 166, 146, 0.12);
+
+  & h3 {
+    font-family: var(--lm-font-sans);
+    font-size: var(--lm-text-base);
+    font-weight: 600;
+    color: var(--lm-color-ink);
+    margin: 0;
+  }
+}
+
+.gastro-starter-admin-shell .day-toggle {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--lm-space-2);
+  cursor: pointer;
+
+  & input[type="checkbox"] {
+    position: relative;
+    width: 38px;
+    height: 20px;
+    appearance: none;
+    -webkit-appearance: none;
+    background: rgba(139, 115, 85, 0.15);
+    border-radius: var(--lm-radius-full);
+    border: none;
+    outline: none;
+    cursor: pointer;
+    transition: background var(--lm-duration-fast) var(--lm-ease-out);
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      width: 16px;
+      height: 16px;
+      background: #fff;
+      border-radius: 50%;
+      box-shadow: var(--lm-shadow-xs);
+      transition: transform var(--lm-duration-fast) var(--lm-ease-spring);
+    }
+
+    &:checked {
+      background: var(--lm-color-success);
+
+      &::before {
+        transform: translateX(18px);
+      }
+    }
+  }
+
+  & .toggle-slider {
+    display: none;
+  }
+
+  & .toggle-label {
+    font-family: var(--lm-font-sans);
+    font-size: var(--lm-text-xs);
+    font-weight: 500;
+    color: var(--lm-color-text-muted);
+  }
+}
+
+.gastro-starter-admin-shell .time-ranges-section {
+  & h4 {
+    font-family: var(--lm-font-sans);
+    font-size: var(--lm-text-sm);
+    font-weight: 500;
+    color: var(--lm-color-text-muted);
+    margin: 0 0 var(--lm-space-3) 0;
+  }
+}
+
+.gastro-starter-admin-shell .time-range-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: var(--lm-space-3);
+  margin-bottom: var(--lm-space-3);
+}
+
+.gastro-starter-admin-shell .time-inputs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--lm-space-3);
+  background: rgba(255, 255, 255, 0.50);
+  border: 1px solid rgba(181, 166, 146, 0.15);
+  border-radius: var(--lm-radius-md);
+  padding: var(--lm-space-3);
+}
+
+.gastro-starter-admin-shell .time-input {
+  & label {
+    display: block;
+    font-family: var(--lm-font-sans);
+    font-size: var(--lm-text-xs);
+    font-weight: 500;
+    color: var(--lm-color-text-faint);
+    margin-bottom: var(--lm-space-1);
+  }
+
+  & input[type="time"] {
+    width: 100%;
+    padding: var(--lm-space-2);
+    background: rgba(255, 255, 255, 0.80);
+    border: 1px solid rgba(181, 166, 146, 0.25);
+    border-radius: 6px;
+    font-family: var(--lm-font-sans);
+    font-size: var(--lm-text-sm);
+    color: var(--lm-color-text);
+    transition: border-color var(--lm-duration-fast);
+
+    &:focus {
+      outline: none;
+      border-color: var(--lm-color-taupe);
+      box-shadow: 0 0 0 3px rgba(139, 115, 85, 0.10);
+    }
+  }
+}
+
+.gastro-starter-admin-shell .remove-range {
+  align-self: center;
+  padding: var(--lm-space-2) var(--lm-space-3);
+  background: rgba(239, 68, 68, 0.06);
+  border: 1px solid rgba(239, 68, 68, 0.20);
+  border-radius: var(--lm-radius-sm);
+  font-family: var(--lm-font-sans);
+  font-size: var(--lm-text-xs);
+  font-weight: 500;
+  color: var(--lm-color-danger);
+  cursor: pointer;
+  transition: all var(--lm-duration-fast) var(--lm-ease-out);
+  white-space: nowrap;
+
+  &:hover {
+    background: var(--lm-color-danger);
+    color: #fff;
+    border-color: var(--lm-color-danger);
+  }
+}
+
+.gastro-starter-admin-shell .add-range {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--lm-space-2);
+  margin-top: var(--lm-space-3);
+  padding: var(--lm-space-2) var(--lm-space-4);
+  background: var(--lm-color-taupe);
+  border: 1px solid var(--lm-color-taupe);
+  border-radius: var(--lm-radius-sm);
+  font-family: var(--lm-font-sans);
+  font-size: var(--lm-text-sm);
+  font-weight: 500;
+  color: #fff;
+  cursor: pointer;
+  transition: all var(--lm-duration-fast) var(--lm-ease-out);
+
+  &:hover {
+    background: var(--lm-color-taupe-light);
+    transform: translateY(-1px);
+    box-shadow: var(--lm-shadow-sm);
+  }
+}
+
+.gastro-starter-admin-shell .slot-interval {
+  margin-top: var(--lm-space-4);
+  padding-top: var(--lm-space-4);
+  border-top: 1px solid rgba(181, 166, 146, 0.10);
+
+  & label {
+    font-family: var(--lm-font-sans);
+    font-size: var(--lm-text-sm);
+    color: var(--lm-color-text-muted);
+    font-weight: 500;
+  }
+
+  & select {
+    padding: var(--lm-space-2) var(--lm-space-4);
+    background: rgba(255, 255, 255, 0.60);
+    border: 1px solid rgba(181, 166, 146, 0.25);
+    border-radius: var(--lm-radius-sm);
+    font-family: var(--lm-font-sans);
+    font-size: var(--lm-text-sm);
+    color: var(--lm-color-text);
+    margin-top: var(--lm-space-2);
+
+    &:focus {
+      outline: none;
+      border-color: var(--lm-color-taupe);
+      box-shadow: 0 0 0 3px rgba(139, 115, 85, 0.10);
+    }
+  }
+}
+
+.gastro-starter-admin-shell .generated-slots,
+.gastro-starter-admin-shell [class*="generated"] {
+  margin-top: var(--lm-space-3);
+  padding: var(--lm-space-3) var(--lm-space-4);
+  background: rgba(255, 255, 255, 0.40);
+  border: 1px solid rgba(181, 166, 146, 0.12);
+  border-radius: var(--lm-radius-md);
+
+  & h4, & strong {
+    font-family: var(--lm-font-sans);
+    font-size: var(--lm-text-sm);
+    color: var(--lm-color-text-muted);
+    font-weight: 500;
+  }
+
+  & .slot-count {
+    color: var(--lm-color-success);
+    font-weight: 600;
+  }
+
+  & .slot-list {
+    font-family: var(--lm-font-sans);
+    font-size: var(--lm-text-xs);
+    color: var(--lm-color-text-faint);
+    margin-top: var(--lm-space-2);
+    padding: var(--lm-space-2) var(--lm-space-3);
+    background: rgba(139, 115, 85, 0.03);
+    border-radius: var(--lm-radius-sm);
+  }
+}
+
+/* ─── Config Grid (capacity, general settings) ─── */
+.gastro-starter-admin-shell .config-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: var(--lm-space-4);
+}
+
+/* ─── Holiday Calendar ─── */
+.gastro-starter-admin-shell #gastro_starter_holiday_dates_calendar .flatpickr-calendar {
+  border-radius: var(--lm-radius-md);
+  box-shadow: var(--lm-shadow-lg);
+  border: 1px solid var(--lm-glass-border);
+}
+
+/* ─── Submit Button Override ─── */
+.gastro-starter-admin-shell input[type="submit"].button-primary,
+.gastro-starter-admin-shell .button-primary {
+  padding: var(--lm-space-3) var(--lm-space-6);
+  background: var(--lm-color-taupe);
+  border: 1px solid var(--lm-color-taupe);
+  border-radius: var(--lm-radius-sm);
+  font-family: var(--lm-font-sans);
+  font-size: var(--lm-text-sm);
+  font-weight: 500;
+  color: #fff;
+  cursor: pointer;
+  transition: all var(--lm-duration-fast) var(--lm-ease-out);
+
+  &:hover {
+    background: var(--lm-color-taupe-light);
+    border-color: var(--lm-color-taupe-light);
+    transform: translateY(-1px);
+    box-shadow: var(--lm-shadow-md), var(--lm-shadow-glow);
+  }
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 782px) {
+  .gastro-starter-admin-shell .schedule-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .gastro-starter-admin-shell .time-range-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}

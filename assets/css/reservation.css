@@ -2,45 +2,118 @@
    Styles Premium pour le formulaire de réservation
    ================================================== */
 
+/* Message de date fermée / soirée complète */
+.reservation-closed-notice {
+  max-width: 950px;
+  margin: 0 auto 30px auto;
+  background: #fff8f0;
+  border: 1px solid #f0c78a;
+  border-left: 4px solid #d4942a;
+  border-radius: 8px;
+  padding: 28px 35px;
+  text-align: center;
+}
+
+.reservation-closed-notice h3 {
+  margin: 0 0 12px 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #8b5e1a;
+}
+
+.reservation-closed-notice p {
+  margin: 0 0 8px 0;
+  font-size: 1rem;
+  color: #5a4012;
+  line-height: 1.6;
+}
+
+.reservation-closed-notice p:last-child {
+  margin-bottom: 0;
+}
+
+.reservation-closed-notice a {
+  color: #8b5e1a;
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+.reservation-closed-notice a:hover {
+  color: #5a4012;
+}
+
 /* Conteneur principal du formulaire */
 .reservation-form-container {
-    max-width: 800px;
-    margin: 40px auto 80px auto;
-    background: #ffffff;
-    border-radius: 8px;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.08);
-    padding: 45px 50px;
-    border: 1px solid #f0f0f0;
+  max-width: 950px;
+  margin: 40px auto 80px auto;
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+  padding: 45px 50px;
+  border: 1px solid #f0f0f0;
+}
+
+/* Badges de réassurance minimalistes */
+.trust-badges {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin-bottom: 35px;
+  padding-bottom: 25px;
+  border-bottom: 1px solid #f5f5f5;
+}
+
+.trust-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.85rem;
+  color: #888;
+  font-weight: 400;
+}
+
+.trust-badge svg {
+  color: #b5a692;
+  flex-shrink: 0;
+}
+
+/* Animation subtile au hover */
+.trust-badge:hover {
+  color: #666;
+}
+
+.trust-badge:hover svg {
+  color: #a39483;
 }
 
 /* Base du formulaire */
 .clean-form {
-    width: 100%;
+  width: 100%;
 }
 
 .form-row {
-    display: flex;
-    gap: 30px;
-    margin-bottom: 25px;
+  display: flex;
+  gap: 30px;
+  margin-bottom: 25px;
 }
 
 .form-field {
-    flex: 1 1 0;
-    display: flex;
-    flex-direction: column;
+  flex: 1 1 0;
+  display: flex;
+  flex-direction: column;
 }
 
 .full-width {
-    flex-basis: 100%;
+  flex-basis: 100%;
 }
 
 label {
-    font-size: 0.85rem;
-    color: #666;
-    font-weight: 500;
-    margin-bottom: 8px;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
+  font-size: 0.95rem;
+  color: #666;
+  font-weight: 500;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 input[type="text"],
@@ -48,14 +121,14 @@ input[type="email"],
 input[type="tel"],
 select,
 textarea {
-    border: 1px solid #e5e5e5;
-    border-radius: 6px;
-    padding: 14px 16px;
-    font-size: 1rem;
-    background: #fdfdfd;
-    color: #333;
-    transition: all 0.2s ease-in-out;
-    font-family: 'Poppins', sans-serif;
+  border: 1px solid #e5e5e5;
+  border-radius: 6px;
+  padding: 14px 16px;
+  font-size: 1.1rem;
+  background: #fdfdfd;
+  color: #333;
+  transition: all 0.2s ease-in-out;
+  font-family: "Poppins", sans-serif;
 }
 
 input[type="text"]:focus,
@@ -63,207 +136,371 @@ input[type="email"]:focus,
 input[type="tel"]:focus,
 select:focus,
 textarea:focus {
-    border-color: #b5a692;
-    background: #fff;
-    outline: none;
-    box-shadow: 0 0 0 3px rgba(181, 166, 146, 0.1);
+  border-color: #b5a692;
+  background: #fff;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(181, 166, 146, 0.1);
+}
+
+/* Validation visuelle en temps réel */
+input[type="text"].valid,
+input[type="email"].valid,
+input[type="tel"].valid {
+  border-color: #28a745;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2328a745' stroke-width='2'%3E%3Cpolyline points='20 6 9 17 4 12'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 18px;
+  padding-right: 40px;
+}
+
+input[type="text"].error,
+input[type="email"].error,
+input[type="tel"].error {
+  border-color: #dc3545;
 }
 
 select:disabled {
-    background: #f5f5f5;
-    color: #aaa;
+  background: #f5f5f5;
+  color: #aaa;
 }
 
 textarea {
-    min-height: 80px;
-    resize: vertical;
+  min-height: 80px;
+  resize: vertical;
 }
 
 /* --- Section des horaires --- */
 .time-availability {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-    gap: 10px;
-    margin-top: 15px;
-    padding: 10px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    border: 1px solid #eee;
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+  padding: 10px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  border: 1px solid #eee;
 }
 
+/* États des créneaux */
 .time-slot {
-    padding: 12px 8px;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    text-align: center;
-    cursor: pointer;
-    transition: all 0.2s ease-in-out;
-    background-color: #fff;
-    font-weight: 500;
-    color: #333;
+  padding: 24px;
+  text-align: center;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background: #fff;
+  border: 1px solid #e5e5e5;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
 }
 
 .time-slot.selectable:hover {
-    border-color: #a39483;
-    color: #a39483;
+  border-color: #a39483;
+  color: #a39483;
 }
 
 .time-slot.selected {
-    background-color: #b5a692;
-    color: #ffffff;
-    border-color: #b5a692;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+  background-color: #b5a692;
+  color: #ffffff;
+  border-color: #b5a692;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
 }
 
 .time-slot.selected .time-value,
 .time-slot.selected .availability-badge {
-    color: #ffffff;
-    opacity: 1;
+  color: #ffffff;
+  opacity: 1;
 }
 
 .time-slot.not-selectable {
-    background-color: #f5f5f5;
-    color: #bbb;
-    cursor: not-allowed;
-    border-color: #eee;
+  background-color: #f5f5f5;
+  color: #bbb;
+  cursor: not-allowed;
+  border-color: #eee;
+}
+.info-state p:last-child {
+  margin-bottom: 0;
 }
 
-.time-slot .time-value {
-    display: block;
-    font-size: 1.1rem;
+.info-state .phone-link {
+  color: #856404;
+  font-weight: 600;
+  text-decoration: none;
+  border-bottom: 1px dashed currentColor;
 }
 
-.time-slot .availability-badge {
-    display: block;
-    font-size: 0.8rem;
-    margin-top: 4px;
-    opacity: 0.8;
-}
-
-.info-state, .loading-state {
-    grid-column: 1 / -1;
-    text-align: center;
-    padding: 20px;
-    color: #777;
-    font-size: 0.95rem;
+.info-state .phone-link:hover {
+  color: #533f02;
+  border-bottom-style: solid;
 }
 
 /* --- Cases à cocher personnalisées --- */
 .form-checkboxes {
-    margin-top: 30px;
-    padding-top: 20px;
-    border-top: 1px solid #f0f0f0;
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 1px solid #f0f0f0;
 }
 .checkbox-label {
-    display: block;
-    position: relative;
-    padding-left: 35px;
-    margin-bottom: 15px;
-    cursor: pointer;
-    font-size: 0.8rem;
-    color: #444;
-    user-select: none;
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 15px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  color: #444;
+  user-select: none;
 }
 .checkbox-label input[type="checkbox"] {
-    position: absolute;
-    opacity: 0;
-    cursor: pointer;
-    height: 0;
-    width: 0;
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
 }
 .checkmark {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 22px;
-    width: 22px;
-    background-color: #eee;
-    border-radius: 4px;
-    transition: all 0.2s;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 22px;
+  width: 22px;
+  background-color: #eee;
+  border-radius: 4px;
+  transition: all 0.2s;
 }
 .checkbox-label:hover input ~ .checkmark {
-    background-color: #ccc;
+  background-color: #ccc;
 }
 .checkbox-label input:checked ~ .checkmark {
-    background-color: #b5a692;
+  background-color: #b5a692;
 }
 .checkmark:after {
-    content: "";
-    position: absolute;
-    display: none;
+  content: "";
+  position: absolute;
+  display: none;
 }
 .checkbox-label input:checked ~ .checkmark:after {
-    display: block;
+  display: block;
 }
 .checkbox-label .checkmark:after {
-    left: 8px;
-    top: 4px;
-    width: 5px;
-    height: 10px;
-    border: solid white;
-    border-width: 0 3px 3px 0;
-    transform: rotate(45deg);
+  left: 8px;
+  top: 4px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  transform: rotate(45deg);
 }
 .consent-info {
-    font-size: 0.85rem;
-    color: #777;
-    margin: -5px 0 15px 35px;
+  font-size: 0.85rem;
+  color: #777;
+  margin: -5px 0 15px 35px;
 }
 
 /* --- Bouton de soumission --- */
 .reserve-btn {
-    width: 100%;
-    background: #b5a692;
-    color: #fff;
-    border: none;
-    border-radius: 6px;
-    padding: 16px 0;
-    font-size: 1.1rem;
-    font-weight: 600;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-    margin-top: 25px;
-    cursor: pointer;
-    transition: all 0.3s ease;
+  width: 100%;
+  background: #b5a692;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 16px 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin-top: 25px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
 }
+
+.reserve-btn .btn-icon {
+  opacity: 0;
+  transform: translateX(-10px);
+  transition: all 0.3s ease;
+}
+
 .reserve-btn:hover:not(:disabled) {
-    background: #a39483;
-    box-shadow: 0 4px 15px rgba(181, 166, 146, 0.4);
+  background: #a39483;
+  box-shadow: 0 4px 15px rgba(181, 166, 146, 0.4);
+  transform: translateY(-1px);
 }
+
+.reserve-btn:hover:not(:disabled) .btn-icon {
+  opacity: 1;
+  transform: translateX(0);
+}
+
 .reserve-btn:disabled {
-    background: #e0e0e0;
-    cursor: not-allowed;
+  background: #e0e0e0;
+  cursor: not-allowed;
 }
 
 /* Champ honeypot anti-spam (doit TOUJOURS être caché) */
 .form-group-hidden {
-    display: none !important;
-    visibility: hidden !important;
-    position: absolute !important;
-    left: -9999px !important;
+  display: none !important;
+  visibility: hidden !important;
+  position: absolute !important;
+  left: -9999px !important;
 }
 
 /* --- Textes d'aide --- */
-.reservation-extra-info, .gdpr-notice {
-    font-size: 0.9rem;
-    color: #777;
-    line-height: 1.5;
-    margin-bottom: 15px;
+.reservation-extra-info,
+.gdpr-notice {
+  font-size: 1rem;
+  color: #777;
+  line-height: 1.5;
+  margin-bottom: 15px;
 }
 .gdpr-notice {
-    text-align: center;
-    margin-top: 20px;
+  text-align: center;
+  margin-top: 20px;
 }
 .gdpr-notice a {
-    color: #b5a692;
-    text-decoration: none;
+  color: #b5a692;
+  text-decoration: none;
 }
 .gdpr-notice a:hover {
-    text-decoration: underline;
+  text-decoration: underline;
 }
 .required {
-    color: #c00;
+  color: #c00;
+}
+
+/* ==================================================
+   Bannière événement Bec Fin
+   ================================================== */
+
+.reservation-event-banner {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: #faf8f4;
+    border: 1px solid #d4c5a9;
+    border-left: 3px solid #b5956a;
+    border-radius: 6px;
+    padding: 14px 18px;
+    margin-bottom: 18px;
+    animation: bannerSlideIn 0.25s ease;
+}
+
+@keyframes bannerSlideIn {
+    from { opacity: 0; transform: translateY(-6px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.reservation-event-banner.event-banner--full {
+    border-left-color: #999;
+    background: #f7f7f7;
+}
+
+.event-banner__icon {
+    font-size: 1.1rem;
+    color: #b5956a;
+    flex-shrink: 0;
+    line-height: 1;
+}
+.event-banner--full .event-banner__icon {
+    color: #aaa;
+}
+
+.event-banner__body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    min-width: 0;
+}
+
+.event-banner__label {
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #b5956a;
+}
+.event-banner--full .event-banner__label {
+    color: #999;
+}
+
+.event-banner__title {
+    font-size: 0.92rem;
+    font-weight: 600;
+    color: #1a1a1a;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.event-banner__meta {
+    font-size: 0.78rem;
+    color: #888;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.event-banner__status {
+    display: inline-block;
+    background: #e0e0e0;
+    color: #666;
+    font-size: 0.62rem;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 2px 7px;
+    border-radius: 3px;
+}
+
+.event-banner__link {
+    flex-shrink: 0;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: #1a1a1a;
+    text-decoration: none;
+    border-bottom: 1px solid #d4c5a9;
+    padding-bottom: 1px;
+    white-space: nowrap;
+    transition: border-color 0.15s ease;
+}
+.event-banner__link:hover {
+    border-color: #1a1a1a;
+}
+
+/* ==================================================
+   Marqueur de jour événement dans flatpickr
+   ================================================== */
+
+.flatpickr-day.has-event {
+    position: relative;
+    font-weight: 600;
+}
+
+.flatpickr-event-dot {
+    position: absolute;
+    bottom: 3px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: #b5956a;
+    display: block;
+    pointer-events: none;
+}
+
+.flatpickr-event-dot--full {
+    background: #bbb;
+}
+
+.flatpickr-day.has-event.selected .flatpickr-event-dot,
+.flatpickr-day.has-event.today .flatpickr-event-dot {
+    background: rgba(255, 255, 255, 0.8);
 }
 
 /* ==================================================
@@ -271,41 +508,52 @@ textarea {
    ================================================== */
 
 @media (max-width: 768px) {
-    .reservation-form-container {
-        padding: 30px 25px;
-        margin: 20px auto 60px auto;
-    }
+  .reservation-form-container {
+    padding: 30px 25px;
+    margin: 20px auto 60px auto;
+  }
 
-    .form-row {
-        flex-direction: column;
-        gap: 0; /* On retire le gap pour gérer les marges par champ */
-        margin-bottom: 0;
-    }
+  .trust-badges {
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: space-around;
+  }
 
-    .form-field {
-        margin-bottom: 25px;
-    }
+  .trust-badge {
+    font-size: 0.8rem;
+  }
 
-    .time-availability {
-        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-        gap: 8px;
-    }
+  .form-row {
+    flex-direction: column;
+    gap: 0; /* On retire le gap pour gérer les marges par champ */
+    margin-bottom: 0;
+  }
 
-    .reserve-btn {
-        padding: 16px;
-        font-size: 1rem;
-    }
+  .form-field {
+    margin-bottom: 25px;
+  }
+
+  .time-availability {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 8px;
+  }
+
+  .reserve-btn {
+    padding: 16px;
+    font-size: 1rem;
+  }
 }
 
 @media (max-width: 480px) {
-    .reservation-form-container {
-        padding: 20px 15px;
-        margin-top: 15px;
-        border: none;
-        box-shadow: none;
-    }
+  .reservation-form-container {
+    padding: 20px 15px;
+    margin-top: 15px;
+    border: none;
+    box-shadow: none;
+  }
 
-    .time-availability {
-        grid-template-columns: repeat(auto-fill, minmax(85px, 1fr));
-    }
+  .time-availability {
+    grid-template-columns: repeat(auto-fill, minmax(85px, 1fr));
+  }
 }

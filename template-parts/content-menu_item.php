@@ -2,7 +2,7 @@
 /**
  * Template pour l'affichage des plats du menu
  *
- * @package Le Margo
+ * @package Gastro_Starter
  */
 
 $price = get_post_meta(get_the_ID(), 'price', true);
@@ -13,7 +13,7 @@ $ingredients = get_post_meta(get_the_ID(), 'ingredients', true);
     <div class="menu-dish-container">
         <?php if (has_post_thumbnail()) : ?>
             <div class="menu-dish-image">
-                <?php the_post_thumbnail('le-margo-menu'); ?>
+                <?php the_post_thumbnail('gastro-starter-menu'); ?>
             </div>
         <?php endif; ?>
         
@@ -31,7 +31,7 @@ $ingredients = get_post_meta(get_the_ID(), 'ingredients', true);
             
             <?php if ($ingredients) : ?>
                 <div class="menu-dish-ingredients">
-                    <p><?php echo esc_html__('Ingrédients:', 'le-margo'); ?> <?php echo esc_html($ingredients); ?></p>
+                    <p><?php echo esc_html__('Ingrédients:', 'gastro-starter'); ?> <?php echo esc_html($ingredients); ?></p>
                 </div>
             <?php endif; ?>
             

@@ -2,7 +2,7 @@
 /**
  * Template pour l'affichage du contenu des articles
  *
- * @package Le Margo
+ * @package Gastro_Starter
  */
 
 ?>
@@ -20,11 +20,11 @@
 			?>
 			<div class="entry-meta">
 				<span class="posted-on">
-					<?php echo esc_html__('Publié le', 'le-margo'); ?> 
+					<?php echo esc_html__('Publié le', 'gastro-starter'); ?> 
 					<time datetime="<?php echo esc_attr(get_the_date('c')); ?>"><?php echo esc_html(get_the_date()); ?></time>
 				</span>
 				<span class="byline">
-					<?php echo esc_html__('par', 'le-margo'); ?> 
+					<?php echo esc_html__('par', 'gastro-starter'); ?> 
 					<span class="author vcard"><?php the_author(); ?></span>
 				</span>
 			</div><!-- .entry-meta -->
@@ -46,7 +46,7 @@
 				sprintf(
 					wp_kses(
 						/* translators: %s: Name of current post. Only visible to screen readers */
-						__('Continuer la lecture<span class="screen-reader-text"> "%s"</span>', 'le-margo'),
+						__('Continuer la lecture<span class="screen-reader-text"> "%s"</span>', 'gastro-starter'),
 						array(
 							'span' => array(
 								'class' => array(),
@@ -59,14 +59,14 @@
 
 			wp_link_pages(
 				array(
-					'before' => '<div class="page-links">' . esc_html__('Pages:', 'le-margo'),
+					'before' => '<div class="page-links">' . esc_html__('Pages:', 'gastro-starter'),
 					'after'  => '</div>',
 				)
 			);
 		else :
 			the_excerpt();
 			?>
-			<a href="<?php the_permalink(); ?>" class="btn btn-secondary"><?php echo esc_html__('Lire la suite', 'le-margo'); ?></a>
+			<a href="<?php the_permalink(); ?>" class="btn btn-secondary"><?php echo esc_html__('Lire la suite', 'gastro-starter'); ?></a>
 		<?php
 		endif;
 		?>
@@ -75,20 +75,20 @@
 	<footer class="entry-footer">
 		<?php if (!is_singular()) : ?>
 			<?php
-			$categories_list = get_the_category_list(esc_html__(', ', 'le-margo'));
+			$categories_list = get_the_category_list(esc_html__(', ', 'gastro-starter'));
 			if ($categories_list) :
 				?>
 				<span class="cat-links">
-					<?php echo esc_html__('Catégories:', 'le-margo'); ?> <?php echo $categories_list; ?>
+					<?php echo esc_html__('Catégories:', 'gastro-starter'); ?> <?php echo $categories_list; ?>
 				</span>
 			<?php endif; ?>
 			
 			<?php
-			$tags_list = get_the_tag_list('', esc_html_x(', ', 'list item separator', 'le-margo'));
+			$tags_list = get_the_tag_list('', esc_html_x(', ', 'list item separator', 'gastro-starter'));
 			if ($tags_list) :
 				?>
 				<span class="tags-links">
-					<?php echo esc_html__('Tags:', 'le-margo'); ?> <?php echo $tags_list; ?>
+					<?php echo esc_html__('Tags:', 'gastro-starter'); ?> <?php echo $tags_list; ?>
 				</span>
 			<?php endif; ?>
 		<?php endif; ?>

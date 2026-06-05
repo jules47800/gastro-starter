@@ -1,0 +1,286 @@
+.brevo-newsletter-metabox {
+  --brevo-primary: var(--lm-color-taupe);
+  --brevo-accent: var(--lm-color-secondary);
+
+  font-family: var(--lm-font-sans);
+
+  /* ─── Intro ─── */
+  & .brevo-intro {
+    display: flex;
+    align-items: center;
+    gap: var(--lm-space-3);
+    padding: var(--lm-space-4);
+    background: rgba(139, 115, 85, 0.04);
+    border-radius: var(--lm-radius-md);
+    margin-bottom: var(--lm-space-5);
+
+    & .brevo-intro-icon {
+      font-size: 24px;
+      color: var(--lm-color-secondary);
+    }
+
+    & .brevo-intro-text {
+      font-size: var(--lm-text-sm);
+      color: var(--lm-color-text-muted);
+      line-height: var(--lm-leading-normal);
+    }
+  }
+
+  /* ─── Notices ─── */
+  & .brevo-notice {
+    padding: var(--lm-space-3) var(--lm-space-4);
+    border-radius: var(--lm-radius-sm);
+    font-size: var(--lm-text-sm);
+    margin-bottom: var(--lm-space-4);
+
+    &.notice-success {
+      background: var(--lm-color-success-bg);
+      border: 1px solid var(--lm-color-success-border);
+      color: #166534;
+    }
+
+    &.notice-error {
+      background: var(--lm-color-danger-bg);
+      border: 1px solid var(--lm-color-danger-border);
+      color: #991b1b;
+    }
+
+    &.notice-warning {
+      background: var(--lm-color-warning-bg);
+      border: 1px solid var(--lm-color-warning-border);
+      color: #92400e;
+    }
+  }
+
+  /* ─── Sections ─── */
+  & .brevo-section {
+    margin-bottom: var(--lm-space-5);
+    padding-bottom: var(--lm-space-5);
+    border-bottom: 1px solid rgba(181, 166, 146, 0.10);
+
+    &:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    & h3 {
+      font-size: var(--lm-text-sm);
+      font-weight: 600;
+      color: var(--lm-color-text);
+      margin: 0 0 var(--lm-space-3);
+    }
+  }
+
+  /* ─── Fields ─── */
+  & .brevo-field {
+    margin-bottom: var(--lm-space-4);
+
+    & label {
+      display: block;
+      font-size: var(--lm-text-sm);
+      font-weight: 500;
+      color: var(--lm-color-text);
+      margin-bottom: var(--lm-space-2);
+    }
+
+    & input[type="text"],
+    & input[type="email"],
+    & textarea,
+    & select {
+      width: 100%;
+      padding: var(--lm-space-3) var(--lm-space-4);
+      background: rgba(255, 255, 255, 0.50);
+      border: 1px solid rgba(181, 166, 146, 0.25);
+      border-radius: var(--lm-radius-md);
+      font-family: var(--lm-font-sans);
+      font-size: var(--lm-text-sm);
+      color: var(--lm-color-text);
+      transition: all var(--lm-duration-fast) var(--lm-ease-out);
+
+      &:focus {
+        outline: none;
+        border-color: var(--lm-color-taupe);
+        box-shadow: 0 0 0 3px rgba(139, 115, 85, 0.10);
+        background: rgba(255, 255, 255, 0.70);
+      }
+    }
+
+    & .field-description {
+      font-size: var(--lm-text-xs);
+      color: var(--lm-color-text-faint);
+      margin-top: var(--lm-space-1);
+    }
+  }
+
+  /* ─── Tabs ─── */
+  & .brevo-tabs {
+    display: flex;
+    gap: var(--lm-space-1);
+    padding: var(--lm-space-1);
+    background: rgba(139, 115, 85, 0.04);
+    border-radius: var(--lm-radius-md);
+    margin-bottom: var(--lm-space-4);
+  }
+
+  & .brevo-tab {
+    padding: var(--lm-space-2) var(--lm-space-4);
+    font-size: var(--lm-text-xs);
+    font-weight: 500;
+    color: var(--lm-color-text-muted);
+    border-radius: var(--lm-radius-sm);
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    transition: all var(--lm-duration-fast) var(--lm-ease-out);
+
+    &:hover {
+      color: var(--lm-color-text);
+      background: rgba(255, 255, 255, 0.40);
+    }
+
+    &.is-active {
+      color: var(--lm-color-text);
+      background: var(--lm-glass-bg-elevated);
+      box-shadow: var(--lm-shadow-xs);
+    }
+  }
+
+  /* ─── Image Picker ─── */
+  & .brevo-image-picker {
+    border: 2px dashed rgba(181, 166, 146, 0.30);
+    border-radius: var(--lm-radius-md);
+    padding: var(--lm-space-5);
+    text-align: center;
+    cursor: pointer;
+    transition: all var(--lm-duration-fast) var(--lm-ease-out);
+
+    &:hover {
+      border-color: var(--lm-color-taupe);
+      background: rgba(139, 115, 85, 0.03);
+    }
+
+    & img {
+      max-width: 100%;
+      border-radius: var(--lm-radius-sm);
+    }
+  }
+
+  /* ─── Buttons ─── */
+  & .brevo-btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--lm-space-2);
+    padding: var(--lm-space-3) var(--lm-space-5);
+    background: var(--lm-color-taupe);
+    color: #fff;
+    border: 1px solid var(--lm-color-taupe);
+    border-radius: var(--lm-radius-sm);
+    font-family: var(--lm-font-sans);
+    font-size: var(--lm-text-sm);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all var(--lm-duration-fast) var(--lm-ease-out);
+
+    &:hover {
+      background: var(--lm-color-taupe-light);
+      transform: translateY(-1px);
+      box-shadow: var(--lm-shadow-md);
+    }
+  }
+
+  & .brevo-btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--lm-space-2);
+    padding: var(--lm-space-2) var(--lm-space-4);
+    background: var(--lm-glass-bg);
+    border: 1px solid var(--lm-glass-border);
+    border-radius: var(--lm-radius-sm);
+    font-family: var(--lm-font-sans);
+    font-size: var(--lm-text-sm);
+    color: var(--lm-color-text);
+    cursor: pointer;
+    transition: all var(--lm-duration-fast) var(--lm-ease-out);
+
+    &:hover {
+      background: var(--lm-glass-bg-elevated);
+      border-color: var(--lm-color-secondary);
+    }
+  }
+
+  /* ─── Switch/Toggle ─── */
+  & .brevo-switch {
+    position: relative;
+    display: inline-flex;
+    width: 40px;
+    height: 22px;
+
+    & input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    & .slider {
+      position: absolute;
+      inset: 0;
+      background: rgba(139, 115, 85, 0.15);
+      border-radius: var(--lm-radius-full);
+      transition: background var(--lm-duration-fast);
+      cursor: pointer;
+
+      &::before {
+        content: '';
+        position: absolute;
+        height: 18px;
+        width: 18px;
+        left: 2px;
+        bottom: 2px;
+        background: #fff;
+        border-radius: 50%;
+        box-shadow: var(--lm-shadow-xs);
+        transition: transform var(--lm-duration-fast) var(--lm-ease-spring);
+      }
+    }
+
+    & input:checked + .slider {
+      background: var(--lm-color-taupe);
+
+      &::before {
+        transform: translateX(18px);
+      }
+    }
+  }
+
+  /* ─── Send Panel ─── */
+  & .brevo-send-panel {
+    background: rgba(139, 115, 85, 0.04);
+    border-radius: var(--lm-radius-md);
+    padding: var(--lm-space-5);
+    margin-top: var(--lm-space-4);
+
+    & .send-summary {
+      font-size: var(--lm-text-sm);
+      color: var(--lm-color-text-muted);
+      margin-bottom: var(--lm-space-4);
+    }
+  }
+}
+
+/* Brevo settings page */
+.brevo-settings-page {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: var(--lm-space-6);
+
+  & .settings-card {
+    background: var(--lm-glass-bg);
+    backdrop-filter: var(--lm-glass-blur);
+    -webkit-backdrop-filter: var(--lm-glass-blur);
+    border: 1px solid var(--lm-glass-border);
+    border-radius: var(--lm-radius-lg);
+    padding: var(--lm-space-6);
+    box-shadow: var(--lm-shadow-md);
+  }
+}

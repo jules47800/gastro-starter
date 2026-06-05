@@ -1,856 +1,443 @@
 <?php
 /**
- * Page de statistiques avancées pour Le Margo
+ * Page de statistiques avancées pour Mon Restaurant — Version 2.0
+ * Corrige le biais des jours fermés : toutes les stats ne prennent en compte
+ * que les jours où le restaurant est effectivement ouvert.
  */
 
-/**
- * Ajouter le menu de statistiques avancées
- */
-function le_margo_add_advanced_stats_menu() {
+function gastro_starter_add_advanced_stats_menu() {
     add_submenu_page(
-        'le-margo-customers',
-        __('Statistiques Avancées', 'le-margo'),
-        __('Statistiques Avancées', 'le-margo'),
+        'gastro-starter-customers',
+        __('Statistiques Avancées', 'gastro-starter'),
+        __('Statistiques Avancées', 'gastro-starter'),
         'manage_options',
-        'le-margo-advanced-stats',
-        'le_margo_advanced_stats_page'
+        'gastro-starter-advanced-stats',
+        'gastro_starter_advanced_stats_page'
     );
 }
-add_action('admin_menu', 'le_margo_add_advanced_stats_menu');
+add_action('admin_menu', 'gastro_starter_add_advanced_stats_menu');
 
-/**
- * Page de statistiques avancées
- */
-function le_margo_advanced_stats_page() {
-    // Déterminer la période d'analyse
-    $default_period = 'last_30_days';
-    $selected_period = isset($_GET['period']) ? sanitize_key($_GET['period']) : $default_period;
-    
-    // Dates personnalisées
+function gastro_starter_advanced_stats_page() {
+    $selected_period = isset($_GET['period']) ? sanitize_key($_GET['period']) : 'last_30_days';
     $start_date = isset($_GET['start_date']) ? sanitize_text_field($_GET['start_date']) : '';
-    $end_date = isset($_GET['end_date']) ? sanitize_text_field($_GET['end_date']) : '';
+    $end_date_input = isset($_GET['end_date']) ? sanitize_text_field($_GET['end_date']) : '';
 
-    // Récupérer les statistiques avancées en fonction de la période
-    $advanced_stats = le_margo_get_advanced_restaurant_stats($selected_period, $start_date, $end_date);
+    $advanced_stats = gastro_starter_get_advanced_restaurant_stats($selected_period, $start_date, $end_date_input);
+
+    // occupancy_data ne contient désormais QUE les jours ouverts (ou ayant eu des résas)
+    $daily_schedule = get_option('gastro_starter_daily_schedule', []);
+    $open_occupancy = $advanced_stats['occupancy_data'] ?? [];
+
+    // Moyenne d'occupation corrigée (jours ouverts uniquement)
+    $avg_occupancy = 0;
+    $open_days_count = count($open_occupancy);
+    if ($open_days_count > 0) {
+        $sum = array_sum(array_column($open_occupancy, 'overall'));
+        $avg_occupancy = round($sum / $open_days_count, 1);
+    }
+
+    // Jours d'ouverture de la semaine (pour filtrer le graphique weekday)
+    $open_day_keys = [];
+    foreach ($daily_schedule as $day => $config) {
+        if (!empty($config['open'])) {
+            $open_day_keys[] = $day;
+        }
+    }
+
+    // Segmentation des clients
+    $customer_stats = gastro_starter_get_global_customer_stats();
     ?>
-    <div class="wrap">
-        <h1><?php echo esc_html__('Statistiques Avancées - Le Margo', 'le-margo'); ?></h1>
-        
-        <!-- Formulaire de sélection de période -->
-        <form method="GET" action="">
-            <input type="hidden" name="page" value="le-margo-advanced-stats">
-            <select name="period" onchange="this.form.submit()">
-                <option value="last_7_days" <?php selected($selected_period, 'last_7_days'); ?>><?php _e('7 derniers jours', 'le-margo'); ?></option>
-                <option value="last_30_days" <?php selected($selected_period, 'last_30_days'); ?>><?php _e('30 derniers jours', 'le-margo'); ?></option>
-                <option value="last_90_days" <?php selected($selected_period, 'last_90_days'); ?>><?php _e('90 derniers jours', 'le-margo'); ?></option>
-                <option value="this_year" <?php selected($selected_period, 'this_year'); ?>><?php _e('Cette année', 'le-margo'); ?></option>
-                <option value="custom" <?php selected($selected_period, 'custom'); ?>><?php _e('Période personnalisée', 'le-margo'); ?></option>
-            </select>
-            <span id="custom-date-range" style="<?php echo $selected_period === 'custom' ? '' : 'display:none;'; ?>">
-                <input type="date" name="start_date" value="<?php echo esc_attr($start_date); ?>">
-                <input type="date" name="end_date" value="<?php echo esc_attr($end_date); ?>">
-            </span>
-            <button type="submit" class="button"><?php _e('Filtrer', 'le-margo'); ?></button>
-        </form>
-        <script>
-            document.querySelector('select[name="period"]').addEventListener('change', function() {
-                const customRange = document.getElementById('custom-date-range');
-                if (this.value === 'custom') {
-                    customRange.style.display = 'inline-block';
-                } else {
-                    customRange.style.display = 'none';
-                }
-            });
-        </script>
+    <div class="wrap gastro-starter-stats-wrap">
+        <div class="stats-page-header">
+            <h1><?php esc_html_e('Statistiques Avancées', 'gastro-starter'); ?></h1>
+            <form method="GET" class="period-form">
+                <input type="hidden" name="page" value="gastro-starter-advanced-stats">
+                <select name="period" id="period-select">
+                    <option value="last_7_days" <?php selected($selected_period, 'last_7_days'); ?>><?php esc_html_e('7 derniers jours', 'gastro-starter'); ?></option>
+                    <option value="last_30_days" <?php selected($selected_period, 'last_30_days'); ?>><?php esc_html_e('30 derniers jours', 'gastro-starter'); ?></option>
+                    <option value="last_90_days" <?php selected($selected_period, 'last_90_days'); ?>><?php esc_html_e('90 derniers jours', 'gastro-starter'); ?></option>
+                    <option value="this_year" <?php selected($selected_period, 'this_year'); ?>><?php esc_html_e('Cette année', 'gastro-starter'); ?></option>
+                    <option value="custom" <?php selected($selected_period, 'custom'); ?>><?php esc_html_e('Personnalisé', 'gastro-starter'); ?></option>
+                </select>
+                <span id="custom-dates" style="<?php echo $selected_period === 'custom' ? '' : 'display:none;'; ?>">
+                    <input type="date" name="start_date" value="<?php echo esc_attr($start_date); ?>">
+                    <input type="date" name="end_date" value="<?php echo esc_attr($end_date_input); ?>">
+                </span>
+                <button type="submit" class="button"><?php esc_html_e('Appliquer', 'gastro-starter'); ?></button>
+            </form>
+        </div>
 
-        <div class="advanced-stats-container">
-            <style>
-                .advanced-stats-container {
-                    margin-top: 20px;
-                }
-                .stats-card {
-                    background: white;
-                    border-radius: 8px;
-                    box-shadow: 0 1px 3px rgba(0,0,0,0.12);
-                    margin-bottom: 20px;
-                    padding: 20px;
-                }
-                .stats-card h2 {
-                    margin-top: 0;
-                    padding-bottom: 10px;
-                    border-bottom: 1px solid #eee;
-                }
-                .stats-grid {
-                    display: grid;
-                    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-                    gap: 20px;
-                }
-                .stat-value {
-                    font-size: 24px;
-                    font-weight: bold;
-                    margin: 10px 0;
-                }
-                .stat-label {
-                    color: #777;
-                    font-size: 14px;
-                }
-                .bar-chart-container, .line-chart-container {
-                    height: 300px;
-                    margin: 15px 0;
-                }
-                .bar-chart-container canvas, .line-chart-container canvas {
-                    max-width: 100%;
-                }
-                .stats-table {
-                    width: 100%;
-                    border-collapse: collapse;
-                    margin: 15px 0;
-                }
-                .stats-table th, .stats-table td {
-                    padding: 10px;
-                    text-align: left;
-                    border-bottom: 1px solid #eee;
-                }
-                .stats-table th {
-                    font-weight: 600;
-                    color: #3c434a;
-                }
-                .small-chart {
-                    height: 200px;
-                }
-                .highlight-value {
-                    color: #e0a872;
-                }
-            </style>
-            
-            <!-- 1. Résumé et KPI -->
-            <div class="stats-card">
-                <h2><?php echo esc_html__('Indicateurs Clés de Performance', 'le-margo'); ?></h2>
-                <div class="stats-grid">
-                    <!-- Taux de rétention -->
-                    <div>
-                        <div class="stat-label"><?php echo esc_html__('Taux de rétention (30 jours)', 'le-margo'); ?></div>
-                        <div class="stat-value highlight-value"><?php echo esc_html($advanced_stats['retention']['30_days']); ?>%</div>
-                    </div>
-                    
-                    <!-- Taux de rétention à 90 jours -->
-                    <div>
-                        <div class="stat-label"><?php echo esc_html__('Taux de rétention (90 jours)', 'le-margo'); ?></div>
-                        <div class="stat-value highlight-value"><?php echo esc_html($advanced_stats['retention']['90_days']); ?>%</div>
-                    </div>
-                    
-                    <!-- Temps moyen entre les visites -->
-                    <div>
-                        <div class="stat-label"><?php echo esc_html__('Jours moyens entre visites', 'le-margo'); ?></div>
-                        <div class="stat-value"><?php echo esc_html($advanced_stats['avg_days_between_visits']); ?></div>
-                    </div>
-                    
-                    <!-- Taux d'occupation moyen -->
-                    <?php
-                    $avg_occupancy = 0;
-                    $count = 0;
-                    if (!empty($advanced_stats['occupancy_data'])) {
-                        foreach ($advanced_stats['occupancy_data'] as $date => $data) {
-                            $avg_occupancy += $data['overall'];
-                            $count++;
-                        }
-                        $avg_occupancy = $count > 0 ? round($avg_occupancy / $count, 1) : 0;
-                    }
-                    ?>
-                    <div>
-                        <div class="stat-label"><?php echo esc_html__('Taux d\'occupation moyen', 'le-margo'); ?></div>
-                        <div class="stat-value"><?php echo esc_html($avg_occupancy); ?>%</div>
-                    </div>
-
-                    <!-- Taux de No-Show -->
-                    <div>
-                        <div class="stat-label"><?php echo esc_html__('Taux de No-Show', 'le-margo'); ?></div>
-                        <div class="stat-value" style="color: #dc3232;"><?php echo esc_html($advanced_stats['no_show_rate']); ?>%</div>
-                        <small><?php echo sprintf(esc_html__('%d réservations non honorées', 'le-margo'), esc_html($advanced_stats['no_show_count'])); ?></small>
-                    </div>
-                </div>
+        <!-- KPIs principaux -->
+        <div class="stats-kpi-row">
+            <div class="stats-kpi">
+                <span class="stats-kpi-value"><?php echo esc_html($avg_occupancy); ?>%</span>
+                <span class="stats-kpi-label"><?php esc_html_e('Occupation moy.', 'gastro-starter'); ?></span>
+                <span class="stats-kpi-sub"><?php echo esc_html($open_days_count); ?> <?php esc_html_e('jours ouverts', 'gastro-starter'); ?></span>
             </div>
-            
-            <!-- 2. Analyse d'occupation -->
-            <div class="stats-card">
-                <h2><?php echo esc_html__('Taux d\'Occupation (30 derniers jours)', 'le-margo'); ?></h2>
-                
-                <!-- Graphique d'occupation -->
-                <div class="line-chart-container">
+            <div class="stats-kpi">
+                <span class="stats-kpi-value"><?php echo esc_html($advanced_stats['retention']['30_days']); ?>%</span>
+                <span class="stats-kpi-label"><?php esc_html_e('Rétention 30j', 'gastro-starter'); ?></span>
+            </div>
+            <div class="stats-kpi">
+                <span class="stats-kpi-value"><?php echo esc_html($advanced_stats['avg_days_between_visits'] ?: '-'); ?></span>
+                <span class="stats-kpi-label"><?php esc_html_e('Jours entre visites', 'gastro-starter'); ?></span>
+            </div>
+            <div class="stats-kpi">
+                <span class="stats-kpi-value stats-kpi-danger"><?php echo esc_html($advanced_stats['no_show_rate']); ?>%</span>
+                <span class="stats-kpi-label"><?php esc_html_e('No-shows', 'gastro-starter'); ?></span>
+                <span class="stats-kpi-sub"><?php echo esc_html($advanced_stats['no_show_count']); ?> <?php esc_html_e('résas', 'gastro-starter'); ?></span>
+            </div>
+            <div class="stats-kpi">
+                <?php
+                $total_period_resas = array_sum($advanced_stats['source_stats']);
+                ?>
+                <span class="stats-kpi-value"><?php echo esc_html($total_period_resas); ?></span>
+                <span class="stats-kpi-label"><?php esc_html_e('Réservations', 'gastro-starter'); ?></span>
+            </div>
+            <div class="stats-kpi">
+                <span class="stats-kpi-value"><?php echo esc_html($customer_stats['habitues'] ?? 0); ?></span>
+                <span class="stats-kpi-label"><?php esc_html_e('Habitués', 'gastro-starter'); ?></span>
+            </div>
+        </div>
+
+        <div class="stats-grid-2col">
+            <!-- Occupation (jours ouverts uniquement) -->
+            <div class="stats-card stats-card-wide">
+                <h2><?php esc_html_e('Taux d\'Occupation', 'gastro-starter'); ?> <small><?php esc_html_e('(jours ouverts uniquement)', 'gastro-starter'); ?></small></h2>
+                <div class="chart-container">
                     <canvas id="occupancy-chart"></canvas>
                 </div>
-                
-                <!-- Tableau d'occupation -->
-                <table class="stats-table">
-                    <thead>
-                        <tr>
-                            <th><?php echo esc_html__('Date', 'le-margo'); ?></th>
-                            <th><?php echo esc_html__('Déjeuner', 'le-margo'); ?></th>
-                            <th><?php echo esc_html__('Dîner', 'le-margo'); ?></th>
-                            <th><?php echo esc_html__('Global', 'le-margo'); ?></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php
-                        if (!empty($advanced_stats['occupancy_data'])) {
-                            $displayed = 0;
-                            foreach ($advanced_stats['occupancy_data'] as $date => $data) {
-                                if ($displayed >= 7) break; // Limiter à 7 jours pour le tableau
-                                
-                                $formatted_date = date_i18n(get_option('date_format'), strtotime($date));
-                                
-                                echo '<tr>';
-                                echo '<td>' . esc_html($formatted_date) . '</td>';
-                                echo '<td>' . esc_html($data['lunch']) . '%</td>';
-                                echo '<td>' . esc_html($data['dinner']) . '%</td>';
-                                echo '<td>' . esc_html($data['overall']) . '%</td>';
-                                echo '</tr>';
-                                
-                                $displayed++;
-                            }
-                        } else {
-                            echo '<tr><td colspan="4">' . esc_html__('Aucune donnée disponible', 'le-margo') . '</td></tr>';
-                        }
-                        ?>
-                    </tbody>
-                </table>
             </div>
-            
-            <!-- 3. Répartition par jour de la semaine -->
+
+            <!-- Répartition par jour (jours ouverts uniquement) -->
             <div class="stats-card">
-                <h2><?php echo esc_html__('Répartition par Jour de la Semaine', 'le-margo'); ?></h2>
-                
-                <div class="bar-chart-container">
+                <h2><?php esc_html_e('Réservations par jour', 'gastro-starter'); ?></h2>
+                <div class="chart-container chart-sm">
                     <canvas id="weekday-chart"></canvas>
                 </div>
-                
                 <table class="stats-table">
-                    <thead>
-                        <tr>
-                            <th><?php echo esc_html__('Jour', 'le-margo'); ?></th>
-                            <th><?php echo esc_html__('Réservations', 'le-margo'); ?></th>
-                            <th><?php echo esc_html__('Taille moyenne', 'le-margo'); ?></th>
-                        </tr>
-                    </thead>
+                    <thead><tr><th><?php esc_html_e('Jour', 'gastro-starter'); ?></th><th><?php esc_html_e('Résas', 'gastro-starter'); ?></th><th><?php esc_html_e('Moy. pers.', 'gastro-starter'); ?></th></tr></thead>
                     <tbody>
-                        <?php
-                        $days_of_week = array(
-                            __('Lundi', 'le-margo'),
-                            __('Mardi', 'le-margo'),
-                            __('Mercredi', 'le-margo'),
-                            __('Jeudi', 'le-margo'),
-                            __('Vendredi', 'le-margo'),
-                            __('Samedi', 'le-margo'),
-                            __('Dimanche', 'le-margo')
-                        );
-                        
-                        if (!empty($advanced_stats['weekday_stats'])) {
-                            foreach ($advanced_stats['weekday_stats'] as $day) {
-                                $day_name = $days_of_week[$day->weekday];
-                                $avg_size = round($day->avg_party_size, 1);
-                                
-                                echo '<tr>';
-                                echo '<td>' . esc_html($day_name) . '</td>';
-                                echo '<td>' . esc_html($day->reservation_count) . '</td>';
-                                echo '<td>' . esc_html($avg_size) . '</td>';
-                                echo '</tr>';
-                            }
-                        } else {
-                            echo '<tr><td colspan="3">' . esc_html__('Aucune donnée disponible', 'le-margo') . '</td></tr>';
+                    <?php
+                    $day_names = [
+                        __('Lundi', 'gastro-starter'), __('Mardi', 'gastro-starter'), __('Mercredi', 'gastro-starter'),
+                        __('Jeudi', 'gastro-starter'), __('Vendredi', 'gastro-starter'), __('Samedi', 'gastro-starter'), __('Dimanche', 'gastro-starter')
+                    ];
+                    $day_keys_map = ['monday','tuesday','wednesday','thursday','friday','saturday','sunday'];
+                    if (!empty($advanced_stats['weekday_stats'])) {
+                        foreach ($advanced_stats['weekday_stats'] as $day) {
+                            $dk = $day_keys_map[$day->weekday] ?? '';
+                            if (!in_array($dk, $open_day_keys)) continue;
+                            echo '<tr><td>' . esc_html($day_names[$day->weekday]) . '</td><td>' . esc_html($day->reservation_count) . '</td><td>' . esc_html(round($day->avg_party_size, 1)) . '</td></tr>';
                         }
-                        ?>
+                    }
+                    ?>
                     </tbody>
                 </table>
             </div>
-            
-            <!-- 4. Déjeuner vs Dîner -->
-            <div class="stats-grid">
-                <div class="stats-card">
-                    <h2><?php echo esc_html__('Déjeuner vs Dîner', 'le-margo'); ?></h2>
-                    
-                    <div class="small-chart">
-                        <canvas id="service-chart"></canvas>
-                    </div>
-                    
-                    <table class="stats-table">
-                        <thead>
-                            <tr>
-                                <th><?php echo esc_html__('Service', 'le-margo'); ?></th>
-                                <th><?php echo esc_html__('Réservations', 'le-margo'); ?></th>
-                                <th><?php echo esc_html__('Taille moyenne', 'le-margo'); ?></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php
-                            $service_names = array(
-                                'lunch' => __('Déjeuner', 'le-margo'),
-                                'dinner' => __('Dîner', 'le-margo')
-                            );
-                            
-                            if (!empty($advanced_stats['service_stats'])) {
-                                foreach ($advanced_stats['service_stats'] as $service) {
-                                    $service_name = $service_names[$service->meal_type];
-                                    echo '<tr>';
-                                    echo '<td>' . esc_html($service_name) . '</td>';
-                                    echo '<td>' . esc_html($service->reservation_count) . '</td>';
-                                    echo '<td>' . esc_html(round($service->avg_party_size, 1)) . '</td>';
-                                    echo '</tr>';
-                                }
-                            }
-                            ?>
-                        </tbody>
-                    </table>
-                </div>
 
-                <div class="stats-card">
-                    <h2><?php echo esc_html__('Source des Réservations', 'le-margo'); ?></h2>
-                    <div class="small-chart">
-                        <canvas id="source-chart"></canvas>
+            <!-- Source des réservations -->
+            <div class="stats-card">
+                <h2><?php esc_html_e('Sources', 'gastro-starter'); ?></h2>
+                <div class="chart-container chart-sm">
+                    <canvas id="source-chart"></canvas>
+                </div>
+                <div class="source-breakdown">
+                    <?php
+                    $pub = $advanced_stats['source_stats']['public'] ?? 0;
+                    $adm = $advanced_stats['source_stats']['admin'] ?? 0;
+                    $tot = $pub + $adm;
+                    $pub_pct = $tot > 0 ? round(($pub / $tot) * 100) : 0;
+                    $adm_pct = $tot > 0 ? round(($adm / $tot) * 100) : 0;
+                    ?>
+                    <div class="source-item">
+                        <span class="source-dot source-dot-web"></span>
+                        <span><?php esc_html_e('Site web', 'gastro-starter'); ?></span>
+                        <strong><?php echo esc_html($pub); ?> (<?php echo esc_html($pub_pct); ?>%)</strong>
                     </div>
-                    <table class="stats-table">
-                        <thead>
-                            <tr>
-                                <th><?php echo esc_html__('Source', 'le-margo'); ?></th>
-                                <th><?php echo esc_html__('Réservations', 'le-margo'); ?></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php
-                            $source_names = [
-                                'public' => __('Site Web', 'le-margo'),
-                                'admin' => __('Manuelle (Admin)', 'le-margo')
-                            ];
-                            foreach ($advanced_stats['source_stats'] as $source => $count) {
-                                echo '<tr>';
-                                echo '<td>' . esc_html($source_names[$source] ?? ucfirst($source)) . '</td>';
-                                echo '<td>' . esc_html($count) . '</td>';
-                                echo '</tr>';
-                            }
-                            ?>
-                        </tbody>
-                    </table>
+                    <div class="source-item">
+                        <span class="source-dot source-dot-admin"></span>
+                        <span><?php esc_html_e('Admin/téléphone', 'gastro-starter'); ?></span>
+                        <strong><?php echo esc_html($adm); ?> (<?php echo esc_html($adm_pct); ?>%)</strong>
+                    </div>
                 </div>
             </div>
-            
-            <!-- 5. Taille des groupes -->
+
+            <!-- Taille des groupes -->
             <div class="stats-card">
-                <h2><?php echo esc_html__('Répartition par Taille de Groupe', 'le-margo'); ?></h2>
-                
-                <div class="small-chart">
+                <h2><?php esc_html_e('Taille des groupes', 'gastro-starter'); ?></h2>
+                <div class="chart-container chart-sm">
                     <canvas id="group-size-chart"></canvas>
                 </div>
-                
-                <table class="stats-table">
-                    <thead>
-                        <tr>
-                            <th><?php echo esc_html__('Nombre de personnes', 'le-margo'); ?></th>
-                            <th><?php echo esc_html__('Réservations', 'le-margo'); ?></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php
-                        if (!empty($advanced_stats['group_size_stats'])) {
-                            foreach ($advanced_stats['group_size_stats'] as $group_size) {
-                                echo '<tr>';
-                                echo '<td>' . esc_html($group_size->group_size) . '</td>';
-                                echo '<td>' . esc_html($group_size->count) . '</td>';
-                                echo '</tr>';
-                            }
-                        } else {
-                            echo '<tr><td colspan="2">' . esc_html__('Aucune donnée disponible', 'le-margo') . '</td></tr>';
-                        }
-                        ?>
-                    </tbody>
-                </table>
             </div>
-            
-            <!-- 6. Évolution mensuelle -->
+
+            <!-- Segmentation clients -->
             <div class="stats-card">
-                <h2><?php echo esc_html__('Évolution Mensuelle des Réservations', 'le-margo'); ?></h2>
-                
-                <div class="line-chart-container">
+                <h2><?php esc_html_e('Segmentation clients', 'gastro-starter'); ?></h2>
+                <div class="chart-container chart-sm">
+                    <canvas id="segment-chart"></canvas>
+                </div>
+                <div class="segment-list">
+                    <div class="segment-row"><span class="seg-dot seg-habitue"></span> <?php esc_html_e('Habitués', 'gastro-starter'); ?> <strong><?php echo esc_html($customer_stats['habitues'] ?? 0); ?></strong></div>
+                    <div class="segment-row"><span class="seg-dot seg-occasionnel"></span> <?php esc_html_e('Occasionnels', 'gastro-starter'); ?> <strong><?php echo esc_html($customer_stats['occasionnels'] ?? 0); ?></strong></div>
+                    <div class="segment-row"><span class="seg-dot seg-perdu"></span> <?php esc_html_e('Perdus', 'gastro-starter'); ?> <strong><?php echo esc_html($customer_stats['perdus'] ?? 0); ?></strong></div>
+                    <div class="segment-row"><span class="seg-dot seg-nouveau"></span> <?php esc_html_e('Nouveaux', 'gastro-starter'); ?> <strong><?php echo esc_html(($customer_stats['nouveaux'] ?? 0) + ($customer_stats['inactifs'] ?? 0)); ?></strong></div>
+                </div>
+            </div>
+
+            <!-- Évolution mensuelle -->
+            <div class="stats-card stats-card-wide">
+                <h2><?php esc_html_e('Évolution mensuelle', 'gastro-starter'); ?></h2>
+                <div class="chart-container">
                     <canvas id="monthly-chart"></canvas>
                 </div>
-                
                 <table class="stats-table">
-                    <thead>
-                        <tr>
-                            <th><?php echo esc_html__('Mois', 'le-margo'); ?></th>
-                            <th><?php echo esc_html__('Réservations', 'le-margo'); ?></th>
-                            <th><?php echo esc_html__('Total convives', 'le-margo'); ?></th>
-                            <th><?php echo esc_html__('Taille moyenne', 'le-margo'); ?></th>
-                            <th><?php echo esc_html__('Annulations', 'le-margo'); ?></th>
-                        </tr>
-                    </thead>
+                    <thead><tr><th><?php esc_html_e('Mois', 'gastro-starter'); ?></th><th><?php esc_html_e('Résas', 'gastro-starter'); ?></th><th><?php esc_html_e('Convives', 'gastro-starter'); ?></th><th><?php esc_html_e('Moy.', 'gastro-starter'); ?></th><th><?php esc_html_e('Annulations', 'gastro-starter'); ?></th></tr></thead>
                     <tbody>
-                        <?php
-                        if (!empty($advanced_stats['monthly_stats'])) {
-                            $displayed = 0;
-                            foreach ($advanced_stats['monthly_stats'] as $month_data) {
-                                if ($displayed >= 6) break; // Limiter à 6 mois
-                                
-                                $month = $month_data->month;
-                                $formatted_month = date_i18n('F Y', strtotime($month . '-01'));
-                                $avg_size = round($month_data->avg_party_size, 1);
-                                
-                                $cancellation_data = isset($advanced_stats['cancellation_rates'][$month]) ? $advanced_stats['cancellation_rates'][$month] : null;
-                                $cancellation_rate = $cancellation_data ? $cancellation_data['rate'] . '%' : '-';
-                                
-                                echo '<tr>';
-                                echo '<td>' . esc_html($formatted_month) . '</td>';
-                                echo '<td>' . esc_html($month_data->reservation_count) . '</td>';
-                                echo '<td>' . esc_html($month_data->total_people) . '</td>';
-                                echo '<td>' . esc_html($avg_size) . '</td>';
-                                echo '<td>' . esc_html($cancellation_rate) . '</td>';
-                                echo '</tr>';
-                                
-                                $displayed++;
-                            }
-                        } else {
-                            echo '<tr><td colspan="5">' . esc_html__('Aucune donnée disponible', 'le-margo') . '</td></tr>';
+                    <?php
+                    if (!empty($advanced_stats['monthly_stats'])) {
+                        $displayed = 0;
+                        foreach ($advanced_stats['monthly_stats'] as $m) {
+                            if ($displayed >= 6) break;
+                            $formatted = date_i18n('F Y', strtotime($m->month . '-01'));
+                            $cancel_data = $advanced_stats['cancellation_rates'][$m->month] ?? null;
+                            $cancel_txt = $cancel_data ? $cancel_data['rate'] . '%' : '-';
+                            echo '<tr><td>' . esc_html($formatted) . '</td><td>' . esc_html($m->reservation_count) . '</td><td>' . esc_html($m->total_people) . '</td><td>' . esc_html(round($m->avg_party_size, 1)) . '</td><td>' . esc_html($cancel_txt) . '</td></tr>';
+                            $displayed++;
                         }
-                        ?>
+                    }
+                    ?>
                     </tbody>
                 </table>
             </div>
-            
-            <!-- 7. Nouveaux vs Fidèles -->
-            <div class="stats-card">
-                <h2><?php echo esc_html__('Nouveaux Clients vs Clients Fidèles', 'le-margo'); ?></h2>
-                
-                <div class="line-chart-container">
+
+            <!-- Nouveaux vs Fidèles -->
+            <div class="stats-card stats-card-wide">
+                <h2><?php esc_html_e('Nouveaux vs Fidèles', 'gastro-starter'); ?></h2>
+                <div class="chart-container">
                     <canvas id="new-returning-chart"></canvas>
-                </div>
-                
-                <table class="stats-table">
-                    <thead>
-                        <tr>
-                            <th><?php echo esc_html__('Date', 'le-margo'); ?></th>
-                            <th><?php echo esc_html__('Nouveaux clients', 'le-margo'); ?></th>
-                            <th><?php echo esc_html__('Clients fidèles', 'le-margo'); ?></th>
-                            <th><?php echo esc_html__('Ratio fidélité', 'le-margo'); ?></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php
-                        if (!empty($advanced_stats['new_vs_returning'])) {
-                            $displayed = 0;
-                            foreach ($advanced_stats['new_vs_returning'] as $day_data) {
-                                if ($displayed >= 7) break; // Limiter à 7 jours
-                                
-                                $formatted_date = date_i18n(get_option('date_format'), strtotime($day_data->reservation_date));
-                                $new = intval($day_data->new_customers);
-                                $returning = intval($day_data->returning_customers);
-                                $total = $new + $returning;
-                                $ratio = $total > 0 ? round(($returning / $total) * 100, 1) . '%' : '-';
-                                
-                                echo '<tr>';
-                                echo '<td>' . esc_html($formatted_date) . '</td>';
-                                echo '<td>' . esc_html($new) . '</td>';
-                                echo '<td>' . esc_html($returning) . '</td>';
-                                echo '<td>' . esc_html($ratio) . '</td>';
-                                echo '</tr>';
-                                
-                                $displayed++;
-                            }
-                        } else {
-                            echo '<tr><td colspan="4">' . esc_html__('Aucune donnée disponible', 'le-margo') . '</td></tr>';
-                        }
-                        ?>
-                    </tbody>
-                </table>
-            </div>
-            
-            <!-- 8. Distribution des visites clients -->
-            <div class="stats-card">
-                <h2><?php echo esc_html__('Distribution des Clients par Nombre de Visites', 'le-margo'); ?></h2>
-                
-                <div class="bar-chart-container">
-                    <canvas id="visits-distribution-chart"></canvas>
                 </div>
             </div>
         </div>
-        
-        <!-- Intégration de Chart.js -->
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-        
-        <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Configuration des couleurs
-            const primaryColor = '#e0a872';
-            const secondaryColor = '#9e8e7e';
-            const tertiaryColor = '#3a3c36';
-            const lightColor = '#f5f0e9';
-            
-            // Charger les données depuis PHP
-            const statsData = <?php echo json_encode($advanced_stats); ?>;
-            
-            // 1. Graphique d'occupation
-            if (document.getElementById('occupancy-chart')) {
-                const occupancyData = statsData.occupancy_data;
-                const dates = [];
-                const lunchData = [];
-                const dinnerData = [];
-                const overallData = [];
-                
-                for (const [date, data] of Object.entries(occupancyData)) {
-                    const formattedDate = new Date(date).toLocaleDateString();
-                    dates.unshift(formattedDate);
-                    lunchData.unshift(data.lunch);
-                    dinnerData.unshift(data.dinner);
-                    overallData.unshift(data.overall);
-                }
-                
-                new Chart(document.getElementById('occupancy-chart'), {
-                    type: 'line',
-                    data: {
-                        labels: dates,
-                        datasets: [
-                            {
-                                label: '<?php echo esc_js(__('Déjeuner', 'le-margo')); ?>',
-                                data: lunchData,
-                                borderColor: primaryColor,
-                                backgroundColor: 'rgba(224, 168, 114, 0.2)',
-                                tension: 0.1
-                            },
-                            {
-                                label: '<?php echo esc_js(__('Dîner', 'le-margo')); ?>',
-                                data: dinnerData,
-                                borderColor: secondaryColor,
-                                backgroundColor: 'rgba(158, 142, 126, 0.2)',
-                                tension: 0.1
-                            },
-                            {
-                                label: '<?php echo esc_js(__('Global', 'le-margo')); ?>',
-                                data: overallData,
-                                borderColor: tertiaryColor,
-                                backgroundColor: 'rgba(58, 60, 54, 0.2)',
-                                tension: 0.1
-                            }
-                        ]
-                    },
-                    options: {
-                        responsive: true,
-                        scales: {
-                            y: {
-                                min: 0,
-                                max: 100,
-                                ticks: {
-                                    callback: function(value) {
-                                        return value + '%';
-                                    }
-                                }
-                            }
-                        }
-                    }
-                });
-            }
-            
-            // 2. Graphique par jour de la semaine
-            if (document.getElementById('weekday-chart')) {
-                const weekdayStats = statsData.weekday_stats;
-                const days = [
-                    '<?php echo esc_js(__('Lundi', 'le-margo')); ?>',
-                    '<?php echo esc_js(__('Mardi', 'le-margo')); ?>',
-                    '<?php echo esc_js(__('Mercredi', 'le-margo')); ?>',
-                    '<?php echo esc_js(__('Jeudi', 'le-margo')); ?>',
-                    '<?php echo esc_js(__('Vendredi', 'le-margo')); ?>',
-                    '<?php echo esc_js(__('Samedi', 'le-margo')); ?>',
-                    '<?php echo esc_js(__('Dimanche', 'le-margo')); ?>'
-                ];
-                const counts = Array(7).fill(0);
-                
-                if (weekdayStats) {
-                    weekdayStats.forEach(day => {
-                        counts[day.weekday] = day.reservation_count;
-                    });
-                }
-                
-                new Chart(document.getElementById('weekday-chart'), {
-                    type: 'bar',
-                    data: {
-                        labels: days,
-                        datasets: [{
-                            label: '<?php echo esc_js(__('Nombre de réservations', 'le-margo')); ?>',
-                            data: counts,
-                            backgroundColor: primaryColor
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        scales: {
-                            y: {
-                                beginAtZero: true
-                            }
-                        }
-                    }
-                });
-            }
-            
-            // 3. Graphique Déjeuner vs Dîner
-            if (document.getElementById('service-chart')) {
-                const serviceStats = statsData.service_stats;
-                const services = [];
-                const serviceData = [];
-                
-                if (serviceStats) {
-                    serviceStats.forEach(service => {
-                        services.push(service.meal_type === 'lunch' ? 
-                            '<?php echo esc_js(__('Déjeuner', 'le-margo')); ?>' : 
-                            '<?php echo esc_js(__('Dîner', 'le-margo')); ?>');
-                        serviceData.push(service.reservation_count);
-                    });
-                }
-                
-                new Chart(document.getElementById('service-chart'), {
-                    type: 'pie',
-                    data: {
-                        labels: services,
-                        datasets: [{
-                            data: serviceData,
-                            backgroundColor: [primaryColor, secondaryColor]
-                        }]
-                    },
-                    options: {
-                        responsive: true
-                    }
-                });
-            }
-            
-            // 4. Graphique taille des groupes
-            if (document.getElementById('group-size-chart')) {
-                const groupSizeStats = statsData.group_size_stats;
-                const sizes = [];
-                const sizeData = [];
-                
-                if (groupSizeStats) {
-                    groupSizeStats.forEach(size => {
-                        sizes.push(size.group_size + ' <?php echo esc_js(__('pers.', 'le-margo')); ?>');
-                        sizeData.push(size.count);
-                    });
-                }
-                
-                new Chart(document.getElementById('group-size-chart'), {
-                    type: 'bar',
-                    data: {
-                        labels: sizes,
-                        datasets: [{
-                            label: '<?php echo esc_js(__('Nombre de réservations', 'le-margo')); ?>',
-                            data: sizeData,
-                            backgroundColor: primaryColor
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        scales: {
-                            y: {
-                                beginAtZero: true
-                            }
-                        }
-                    }
-                });
-            }
-            
-            // 5. Graphique évolution mensuelle
-            if (document.getElementById('monthly-chart')) {
-                const monthlyStats = statsData.monthly_stats;
-                const months = [];
-                const reservationCounts = [];
-                const peopleCounts = [];
-                
-                if (monthlyStats) {
-                    // Inverser l'ordre pour avoir les mois chronologiquement
-                    monthlyStats.slice().reverse().forEach(month => {
-                        const date = new Date(month.month + '-01');
-                        const formattedMonth = date.toLocaleDateString('fr-FR', { month: 'short', year: 'numeric' });
-                        months.push(formattedMonth);
-                        reservationCounts.push(month.reservation_count);
-                        peopleCounts.push(month.total_people);
-                    });
-                }
-                
-                new Chart(document.getElementById('monthly-chart'), {
-                    type: 'line',
-                    data: {
-                        labels: months,
-                        datasets: [
-                            {
-                                label: '<?php echo esc_js(__('Réservations', 'le-margo')); ?>',
-                                data: reservationCounts,
-                                borderColor: primaryColor,
-                                backgroundColor: 'rgba(224, 168, 114, 0.2)',
-                                tension: 0.1,
-                                yAxisID: 'y'
-                            },
-                            {
-                                label: '<?php echo esc_js(__('Convives', 'le-margo')); ?>',
-                                data: peopleCounts,
-                                borderColor: secondaryColor,
-                                backgroundColor: 'rgba(158, 142, 126, 0.2)',
-                                tension: 0.1,
-                                yAxisID: 'y1'
-                            }
-                        ]
-                    },
-                    options: {
-                        responsive: true,
-                        scales: {
-                            y: {
-                                beginAtZero: true,
-                                type: 'linear',
-                                position: 'left',
-                                title: {
-                                    display: true,
-                                    text: '<?php echo esc_js(__('Réservations', 'le-margo')); ?>'
-                                }
-                            },
-                            y1: {
-                                beginAtZero: true,
-                                type: 'linear',
-                                position: 'right',
-                                grid: {
-                                    drawOnChartArea: false
-                                },
-                                title: {
-                                    display: true,
-                                    text: '<?php echo esc_js(__('Convives', 'le-margo')); ?>'
-                                }
-                            }
-                        }
-                    }
-                });
-            }
-            
-            // 6. Graphique nouveaux vs fidèles
-            if (document.getElementById('new-returning-chart')) {
-                const newVsReturning = statsData.new_vs_returning;
-                const dates = [];
-                const newCustomers = [];
-                const returningCustomers = [];
-                
-                if (newVsReturning) {
-                    // Inverser l'ordre pour avoir les dates chronologiquement
-                    newVsReturning.slice().reverse().forEach(day => {
-                        const date = new Date(day.reservation_date);
-                        const formattedDate = date.toLocaleDateString();
-                        dates.push(formattedDate);
-                        newCustomers.push(parseInt(day.new_customers));
-                        returningCustomers.push(parseInt(day.returning_customers));
-                    });
-                }
-                
-                new Chart(document.getElementById('new-returning-chart'), {
-                    type: 'bar',
-                    data: {
-                        labels: dates,
-                        datasets: [
-                            {
-                                label: '<?php echo esc_js(__('Nouveaux clients', 'le-margo')); ?>',
-                                data: newCustomers,
-                                backgroundColor: secondaryColor
-                            },
-                            {
-                                label: '<?php echo esc_js(__('Clients fidèles', 'le-margo')); ?>',
-                                data: returningCustomers,
-                                backgroundColor: primaryColor
-                            }
-                        ]
-                    },
-                    options: {
-                        responsive: true,
-                        scales: {
-                            x: {
-                                stacked: true
-                            },
-                            y: {
-                                stacked: true,
-                                beginAtZero: true
-                            }
-                        }
-                    }
-                });
-            }
-            
-            // 7. Distribution des visites
-            if (document.getElementById('visits-distribution-chart')) {
-                const visitDistribution = statsData.visit_distribution;
-                const visits = [];
-                const customerCounts = [];
-                
-                if (visitDistribution) {
-                    visitDistribution.forEach(item => {
-                        if (item.visits <= 10) { // Limiter l'affichage aux 10 premières visites pour la lisibilité
-                            visits.push(item.visits + ' <?php echo esc_js(__('visite(s)', 'le-margo')); ?>');
-                            customerCounts.push(item.customer_count);
-                        }
-                    });
-                }
-                
-                new Chart(document.getElementById('visits-distribution-chart'), {
-                    type: 'bar',
-                    data: {
-                        labels: visits,
-                        datasets: [{
-                            label: '<?php echo esc_js(__('Nombre de clients', 'le-margo')); ?>',
-                            data: customerCounts,
-                            backgroundColor: primaryColor
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        scales: {
-                            y: {
-                                beginAtZero: true
-                            }
-                        }
-                    }
-                });
-            }
-
-            // Graphique Déjeuner vs Dîner (Pie)
-            var serviceCtx = document.getElementById('service-chart').getContext('2d');
-            if (window.serviceChart instanceof Chart) {
-                window.serviceChart.destroy();
-            }
-            window.serviceChart = new Chart(serviceCtx, {
-                type: 'doughnut',
-                data: {
-                    labels: [<?php echo implode(',', array_map(function($s) { return "'" . ($s->meal_type === 'lunch' ? 'Déjeuner' : 'Dîner') . "'"; }, $advanced_stats['service_stats'])); ?>],
-                    datasets: [{
-                        data: [<?php echo implode(',', array_map(function($s) { return $s->reservation_count; }, $advanced_stats['service_stats'])); ?>],
-                        backgroundColor: ['#e0a872', '#b5a692']
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    legend: { position: 'bottom' }
-                }
-            });
-
-            // Graphique Sources (Pie)
-            var sourceCtx = document.getElementById('source-chart').getContext('2d');
-            if (window.sourceChart instanceof Chart) {
-                window.sourceChart.destroy();
-            }
-            window.sourceChart = new Chart(sourceCtx, {
-                type: 'doughnut',
-                data: {
-                    labels: ['Site Web', 'Admin'],
-                    datasets: [{
-                        data: [<?php echo $advanced_stats['source_stats']['public']; ?>, <?php echo $advanced_stats['source_stats']['admin']; ?>],
-                        backgroundColor: ['#7f9c96', '#a9d1c9']
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    legend: { position: 'bottom' }
-                }
-            });
-
-        });
-        </script>
     </div>
+
+    <style>
+    .gastro-starter-stats-wrap { max-width: 1400px; margin: 20px auto; padding: 0 20px; }
+    .stats-page-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; flex-wrap: wrap; gap: 12px; }
+    .stats-page-header h1 { font-size: 1.5rem; font-weight: 600; margin: 0; }
+    .period-form { display: flex; align-items: center; gap: 8px; }
+    .period-form select, .period-form input[type="date"] { padding: 8px 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 0.9rem; }
+
+    .stats-kpi-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-bottom: 24px; }
+    .stats-kpi { background: #fff; border: 1px solid #e8e8e8; border-radius: 10px; padding: 20px 16px; text-align: center; }
+    .stats-kpi-value { display: block; font-size: 1.8rem; font-weight: 700; color: #3a3c36; line-height: 1.2; }
+    .stats-kpi-value.stats-kpi-danger { color: #e74c3c; }
+    .stats-kpi-label { display: block; font-size: 0.8rem; color: #777; margin-top: 4px; text-transform: uppercase; letter-spacing: 0.3px; }
+    .stats-kpi-sub { display: block; font-size: 0.75rem; color: #aaa; margin-top: 2px; }
+
+    .stats-grid-2col { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+    .stats-card { background: #fff; border: 1px solid #e8e8e8; border-radius: 10px; padding: 24px; }
+    .stats-card-wide { grid-column: 1 / -1; }
+    .stats-card h2 { font-size: 1rem; font-weight: 600; color: #333; margin: 0 0 16px 0; padding-bottom: 10px; border-bottom: 1px solid #f0f0f0; }
+    .stats-card h2 small { font-weight: 400; color: #999; font-size: 0.8rem; }
+
+    .chart-container { position: relative; height: 280px; margin-bottom: 16px; }
+    .chart-container.chart-sm { height: 200px; }
+    .chart-container canvas { max-width: 100%; }
+
+    .stats-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+    .stats-table th, .stats-table td { padding: 8px 12px; text-align: left; border-bottom: 1px solid #f0f0f0; }
+    .stats-table th { font-weight: 600; color: #555; font-size: 0.8rem; text-transform: uppercase; }
+
+    .source-breakdown { margin-top: 12px; }
+    .source-item { display: flex; align-items: center; gap: 8px; padding: 8px 0; font-size: 0.9rem; }
+    .source-item strong { margin-left: auto; color: #333; }
+    .source-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+    .source-dot-web { background: #7f9c96; }
+    .source-dot-admin { background: #e0a872; }
+
+    .segment-list { margin-top: 12px; }
+    .segment-row { display: flex; align-items: center; gap: 8px; padding: 6px 0; font-size: 0.9rem; }
+    .segment-row strong { margin-left: auto; }
+    .seg-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+    .seg-habitue { background: #27ae60; }
+    .seg-occasionnel { background: #f39c12; }
+    .seg-perdu { background: #e74c3c; }
+    .seg-nouveau { background: #3498db; }
+
+    @media (max-width: 1024px) {
+        .stats-grid-2col { grid-template-columns: 1fr; }
+        .stats-card-wide { grid-column: auto; }
+    }
+    @media (max-width: 768px) {
+        .stats-kpi-row { grid-template-columns: repeat(2, 1fr); }
+        .stats-page-header { flex-direction: column; align-items: flex-start; }
+    }
+    </style>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var P = '#e0a872', S = '#9e8e7e', T = '#3a3c36';
+
+        document.getElementById('period-select').addEventListener('change', function() {
+            document.getElementById('custom-dates').style.display = this.value === 'custom' ? 'inline-flex' : 'none';
+        });
+
+        // Données filtrées (jours ouverts uniquement)
+        var openOccupancy = <?php echo json_encode($open_occupancy); ?>;
+        var statsData = <?php echo json_encode($advanced_stats); ?>;
+        var openDayKeys = <?php echo json_encode($open_day_keys); ?>;
+        var dayKeysMap = ['monday','tuesday','wednesday','thursday','friday','saturday','sunday'];
+
+        // 1. Occupation
+        var occDates = [], occValues = [];
+        Object.keys(openOccupancy).sort().forEach(function(date) {
+            occDates.push(new Date(date).toLocaleDateString('fr-FR', {day:'2-digit', month:'short'}));
+            occValues.push(openOccupancy[date].overall);
+        });
+
+        if (document.getElementById('occupancy-chart') && occDates.length > 0) {
+            new Chart(document.getElementById('occupancy-chart'), {
+                type: 'line',
+                data: {
+                    labels: occDates,
+                    datasets: [{
+                        label: 'Occupation %',
+                        data: occValues,
+                        borderColor: P,
+                        backgroundColor: 'rgba(224,168,114,0.15)',
+                        tension: 0.3,
+                        fill: true,
+                        pointBackgroundColor: function(ctx) {
+                            var v = ctx.parsed.y;
+                            if (v >= 80) return '#27ae60';
+                            if (v >= 50) return '#f39c12';
+                            return '#e74c3c';
+                        },
+                        pointRadius: 5,
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    scales: { y: { min: 0, max: 100, ticks: { callback: function(v) { return v+'%'; } } } },
+                    plugins: { legend: { display: false } }
+                }
+            });
+        }
+
+        // 2. Weekday (jours ouverts uniquement)
+        var dayLabels = ['Lun','Mar','Mer','Jeu','Ven','Sam','Dim'];
+        var wdLabels = [], wdData = [];
+        if (statsData.weekday_stats) {
+            statsData.weekday_stats.forEach(function(d) {
+                var dk = dayKeysMap[d.weekday];
+                if (openDayKeys.indexOf(dk) !== -1) {
+                    wdLabels.push(dayLabels[d.weekday]);
+                    wdData.push(d.reservation_count);
+                }
+            });
+        }
+        if (document.getElementById('weekday-chart') && wdLabels.length > 0) {
+            new Chart(document.getElementById('weekday-chart'), {
+                type: 'bar',
+                data: { labels: wdLabels, datasets: [{ data: wdData, backgroundColor: P, borderRadius: 4 }] },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } }
+            });
+        }
+
+        // 3. Sources (doughnut)
+        if (document.getElementById('source-chart')) {
+            new Chart(document.getElementById('source-chart'), {
+                type: 'doughnut',
+                data: {
+                    labels: ['Site web', 'Admin'],
+                    datasets: [{ data: [statsData.source_stats.public, statsData.source_stats.admin], backgroundColor: ['#7f9c96', P] }]
+                },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } }
+            });
+        }
+
+        // 4. Taille groupes
+        if (document.getElementById('group-size-chart') && statsData.group_size_stats) {
+            var gsLabels = [], gsData = [];
+            statsData.group_size_stats.forEach(function(g) { gsLabels.push(g.group_size+' pers.'); gsData.push(g.count); });
+            new Chart(document.getElementById('group-size-chart'), {
+                type: 'bar',
+                data: { labels: gsLabels, datasets: [{ data: gsData, backgroundColor: S, borderRadius: 4 }] },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } }
+            });
+        }
+
+        // 5. Segmentation (doughnut)
+        if (document.getElementById('segment-chart')) {
+            var segData = <?php echo json_encode([
+                $customer_stats['habitues'] ?? 0,
+                $customer_stats['occasionnels'] ?? 0,
+                $customer_stats['perdus'] ?? 0,
+                ($customer_stats['nouveaux'] ?? 0) + ($customer_stats['inactifs'] ?? 0)
+            ]); ?>;
+            new Chart(document.getElementById('segment-chart'), {
+                type: 'doughnut',
+                data: {
+                    labels: ['Habitués', 'Occasionnels', 'Perdus', 'Nouveaux'],
+                    datasets: [{ data: segData, backgroundColor: ['#27ae60','#f39c12','#e74c3c','#3498db'] }]
+                },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } }
+            });
+        }
+
+        // 6. Évolution mensuelle
+        if (document.getElementById('monthly-chart') && statsData.monthly_stats) {
+            var mLabels = [], mResas = [], mPeople = [];
+            statsData.monthly_stats.slice().reverse().forEach(function(m) {
+                var d = new Date(m.month+'-01');
+                mLabels.push(d.toLocaleDateString('fr-FR', {month:'short', year:'2-digit'}));
+                mResas.push(m.reservation_count);
+                mPeople.push(m.total_people);
+            });
+            new Chart(document.getElementById('monthly-chart'), {
+                type: 'line',
+                data: {
+                    labels: mLabels,
+                    datasets: [
+                        { label: 'Réservations', data: mResas, borderColor: P, backgroundColor: 'rgba(224,168,114,0.1)', tension: 0.3, yAxisID: 'y' },
+                        { label: 'Convives', data: mPeople, borderColor: S, backgroundColor: 'rgba(158,142,126,0.1)', tension: 0.3, yAxisID: 'y1' }
+                    ]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    scales: {
+                        y: { beginAtZero: true, position: 'left', title: { display: true, text: 'Résas' } },
+                        y1: { beginAtZero: true, position: 'right', grid: { drawOnChartArea: false }, title: { display: true, text: 'Convives' } }
+                    }
+                }
+            });
+        }
+
+        // 7. Nouveaux vs Fidèles
+        if (document.getElementById('new-returning-chart') && statsData.new_vs_returning) {
+            var nrDates = [], nrNew = [], nrRet = [];
+            statsData.new_vs_returning.slice().reverse().forEach(function(d) {
+                nrDates.push(new Date(d.reservation_date).toLocaleDateString('fr-FR', {day:'2-digit', month:'short'}));
+                nrNew.push(parseInt(d.new_customers));
+                nrRet.push(parseInt(d.returning_customers));
+            });
+            new Chart(document.getElementById('new-returning-chart'), {
+                type: 'bar',
+                data: {
+                    labels: nrDates,
+                    datasets: [
+                        { label: 'Nouveaux', data: nrNew, backgroundColor: S },
+                        { label: 'Fidèles', data: nrRet, backgroundColor: P }
+                    ]
+                },
+                options: { responsive: true, maintainAspectRatio: false, scales: { x: { stacked: true }, y: { stacked: true, beginAtZero: true } } }
+            });
+        }
+    });
+    </script>
     <?php
-} 
+}

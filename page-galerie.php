@@ -1,9 +1,9 @@
 <?php
 /**
  * Template Name: Galerie Photos
- * Description: Galerie complète des photos du restaurant Le Margo
+ * Description: Galerie complète des photos du restaurant Mon Restaurant
  *
- * @package Le Margo
+ * @package Gastro_Starter
  */
 
 get_header();
@@ -14,8 +14,8 @@ get_header();
     <section class="page-header" style="background-image: url('<?php echo esc_url(get_template_directory_uri() . '/assets/images/restaurant-ambiance.jpg'); ?>');">
         <div class="page-header-overlay"></div>
         <div class="container page-header-content">
-            <h1 class="page-title"><?php echo esc_html__('Galerie Photos', 'le-margo'); ?></h1>
-            <p class="subtitle"><?php echo esc_html__('Découvrez l\'univers du Margo en images', 'le-margo'); ?></p>
+            <h1 class="page-title"><?php echo esc_html__('Galerie Photos', 'gastro-starter'); ?></h1>
+            <p class="subtitle"><?php echo esc_html__('Découvrez l\'univers du restaurant en images', 'gastro-starter'); ?></p>
         </div>
     </section>
 
@@ -23,60 +23,60 @@ get_header();
     <section class="section gallery-section">
         <div class="container">
             <div class="section-header">
-                <span class="section-tag"><?php echo esc_html__('Notre univers', 'le-margo'); ?></span>
-                <h2 class="section-title"><?php echo esc_html__('Le Margo en images', 'le-margo'); ?></h2>
+                <span class="section-tag"><?php echo esc_html__('Notre univers', 'gastro-starter'); ?></span>
+                <h2 class="section-title"><?php echo esc_html__('Mon Restaurant en images', 'gastro-starter'); ?></h2>
             </div>
             
             <!-- Galerie Restaurant -->
             <div class="gallery-category">
-                <h3><?php echo esc_html__('Le Restaurant', 'le-margo'); ?></h3>
+                <h3><?php echo esc_html__('Le Restaurant', 'gastro-starter'); ?></h3>
                 <div class="gallery-grid">
                     <div class="zoomable-image">
-                        <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/restaurant-exterieur-eymet.jpg'); ?>" alt="<?php echo esc_attr__('Extérieur du restaurant Le Margo', 'le-margo'); ?>">
+                        <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/restaurant-exterior.jpg'); ?>" alt="<?php echo esc_attr__('Extérieur du restaurant Mon Restaurant', 'gastro-starter'); ?>">
                         <div class="particles"></div>
                         <div class="image-caption">
-                            <h4><?php echo esc_html__('Façade du restaurant', 'le-margo'); ?></h4>
-                            <p><?php echo esc_html__('Notre belle façade au cœur d\'Eymet', 'le-margo'); ?></p>
+                            <h4><?php echo esc_html__('Façade du restaurant', 'gastro-starter'); ?></h4>
+                            <p><?php echo esc_html__('Notre belle façade au cœur d\'Notre Ville', 'gastro-starter'); ?></p>
                         </div>
                     </div>
                     <div class="zoomable-image">
-                        <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/restaurant-interieur-ambiance.jpg'); ?>" alt="<?php echo esc_attr__('Intérieur du restaurant', 'le-margo'); ?>">
+                        <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/restaurant-interieur-ambiance.jpg'); ?>" alt="<?php echo esc_attr__('Intérieur du restaurant', 'gastro-starter'); ?>">
                         <div class="particles"></div>
                         <div class="image-caption">
-                            <h4><?php echo esc_html__('Ambiance intérieure', 'le-margo'); ?></h4>
-                            <p><?php echo esc_html__('Un décor artistique et chaleureux', 'le-margo'); ?></p>
+                            <h4><?php echo esc_html__('Ambiance intérieure', 'gastro-starter'); ?></h4>
+                            <p><?php echo esc_html__('Un décor artistique et chaleureux', 'gastro-starter'); ?></p>
                         </div>
                     </div>
                     <div class="zoomable-image">
-                        <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/salle-restaurant.jpg'); ?>" alt="<?php echo esc_attr__('Salle du restaurant', 'le-margo'); ?>">
+                        <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/salle-restaurant.jpg'); ?>" alt="<?php echo esc_attr__('Salle du restaurant', 'gastro-starter'); ?>">
                         <div class="particles"></div>
                         <div class="image-caption">
-                            <h4><?php echo esc_html__('Salle principale', 'le-margo'); ?></h4>
-                            <p><?php echo esc_html__('Espace convivial pour vos repas', 'le-margo'); ?></p>
+                            <h4><?php echo esc_html__('Salle principale', 'gastro-starter'); ?></h4>
+                            <p><?php echo esc_html__('Espace convivial pour vos repas', 'gastro-starter'); ?></p>
                         </div>
                     </div>
                     <div class="zoomable-image">
-                        <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/terrasse-restaurant.jpg'); ?>" alt="<?php echo esc_attr__('Terrasse du restaurant', 'le-margo'); ?>">
+                        <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/terrasse-restaurant.jpg'); ?>" alt="<?php echo esc_attr__('Terrasse du restaurant', 'gastro-starter'); ?>">
                         <div class="particles"></div>
                         <div class="image-caption">
-                            <h4><?php echo esc_html__('Terrasse extérieure', 'le-margo'); ?></h4>
-                            <p><?php echo esc_html__('Profitez des beaux jours en terrasse', 'le-margo'); ?></p>
+                            <h4><?php echo esc_html__('Terrasse extérieure', 'gastro-starter'); ?></h4>
+                            <p><?php echo esc_html__('Profitez des beaux jours en terrasse', 'gastro-starter'); ?></p>
                         </div>
                     </div>
                     <div class="zoomable-image">
-                        <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/ambiance-soiree-restaurant.jpg'); ?>" alt="<?php echo esc_attr__('Ambiance de soirée', 'le-margo'); ?>">
+                        <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/ambiance-soiree-restaurant.jpg'); ?>" alt="<?php echo esc_attr__('Ambiance de soirée', 'gastro-starter'); ?>">
                         <div class="particles"></div>
                         <div class="image-caption">
-                            <h4><?php echo esc_html__('Ambiance de soirée', 'le-margo'); ?></h4>
-                            <p><?php echo esc_html__('Une atmosphère intimiste le soir', 'le-margo'); ?></p>
+                            <h4><?php echo esc_html__('Ambiance de soirée', 'gastro-starter'); ?></h4>
+                            <p><?php echo esc_html__('Une atmosphère intimiste le soir', 'gastro-starter'); ?></p>
                         </div>
                     </div>
                     <div class="zoomable-image">
-                        <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/table-dressage-elegant.jpg'); ?>" alt="<?php echo esc_attr__('Dressage de table', 'le-margo'); ?>">
+                        <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/table-dressage-elegant.jpg'); ?>" alt="<?php echo esc_attr__('Dressage de table', 'gastro-starter'); ?>">
                         <div class="particles"></div>
                         <div class="image-caption">
-                            <h4><?php echo esc_html__('Dressage de table', 'le-margo'); ?></h4>
-                            <p><?php echo esc_html__('Élégance dans chaque détail', 'le-margo'); ?></p>
+                            <h4><?php echo esc_html__('Dressage de table', 'gastro-starter'); ?></h4>
+                            <p><?php echo esc_html__('Élégance dans chaque détail', 'gastro-starter'); ?></p>
                         </div>
                     </div>
                 </div>
@@ -84,38 +84,38 @@ get_header();
 
             <!-- Galerie Cuisine -->
             <div class="gallery-category">
-                <h3><?php echo esc_html__('La Cuisine', 'le-margo'); ?></h3>
+                <h3><?php echo esc_html__('La Cuisine', 'gastro-starter'); ?></h3>
                 <div class="gallery-grid">
                     <div class="zoomable-image">
-                        <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/cuisine-ouverte-lemargo.jpg'); ?>" alt="<?php echo esc_attr__('Cuisine ouverte', 'le-margo'); ?>">
+                        <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/cuisine-ouverte.jpg'); ?>" alt="<?php echo esc_attr__('Cuisine ouverte', 'gastro-starter'); ?>">
                         <div class="particles"></div>
                         <div class="image-caption">
-                            <h4><?php echo esc_html__('Cuisine ouverte', 'le-margo'); ?></h4>
-                            <p><?php echo esc_html__('Transparence et créativité culinaire', 'le-margo'); ?></p>
+                            <h4><?php echo esc_html__('Cuisine ouverte', 'gastro-starter'); ?></h4>
+                            <p><?php echo esc_html__('Transparence et créativité culinaire', 'gastro-starter'); ?></p>
                         </div>
                     </div>
                     <div class="zoomable-image">
-                        <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/chef-cuisine-preparation.jpg'); ?>" alt="<?php echo esc_attr__('Chef en préparation', 'le-margo'); ?>">
+                        <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/chef-cuisine-preparation.jpg'); ?>" alt="<?php echo esc_attr__('Chef en préparation', 'gastro-starter'); ?>">
                         <div class="particles"></div>
                         <div class="image-caption">
-                            <h4><?php echo esc_html__('Chef en action', 'le-margo'); ?></h4>
-                            <p><?php echo esc_html__('Passion et savoir-faire', 'le-margo'); ?></p>
+                            <h4><?php echo esc_html__('Chef en action', 'gastro-starter'); ?></h4>
+                            <p><?php echo esc_html__('Passion et savoir-faire', 'gastro-starter'); ?></p>
                         </div>
                     </div>
                     <div class="zoomable-image">
-                        <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/cuisine-preparation.jpg'); ?>" alt="<?php echo esc_attr__('Préparation culinaire', 'le-margo'); ?>">
+                        <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/cuisine-preparation.jpg'); ?>" alt="<?php echo esc_attr__('Préparation culinaire', 'gastro-starter'); ?>">
                         <div class="particles"></div>
                         <div class="image-caption">
-                            <h4><?php echo esc_html__('Préparation culinaire', 'le-margo'); ?></h4>
-                            <p><?php echo esc_html__('Chaque plat est une œuvre d\'art', 'le-margo'); ?></p>
+                            <h4><?php echo esc_html__('Préparation culinaire', 'gastro-starter'); ?></h4>
+                            <p><?php echo esc_html__('Chaque plat est une œuvre d\'art', 'gastro-starter'); ?></p>
                         </div>
                     </div>
                     <div class="zoomable-image">
-                        <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/cuisine-moderne-equipement.jpg'); ?>" alt="<?php echo esc_attr__('Équipement moderne', 'le-margo'); ?>">
+                        <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/cuisine-moderne-equipement.jpg'); ?>" alt="<?php echo esc_attr__('Équipement moderne', 'gastro-starter'); ?>">
                         <div class="particles"></div>
                         <div class="image-caption">
-                            <h4><?php echo esc_html__('Équipement moderne', 'le-margo'); ?></h4>
-                            <p><?php echo esc_html__('Technologie au service du goût', 'le-margo'); ?></p>
+                            <h4><?php echo esc_html__('Équipement moderne', 'gastro-starter'); ?></h4>
+                            <p><?php echo esc_html__('Technologie au service du goût', 'gastro-starter'); ?></p>
                         </div>
                     </div>
                 </div>
@@ -123,78 +123,78 @@ get_header();
 
             <!-- Galerie Plats -->
             <div class="gallery-category">
-                <h3><?php echo esc_html__('Nos Plats', 'le-margo'); ?></h3>
+                <h3><?php echo esc_html__('Nos Plats', 'gastro-starter'); ?></h3>
                 <div class="gallery-grid">
                     <div class="zoomable-image">
-                        <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/plat-signature-lemargo.webp'); ?>" alt="<?php echo esc_attr__('Plat signature', 'le-margo'); ?>">
+                        <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/plat-signature.webp'); ?>" alt="<?php echo esc_attr__('Plat signature', 'gastro-starter'); ?>">
                         <div class="particles"></div>
                         <div class="image-caption">
-                            <h4><?php echo esc_html__('Plat signature Le Margo', 'le-margo'); ?></h4>
-                            <p><?php echo esc_html__('Notre création emblématique', 'le-margo'); ?></p>
+                            <h4><?php echo esc_html__('Plat signature Mon Restaurant', 'gastro-starter'); ?></h4>
+                            <p><?php echo esc_html__('Notre création emblématique', 'gastro-starter'); ?></p>
                         </div>
                     </div>
                     <div class="zoomable-image">
-                        <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/plat-creative-cuisine.jpg'); ?>" alt="<?php echo esc_attr__('Cuisine créative', 'le-margo'); ?>">
+                        <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/plat-creative-cuisine.jpg'); ?>" alt="<?php echo esc_attr__('Cuisine créative', 'gastro-starter'); ?>">
                         <div class="particles"></div>
                         <div class="image-caption">
-                            <h4><?php echo esc_html__('Cuisine créative', 'le-margo'); ?></h4>
-                            <p><?php echo esc_html__('Innovation et tradition réunies', 'le-margo'); ?></p>
+                            <h4><?php echo esc_html__('Cuisine créative', 'gastro-starter'); ?></h4>
+                            <p><?php echo esc_html__('Innovation et tradition réunies', 'gastro-starter'); ?></p>
                         </div>
                     </div>
                     <div class="zoomable-image">
-                        <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/plat-gastronomique.jpg'); ?>" alt="<?php echo esc_attr__('Plat gastronomique', 'le-margo'); ?>">
+                        <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/plat-gastronomique.jpg'); ?>" alt="<?php echo esc_attr__('Plat gastronomique', 'gastro-starter'); ?>">
                         <div class="particles"></div>
                         <div class="image-caption">
-                            <h4><?php echo esc_html__('Plat gastronomique', 'le-margo'); ?></h4>
-                            <p><?php echo esc_html__('Excellence culinaire française', 'le-margo'); ?></p>
+                            <h4><?php echo esc_html__('Plat gastronomique', 'gastro-starter'); ?></h4>
+                            <p><?php echo esc_html__('Excellence culinaire française', 'gastro-starter'); ?></p>
                         </div>
                     </div>
                     <div class="zoomable-image">
-                        <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/plat-signature-chef.jpg'); ?>" alt="<?php echo esc_attr__('Signature du chef', 'le-margo'); ?>">
+                        <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/plat-signature-chef.jpg'); ?>" alt="<?php echo esc_attr__('Signature du chef', 'gastro-starter'); ?>">
                         <div class="particles"></div>
                         <div class="image-caption">
-                            <h4><?php echo esc_html__('Signature du chef', 'le-margo'); ?></h4>
-                            <p><?php echo esc_html__('Vision unique du chef', 'le-margo'); ?></p>
+                            <h4><?php echo esc_html__('Signature du chef', 'gastro-starter'); ?></h4>
+                            <p><?php echo esc_html__('Vision unique du chef', 'gastro-starter'); ?></p>
                         </div>
                     </div>
                     <div class="zoomable-image">
-                        <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/plat-local-ingredients.jpg'); ?>" alt="<?php echo esc_attr__('Ingrédients locaux', 'le-margo'); ?>">
+                        <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/plat-local-ingredients.jpg'); ?>" alt="<?php echo esc_attr__('Ingrédients locaux', 'gastro-starter'); ?>">
                         <div class="particles"></div>
                         <div class="image-caption">
-                            <h4><?php echo esc_html__('Ingrédients locaux', 'le-margo'); ?></h4>
-                            <p><?php echo esc_html__('Terroir du Périgord sublimé', 'le-margo'); ?></p>
+                            <h4><?php echo esc_html__('Ingrédients locaux', 'gastro-starter'); ?></h4>
+                            <p><?php echo esc_html__('Terroir du Périgord sublimé', 'gastro-starter'); ?></p>
                         </div>
                     </div>
                     <div class="zoomable-image">
-                        <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/plat-seasonal-menu.jpg'); ?>" alt="<?php echo esc_attr__('Menu de saison', 'le-margo'); ?>">
+                        <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/plat-seasonal-menu.jpg'); ?>" alt="<?php echo esc_attr__('Menu de saison', 'gastro-starter'); ?>">
                         <div class="particles"></div>
                         <div class="image-caption">
-                            <h4><?php echo esc_html__('Menu de saison', 'le-margo'); ?></h4>
-                            <p><?php echo esc_html__('Fraîcheur et saisonnalité', 'le-margo'); ?></p>
+                            <h4><?php echo esc_html__('Menu de saison', 'gastro-starter'); ?></h4>
+                            <p><?php echo esc_html__('Fraîcheur et saisonnalité', 'gastro-starter'); ?></p>
                         </div>
                     </div>
                     <div class="zoomable-image">
-                        <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/dessert-maison.jpg'); ?>" alt="<?php echo esc_attr__('Dessert maison', 'le-margo'); ?>">
+                        <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/dessert-maison.jpg'); ?>" alt="<?php echo esc_attr__('Dessert maison', 'gastro-starter'); ?>">
                         <div class="particles"></div>
                         <div class="image-caption">
-                            <h4><?php echo esc_html__('Dessert fait maison', 'le-margo'); ?></h4>
-                            <p><?php echo esc_html__('Douceur et gourmandise', 'le-margo'); ?></p>
+                            <h4><?php echo esc_html__('Dessert fait maison', 'gastro-starter'); ?></h4>
+                            <p><?php echo esc_html__('Douceur et gourmandise', 'gastro-starter'); ?></p>
                         </div>
                     </div>
                     <div class="zoomable-image">
-                        <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/dressage-plat-gastronomique.jpg'); ?>" alt="<?php echo esc_attr__('Dressage gastronomique', 'le-margo'); ?>">
+                        <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/dressage-plat-gastronomique.jpg'); ?>" alt="<?php echo esc_attr__('Dressage gastronomique', 'gastro-starter'); ?>">
                         <div class="particles"></div>
                         <div class="image-caption">
-                            <h4><?php echo esc_html__('Dressage gastronomique', 'le-margo'); ?></h4>
-                            <p><?php echo esc_html__('Art de l\'assiette', 'le-margo'); ?></p>
+                            <h4><?php echo esc_html__('Dressage gastronomique', 'gastro-starter'); ?></h4>
+                            <p><?php echo esc_html__('Art de l\'assiette', 'gastro-starter'); ?></p>
                         </div>
                     </div>
                     <div class="zoomable-image">
-                        <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/menu-degustation-presentation.jpg'); ?>" alt="<?php echo esc_attr__('Menu dégustation', 'le-margo'); ?>">
+                        <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/menu-degustation-presentation.jpg'); ?>" alt="<?php echo esc_attr__('Menu dégustation', 'gastro-starter'); ?>">
                         <div class="particles"></div>
                         <div class="image-caption">
-                            <h4><?php echo esc_html__('Menu dégustation', 'le-margo'); ?></h4>
-                            <p><?php echo esc_html__('Voyage culinaire complet', 'le-margo'); ?></p>
+                            <h4><?php echo esc_html__('Menu dégustation', 'gastro-starter'); ?></h4>
+                            <p><?php echo esc_html__('Voyage culinaire complet', 'gastro-starter'); ?></p>
                         </div>
                     </div>
                 </div>
@@ -202,46 +202,46 @@ get_header();
 
             <!-- Galerie Vins -->
             <div class="gallery-category">
-                <h3><?php echo esc_html__('Nos Vins', 'le-margo'); ?></h3>
+                <h3><?php echo esc_html__('Nos Vins', 'gastro-starter'); ?></h3>
                 <div class="gallery-grid">
                     <div class="zoomable-image">
-                        <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/vins-naturels-selection.webp'); ?>" alt="<?php echo esc_attr__('Sélection de vins naturels', 'le-margo'); ?>">
+                        <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/vins-naturels-selection.webp'); ?>" alt="<?php echo esc_attr__('Sélection de vins naturels', 'gastro-starter'); ?>">
                         <div class="particles"></div>
                         <div class="image-caption">
-                            <h4><?php echo esc_html__('Sélection de vins naturels', 'le-margo'); ?></h4>
-                            <p><?php echo esc_html__('Vignerons passionnés et nature', 'le-margo'); ?></p>
+                            <h4><?php echo esc_html__('Sélection de vins naturels', 'gastro-starter'); ?></h4>
+                            <p><?php echo esc_html__('Vignerons passionnés et nature', 'gastro-starter'); ?></p>
                         </div>
                     </div>
                     <div class="zoomable-image">
-                        <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/bar-vins-naturels.webp'); ?>" alt="<?php echo esc_attr__('Bar à vins', 'le-margo'); ?>">
+                        <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/bar-vins-naturels.webp'); ?>" alt="<?php echo esc_attr__('Bar à vins', 'gastro-starter'); ?>">
                         <div class="particles"></div>
                         <div class="image-caption">
-                            <h4><?php echo esc_html__('Bar à vins naturels', 'le-margo'); ?></h4>
-                            <p><?php echo esc_html__('Espace dégustation convivial', 'le-margo'); ?></p>
+                            <h4><?php echo esc_html__('Bar à vins naturels', 'gastro-starter'); ?></h4>
+                            <p><?php echo esc_html__('Espace dégustation convivial', 'gastro-starter'); ?></p>
                         </div>
                     </div>
                     <div class="zoomable-image">
-                        <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/bar-vins-naturels.jpg'); ?>" alt="<?php echo esc_attr__('Cave à vins', 'le-margo'); ?>">
+                        <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/bar-vins-naturels.jpg'); ?>" alt="<?php echo esc_attr__('Cave à vins', 'gastro-starter'); ?>">
                         <div class="particles"></div>
                         <div class="image-caption">
-                            <h4><?php echo esc_html__('Cave à vins', 'le-margo'); ?></h4>
-                            <p><?php echo esc_html__('Collection soigneusement choisie', 'le-margo'); ?></p>
+                            <h4><?php echo esc_html__('Cave à vins', 'gastro-starter'); ?></h4>
+                            <p><?php echo esc_html__('Collection soigneusement choisie', 'gastro-starter'); ?></p>
                         </div>
                     </div>
                     <div class="zoomable-image">
-                        <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/cave-vins-selection.jpg'); ?>" alt="<?php echo esc_attr__('Cave et sélection', 'le-margo'); ?>">
+                        <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/cave-vins-selection.jpg'); ?>" alt="<?php echo esc_attr__('Cave et sélection', 'gastro-starter'); ?>">
                         <div class="particles"></div>
                         <div class="image-caption">
-                            <h4><?php echo esc_html__('Cave et sélection', 'le-margo'); ?></h4>
-                            <p><?php echo esc_html__('Découvertes et grands crus', 'le-margo'); ?></p>
+                            <h4><?php echo esc_html__('Cave et sélection', 'gastro-starter'); ?></h4>
+                            <p><?php echo esc_html__('Découvertes et grands crus', 'gastro-starter'); ?></p>
                         </div>
                     </div>
                     <div class="zoomable-image">
-                        <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/vin-degustation-naturel.webp'); ?>" alt="<?php echo esc_attr__('Dégustation de vins', 'le-margo'); ?>">
+                        <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/vin-degustation-naturel.webp'); ?>" alt="<?php echo esc_attr__('Dégustation de vins', 'gastro-starter'); ?>">
                         <div class="particles"></div>
                         <div class="image-caption">
-                            <h4><?php echo esc_html__('Dégustation de vins', 'le-margo'); ?></h4>
-                            <p><?php echo esc_html__('Expérience œnologique unique', 'le-margo'); ?></p>
+                            <h4><?php echo esc_html__('Dégustation de vins', 'gastro-starter'); ?></h4>
+                            <p><?php echo esc_html__('Expérience œnologique unique', 'gastro-starter'); ?></p>
                         </div>
                     </div>
                 </div>
@@ -249,38 +249,38 @@ get_header();
 
             <!-- Galerie Produits et Équipe -->
             <div class="gallery-category">
-                <h3><?php echo esc_html__('Produits & Équipe', 'le-margo'); ?></h3>
+                <h3><?php echo esc_html__('Produits & Équipe', 'gastro-starter'); ?></h3>
                 <div class="gallery-grid">
                     <div class="zoomable-image">
-                        <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/produits-locaux.jpg'); ?>" alt="<?php echo esc_attr__('Produits locaux', 'le-margo'); ?>">
+                        <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/produits-locaux.jpg'); ?>" alt="<?php echo esc_attr__('Produits locaux', 'gastro-starter'); ?>">
                         <div class="particles"></div>
                         <div class="image-caption">
-                            <h4><?php echo esc_html__('Produits locaux', 'le-margo'); ?></h4>
-                            <p><?php echo esc_html__('Circuit court et qualité', 'le-margo'); ?></p>
+                            <h4><?php echo esc_html__('Produits locaux', 'gastro-starter'); ?></h4>
+                            <p><?php echo esc_html__('Circuit court et qualité', 'gastro-starter'); ?></p>
                         </div>
                     </div>
                     <div class="zoomable-image">
-                        <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/ingredients-frais-locaux.jpg'); ?>" alt="<?php echo esc_attr__('Ingrédients frais', 'le-margo'); ?>">
+                        <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/ingredients-frais-locaux.jpg'); ?>" alt="<?php echo esc_attr__('Ingrédients frais', 'gastro-starter'); ?>">
                         <div class="particles"></div>
                         <div class="image-caption">
-                            <h4><?php echo esc_html__('Ingrédients frais et locaux', 'le-margo'); ?></h4>
-                            <p><?php echo esc_html__('Fraîcheur garantie du producteur', 'le-margo'); ?></p>
+                            <h4><?php echo esc_html__('Ingrédients frais et locaux', 'gastro-starter'); ?></h4>
+                            <p><?php echo esc_html__('Fraîcheur garantie du producteur', 'gastro-starter'); ?></p>
                         </div>
                     </div>
                     <div class="zoomable-image">
-                        <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/founders.webp'); ?>" alt="<?php echo esc_attr__('Fondateurs', 'le-margo'); ?>">
+                        <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/founders.webp'); ?>" alt="<?php echo esc_attr__('Fondateurs', 'gastro-starter'); ?>">
                         <div class="particles"></div>
                         <div class="image-caption">
-                            <h4><?php echo esc_html__('Antoine et Floriane', 'le-margo'); ?></h4>
-                            <p><?php echo esc_html__('Fondateurs passionnés du Margo', 'le-margo'); ?></p>
+                            <h4><?php echo esc_html__('Antoine et Floriane', 'gastro-starter'); ?></h4>
+                            <p><?php echo esc_html__('Fondateurs passionnés du restaurant', 'gastro-starter'); ?></p>
                         </div>
                     </div>
                     <div class="zoomable-image">
-                        <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/equipe-service-restaurant.jpg'); ?>" alt="<?php echo esc_attr__('Équipe de service', 'le-margo'); ?>">
+                        <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/equipe-service-restaurant.jpg'); ?>" alt="<?php echo esc_attr__('Équipe de service', 'gastro-starter'); ?>">
                         <div class="particles"></div>
                         <div class="image-caption">
-                            <h4><?php echo esc_html__('Équipe de service', 'le-margo'); ?></h4>
-                            <p><?php echo esc_html__('Accueil chaleureux et professionnel', 'le-margo'); ?></p>
+                            <h4><?php echo esc_html__('Équipe de service', 'gastro-starter'); ?></h4>
+                            <p><?php echo esc_html__('Accueil chaleureux et professionnel', 'gastro-starter'); ?></p>
                         </div>
                     </div>
                 </div>
@@ -292,10 +292,10 @@ get_header();
     <section class="section reservation-section">
         <div class="container">
             <div class="reservation-content">
-                <h2><?php echo esc_html__('Venez découvrir Le Margo', 'le-margo'); ?></h2>
-                <p><?php echo esc_html__('Réservez votre table pour vivre une expérience culinaire unique dans notre restaurant.', 'le-margo'); ?></p>
+                <h2><?php echo esc_html__('Venez découvrir Mon Restaurant', 'gastro-starter'); ?></h2>
+                <p><?php echo esc_html__('Réservez votre table pour vivre une expérience culinaire unique dans notre restaurant.', 'gastro-starter'); ?></p>
                 <div class="reservation-buttons">
-                    <a href="<?php echo esc_url(home_url('/reserver')); ?>" class="btn" style="min-width: 200px; font-weight: 600;"><?php echo esc_html__('Réserver une table', 'le-margo'); ?></a>
+                    <a href="<?php echo esc_url(home_url('/reserver')); ?>" class="btn" style="min-width: 200px; font-weight: 600;"><?php echo esc_html__('Réserver une table', 'gastro-starter'); ?></a>
                 </div>
             </div>
         </div>

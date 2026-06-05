@@ -2,7 +2,7 @@
 /**
  * Le modèle principal
  *
- * @package Le Margo
+ * @package Gastro_Starter
  */
 
 get_header();

@@ -2,7 +2,7 @@
 /**
  * Le modèle pour l'affichage des archives de témoignages
  *
- * @package Le Margo
+ * @package Gastro_Starter
  */
 
 get_header();
@@ -11,9 +11,9 @@ get_header();
 <main id="primary" class="site-main">
 
     <header class="page-header">
-        <h1 class="page-title"><?php esc_html_e('Témoignages de nos clients', 'le-margo'); ?></h1>
+        <h1 class="page-title"><?php esc_html_e('Témoignages de nos clients', 'gastro-starter'); ?></h1>
         <div class="archive-description">
-            <p><?php esc_html_e('Découvrez ce que nos clients disent de leur expérience au Margo.', 'le-margo'); ?></p>
+            <p><?php esc_html_e('Découvrez ce que nos clients disent de leur expérience au restaurant.', 'gastro-starter'); ?></p>
         </div>
     </header><!-- .page-header -->
 
@@ -36,7 +36,7 @@ get_header();
 
         <?php
         // Pagination
-        le_margo_pagination();
+        gastro_starter_pagination();
 
     else :
 
