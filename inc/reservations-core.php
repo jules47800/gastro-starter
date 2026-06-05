@@ -14,9 +14,11 @@ function gastro_starter_create_tables() {
     global $wpdb;
     $charset_collate = $wpdb->get_charset_collate();
 
+    require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+
     // Table des réservations
     $table_name = $wpdb->prefix . 'reservations';
-    $sql = "CREATE TABLE IF NOT EXISTS $table_name (
+    $sql = "CREATE TABLE $table_name (
         id bigint(20) NOT NULL AUTO_INCREMENT,
         reservation_date date NOT NULL,
         reservation_time time NOT NULL,
@@ -46,9 +48,11 @@ function gastro_starter_create_tables() {
         KEY parent_reservation_id (parent_reservation_id)
     ) $charset_collate;";
 
+    dbDelta($sql);
+
     // Table des limites de taux
     $rate_limits_table = $wpdb->prefix . 'gastro_starter_rate_limits';
-    $sql .= "CREATE TABLE IF NOT EXISTS $rate_limits_table (
+    $sql = "CREATE TABLE $rate_limits_table (
         id bigint(20) NOT NULL AUTO_INCREMENT,
         ip_address varchar(45) NOT NULL,
         attempt_count int(11) NOT NULL DEFAULT 1,
@@ -58,9 +62,11 @@ function gastro_starter_create_tables() {
         KEY last_attempt (last_attempt)
     ) $charset_collate;";
 
+    dbDelta($sql);
+
     // Table des statistiques clients (définition unique et correcte)
     $stats_table = $wpdb->prefix . 'customer_stats';
-    $sql .= "CREATE TABLE IF NOT EXISTS $stats_table (
+    $sql = "CREATE TABLE $stats_table (
         id bigint(20) NOT NULL AUTO_INCREMENT,
         email varchar(100) NOT NULL,
         name varchar(100) NULL,
@@ -80,9 +86,11 @@ function gastro_starter_create_tables() {
         KEY is_vip (is_vip)
     ) $charset_collate;";
 
+    dbDelta($sql);
+
     // Table des logs d'emails
     $email_logs_table = $wpdb->prefix . 'email_logs';
-    $sql .= "CREATE TABLE IF NOT EXISTS $email_logs_table (
+    $sql = "CREATE TABLE $email_logs_table (
         id bigint(20) NOT NULL AUTO_INCREMENT,
         recipient varchar(255) NOT NULL,
         subject varchar(255) NOT NULL,
@@ -100,9 +108,8 @@ function gastro_starter_create_tables() {
         KEY reservation_id (reservation_id)
     ) $charset_collate;";
 
-    require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
     dbDelta($sql);
-    
+
     error_log('Tables créées ou mises à jour : reservations, rate_limits, customer_stats, email_logs');
 }
 add_action('init', 'gastro_starter_maybe_recreate_tables', 1);
@@ -232,6 +239,10 @@ add_action('after_switch_theme', 'gastro_starter_maybe_recreate_tables');
 function gastro_starter_update_db_check() {
     global $wpdb;
     $table_name = $wpdb->prefix . 'reservations';
+
+    if ($wpdb->get_var("SHOW TABLES LIKE '$table_name'") !== $table_name) {
+        return;
+    }
 
     // Vérifier si la colonne 'source' existe
     $column_exists = $wpdb->get_var($wpdb->prepare(
